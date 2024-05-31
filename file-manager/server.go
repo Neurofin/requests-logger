@@ -1,8 +1,8 @@
 package main
 
 import (
-	handler "file-manager/handlers"
-	serverConfig "file-manager/serverConfigs"
+	handler "file-manager/src/handlers"
+	serverConfig "file-manager/src/serverConfigs"
 
 	"github.com/labstack/echo/v4"
 )
@@ -14,7 +14,12 @@ func main() {
 
 	serverConfig.LoadEnvVariables(server)
 	
+	serverConfig.SetupS3PresignClient(server)
+
 	server.GET("/", handler.HelloWorldHandler)
+
+	server.POST("/presign", handler.CreateUploadUrl)
+	server.GET("/presign", handler.GetDownloadUrl)
 
 	serverConfig.StartListner(server)
 }

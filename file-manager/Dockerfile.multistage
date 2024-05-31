@@ -1,0 +1,48 @@
+# syntax=docker/dockerfile:1
+
+# Build the application from source
+FROM golang:alpine AS build-stage
+
+WORKDIR /app
+
+COPY . ./
+RUN go mod download
+
+RUN CGO_ENABLED=0 GOOS=linux go build -o /build
+
+# Deploy the application binary into a lean image
+FROM alpine:latest AS build-release-stage
+
+WORKDIR /
+
+COPY --from=build-stage /build /build
+COPY .env /
+
+EXPOSE 3001
+
+ENTRYPOINT ["/build"]
+
+# # Use an official Golang runtime as a parent image
+# FROM golang:alpine AS builder
+
+# # Set the working directory inside the container
+# WORKDIR /app
+
+# # Copy the source code into the container
+# COPY . .
+
+# # Build the Go application
+# RUN GOOS=linux GOARCH=amd64 go build -o main .
+
+# # Use a minimal base image for the final container
+# FROM scratch AS build-release-stage
+
+# # Copy the Go binary from the builder stage
+# COPY --from=builder /app/main /app/main
+
+# COPY .env /app/main
+
+# EXPOSE 3001
+
+# # Set the binary as the entry point
+# ENTRYPOINT ["/app/main"]
