@@ -1,19 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: file-manager
-    annotations:
-        alb.ingress.kubernetes.io/scheme: internet-facing
-        alb.ingress.kubernetes.io/target-type: ip
+    name: ingress-nginx
 spec:
-    ingressClassName: alb
+    ingressClassName: nginx
     rules:
         - http:
               paths:
-                  - path: /
-                    pathType: Prefix
+                  - pathType: Prefix
                     backend:
                         service:
                             name: file-manager
                             port:
                                 number: 80
+                    path: /
+# This section is only required if TLS is to be enabled for the Ingress
+# tls:
+#   - hosts:
+#     - www.example.com
+#     secretName: example-tls

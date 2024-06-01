@@ -7,6 +7,6 @@ spec:
         - port: 80
           targetPort: 3001
           protocol: TCP
-    type: NodePort
+    type: ClusterIP
     selector:
         app: file-manager
