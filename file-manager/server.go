@@ -15,6 +15,7 @@ func main() {
 	serverConfig.LoadEnvVariables(server)
 	
 	serverConfig.SetupS3PresignClient(server)
+	serverConfig.ConnectToMongo()
 
 	server.GET("/", handler.HelloWorldHandler)
 

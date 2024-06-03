@@ -2,7 +2,6 @@ package serverConfig
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
@@ -13,8 +12,6 @@ var S3PresignClient *s3.PresignClient
 
 func SetupS3PresignClient(server *echo.Echo) {
 	cfg, err := config.LoadDefaultConfig(context.TODO())
-
-	fmt.Println(cfg.ConfigSources...)
 
 	if err != nil {
 		server.Logger.Fatal("Error getting aws config:", err)

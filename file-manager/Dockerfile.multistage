@@ -21,28 +21,3 @@ COPY .env /
 EXPOSE 3001
 
 ENTRYPOINT ["/build"]
-
-# # Use an official Golang runtime as a parent image
-# FROM golang:alpine AS builder
-
-# # Set the working directory inside the container
-# WORKDIR /app
-
-# # Copy the source code into the container
-# COPY . .
-
-# # Build the Go application
-# RUN GOOS=linux GOARCH=amd64 go build -o main .
-
-# # Use a minimal base image for the final container
-# FROM scratch AS build-release-stage
-
-# # Copy the Go binary from the builder stage
-# COPY --from=builder /app/main /app/main
-
-# COPY .env /app/main
-
-# EXPOSE 3001
-
-# # Set the binary as the entry point
-# ENTRYPOINT ["/app/main"]
