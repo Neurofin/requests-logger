@@ -20,7 +20,3 @@ func SignJwtToken(data *jwt.MapClaims) (string, error) {
 
 	return tokenString, nil
 }
-
-type SignedJwtToken struct {
-	Token string `json:"token"`
-}

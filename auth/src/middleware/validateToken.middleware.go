@@ -23,7 +23,7 @@ func ValidateToken(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.JSON(http.StatusUnauthorized, responseBody)
 		}
 
-		userDetails, err := logics.ValidateToken(token)
+		userDetails, err := logics.ValidateTokenLogic(token)
 		if err != nil {
 			println(err.Error())
 			responseBody := types.ResponseBody{

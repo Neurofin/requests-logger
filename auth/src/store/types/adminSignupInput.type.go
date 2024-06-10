@@ -3,7 +3,7 @@ package types
 import "errors"
 
 type AdminSignupInput struct {
-	Org string `json:"org"`
+	OrgName string `json:"org"`
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
@@ -13,7 +13,7 @@ type AdminSignupInput struct {
 
 func (input *AdminSignupInput) Validate() (bool, error) {
 
-	if input.Org == "" {
+	if input.OrgName == "" {
 		return false, errors.New("org is required")
 	}
 

@@ -15,3 +15,13 @@ func EncrytPassword(password string) (string, error) {
 	stringifiedEncryptedPassword := string(encryptedPassword[:])
 	return stringifiedEncryptedPassword, nil
 }
+
+func VerifyPassword(inputPassword string, encryptedPassword string) error {
+	err := bcrypt.CompareHashAndPassword([]byte(encryptedPassword), []byte(inputPassword))
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

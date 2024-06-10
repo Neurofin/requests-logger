@@ -3,7 +3,6 @@ package models
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"auth/src/serverConfigs"
@@ -53,7 +52,7 @@ func (org *OrgModel) UpdateOrg() (*types.DbOperationResult, error) {
 func (org *OrgModel) GetOrg() (*types.DbOperationResult, error) {
 	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("org")
 
-	var orgDoc bson.M
+	var orgDoc OrgModel
 	err := collection.FindOne(context.Background(), org).Decode(&orgDoc)
 
 	if err !=nil {

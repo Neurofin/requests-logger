@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func ValidateToken(token string) (models.UserModel, error) {
+func ValidateTokenLogic(token string) (models.UserModel, error) {
 
 	user := models.UserModel{}
 
@@ -45,5 +45,6 @@ func ValidateToken(token string) (models.UserModel, error) {
 	}
 
 	userDetails := getUserData.Data.(models.UserModel)
+	userDetails.Password = ""
 	return userDetails, nil
 }

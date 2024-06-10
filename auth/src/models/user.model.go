@@ -17,11 +17,11 @@ type UserModel struct {
 	Org primitive.ObjectID `json:"org" bson:"org"`
 	FirstName string `json:"firstName" bson:"firstName"`
 	LastName string `json:"lastName" bson:"lastName"`
-	Email string `json:"email" bson:"email"`
-	Phone string `json:"phone" bson:"phone"`
+	Email string `json:"email" bson:"email,omitempty"`
+	Phone string `json:"phone" bson:"phone,omitempty"`
 	Type enums.UserTypeEnum `json:"type" bson:"type"`
 	Password string `json:"password" bson:"password"`
-	Verified bool `json:"verifies" bson:"verified"`
+	Verified bool `json:"verified" bson:"verified"`
 }
 
 func (user *UserModel) InsertUser() (*types.DbOperationResult, error) {
@@ -101,10 +101,13 @@ func (user *UserModel) GetUser() (*types.DbOperationResult, error) {
 				Key: "phone",
 				Value: user.Phone,
 			}},
+			bson.D{{
+				Key: "_id",
+				Value: user.Id,
+			}},
 		},
 	}}
 	err := collection.FindOne(context.Background(), filter).Decode(&userDoc)
-
 	if err !=nil {
 		result := &types.DbOperationResult{
 			OperationSuccess: false,

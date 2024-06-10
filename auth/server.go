@@ -22,15 +22,14 @@ func main() {
 
 	server.GET("/", handlers.HelloWorldHandler)
 	
-	server.POST("admin/org", handlers.CreateOrg)
-	server.GET("admin/org", handlers.GetOrg)
+	// server.POST("admin/org", handlers.CreateOrg)
+	// server.GET("admin/org", handlers.GetOrg)
 
-	server.POST("admin/user/signup", handlers.AdminSignup)
+	server.POST("/admin/user/signup", handlers.AdminSignup)
 	server.POST("/user/login", handlers.Login)
 
-	server.Use(serverMiddleware.ValidateToken)
-	server.POST("/user/signup", handlers.Signup)
-	server.GET("/user/validate", handlers.ValidateToken)
+	server.POST("/user/signup", handlers.Signup, serverMiddleware.ValidateToken)
+	server.GET("/user/validate", handlers.ValidateToken, serverMiddleware.ValidateToken)
 
 	serverConfigs.StartListner(server)
 }
