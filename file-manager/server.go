@@ -1,8 +1,8 @@
 package main
 
 import (
-	handler "file-manager/src/handlers"
-	serverConfig "file-manager/src/serverConfigs"
+	"file-manager/src/handlers"
+	"file-manager/src/serverConfigs"
 
 	"github.com/labstack/echo/v4"
 )
@@ -12,15 +12,15 @@ import (
 func main() {
 	server := echo.New()
 
-	serverConfig.LoadEnvVariables(server)
+	serverConfigs.LoadEnvVariables(server)
 	
-	serverConfig.SetupS3PresignClient(server)
-	serverConfig.ConnectToMongo()
+	serverConfigs.SetupS3PresignClient(server)
+	serverConfigs.ConnectToMongo()
 
-	server.GET("/", handler.HelloWorldHandler)
+	server.GET("/", handlers.HelloWorldHandler)
 
-	server.POST("/presign", handler.CreateUploadUrl)
-	server.GET("/presign", handler.GetDownloadUrl)
+	server.POST("/presign", handlers.CreateUploadUrl)
+	server.GET("/presign", handlers.GetDownloadUrl)
 
-	serverConfig.StartListner(server)
+	serverConfigs.StartListner(server)
 }

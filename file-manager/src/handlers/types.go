@@ -1,4 +1,4 @@
-package handler
+package handlers
 
 type ResponseBody struct {
 	Message string `json:"message"`
