@@ -7,6 +7,7 @@ import (
 	"auth/src/store/types"
 	"context"
 	"errors"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -17,11 +18,12 @@ type UserModel struct {
 	Org primitive.ObjectID `json:"org" bson:"org"`
 	FirstName string `json:"firstName" bson:"firstName"`
 	LastName string `json:"lastName" bson:"lastName"`
-	Email string `json:"email" bson:"email,omitempty"`
-	Phone string `json:"phone" bson:"phone,omitempty"`
+	Email string `json:"email,omitempty" bson:"email,omitempty"`
+	Phone string `json:"phone,omitempty" bson:"phone,omitempty"`
 	Type enums.UserTypeEnum `json:"type" bson:"type"`
 	Password string `json:"password" bson:"password"`
 	Verified bool `json:"verified" bson:"verified"`
+	types.Timestamps
 }
 
 func (user *UserModel) InsertUser() (*types.DbOperationResult, error) {
@@ -38,38 +40,8 @@ func (user *UserModel) InsertUser() (*types.DbOperationResult, error) {
 		return result, errors.New("invalid user type")
 	}
 
-	filter := bson.D{{
-		Key: "$or",
-		Value: bson.A{
-			bson.D{{Key: "email", Value: user.Email}},
-			bson.D{{Key: "phone", Value: user.Phone}},
-		},
-	}}
-
-	cursor, findError := collection.Find(context.Background(), filter)
-
-	if findError != nil {
-		result := &types.DbOperationResult{
-			OperationSuccess: false,
-		}
-		return result, findError
-	}
-
-	var existingUsers []UserModel = []UserModel{}
-	if cursorError := cursor.All(context.Background(), &existingUsers); cursorError != nil {
-		result := &types.DbOperationResult{
-			OperationSuccess: false,
-		}
-		return result, cursorError
-	} 
-
-	if len(existingUsers) > 0 {
-		result := &types.DbOperationResult{
-			OperationSuccess: false,
-		}
-		return result, errors.New("email/phone already exists")
-	}
-
+	user.CreatedAt = time.Now()
+	user.UpdatedAt = time.Now()
 	_, err := collection.InsertOne(context.Background(), user)
 
 	if err != nil {

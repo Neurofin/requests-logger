@@ -24,7 +24,7 @@ func SignupLogic(user models.UserModel) (types.SignedJwtToken, error) {
 		return token, err
 	}
 
-	token, err = GenerateUserJwt(newUserDoc.Id.String(), newUserDoc.Org.String())
+	token, err = GenerateUserJwt(newUserDoc.Id.Hex(), newUserDoc.Org.Hex())
 	if err != nil {
 		return token, err
 	}
