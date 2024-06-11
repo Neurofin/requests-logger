@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"context"
-	serverConfig "file-manager/src/serverConfigs"
+	"file-manager/src/serverConfigs"
 	"net/http"
 	"time"
 
@@ -25,7 +25,7 @@ func CreateUploadUrl(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	presignClient := serverConfig.S3PresignClient
+	presignClient := serverConfigs.S3PresignClient
 	request, err := presignClient.PresignPutObject(context.TODO(), &s3.PutObjectInput{
 		Bucket: &jsonBody.Bucket,
 		Key:    &jsonBody.Key,
