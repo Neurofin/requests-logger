@@ -11,8 +11,8 @@ type DocumentModel struct {
 	Name             string                 `json:"name" bson:"name"`
 	Application      primitive.ObjectID     `json:"application" bson:"application"`
 	Status           string                 `json:"status" bson:"status"`
-	S3Location       string                 `json:"s3_location" bson:"s3_location"`
-	TextractLocation string                 `json:"textract_location" bson:"textract_location"`
-	ClassifierOutput map[string]interface{} `json:"classifier_output" bson:"classifier_output"`
-	QueriesOutput    map[string]interface{} `json:"queries_output" bson:"queries_output"`
+	S3Location       string                 `json:"s3Location" bson:"s3Location"`
+	TextractLocation string                 `json:"textractLocation" bson:"textractLocation"`
+	ClassifierOutput map[string]interface{} `json:"classifierOutput" bson:"classifierOutput"`
+	QueriesOutput    map[string]interface{} `json:"queriesOutput" bson:"queriesOutput"`
 }

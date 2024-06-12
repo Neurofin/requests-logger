@@ -16,6 +16,7 @@ type ApplicationModel struct {
 	Id      primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
 	Name    string             `json:"name" bson:"name"`
 	Created time.Time          `json:"created" bson:"created"`
+	Updated time.Time          `json:"updated" bson:"updated"`
 	User    primitive.ObjectID `json:"user" bson:"user"`
 	//Flow    primitive.ObjectID `json:"flow,omitempty" bson:"flow,omitempty"`
 	Results map[string]interface{} `json:"results,omitempty" bson:"results,omitempty"`
