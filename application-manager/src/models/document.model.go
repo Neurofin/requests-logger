@@ -1,7 +1,7 @@
 package models
 
 import (
-
+	"application-manager/src/store/types"
 	//"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -15,4 +15,5 @@ type DocumentModel struct {
 	TextractLocation string                 `json:"textractLocation" bson:"textractLocation"`
 	ClassifierOutput map[string]interface{} `json:"classifierOutput" bson:"classifierOutput"`
 	QueriesOutput    map[string]interface{} `json:"queriesOutput" bson:"queriesOutput"`
+	types.Timestamps
 }

@@ -13,13 +13,12 @@ import (
 )
 
 type ApplicationModel struct {
-	Id      primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
-	Name    string             `json:"name" bson:"name"`
-	Created time.Time          `json:"created" bson:"created"`
-	Updated time.Time          `json:"updated" bson:"updated"`
-	User    primitive.ObjectID `json:"user" bson:"user"`
-	//Flow    primitive.ObjectID `json:"flow,omitempty" bson:"flow,omitempty"`
+	Id      primitive.ObjectID     `json:"id,omitempty" bson:"_id,omitempty"`
+	Name    string                 `json:"name" bson:"name"`
+	User    primitive.ObjectID     `json:"user" bson:"user"`
+	Flow    primitive.ObjectID     `json:"flow,omitempty" bson:"flow,omitempty"`
 	Results map[string]interface{} `json:"results,omitempty" bson:"results,omitempty"`
+	types.Timestamps
 }
 
 func (app *ApplicationModel) InsertApplication() (*types.DbOperationResult, error) {
@@ -37,7 +36,7 @@ func (app *ApplicationModel) InsertApplication() (*types.DbOperationResult, erro
 		return &types.DbOperationResult{OperationSuccess: false}, errors.New("application with this name already exists")
 	}
 
-	app.Created = time.Now()
+	app.CreatedAt = time.Now()
 	_, err = collection.InsertOne(context.Background(), app)
 	if err != nil {
 		return &types.DbOperationResult{OperationSuccess: false}, err

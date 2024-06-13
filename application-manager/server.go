@@ -19,7 +19,8 @@ func main() {
 	server.Use(middleware.Logger())
 
 	server.GET("/", handlers.HelloWorldHandler, serverMiddleware.ValidateToken)
-	server.GET("/application/view", handlers.ApplicationView)
+	server.GET("/applications", handlers.AllApplications)
+	server.GET("/application/:id", handlers.GetApplication)
 
 	serverConfigs.StartListner(server)
 }

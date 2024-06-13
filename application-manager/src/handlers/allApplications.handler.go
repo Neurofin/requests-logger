@@ -13,12 +13,12 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func ApplicationView(c echo.Context) error {
+func AllApplications(c echo.Context) error {
 	user := c.Get("user").(authType.TokenValidationResponseData)
 
 	//access db collection
 	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("application")
-	filter := bson.M{"user_id": user.Id}
+	filter := bson.M{"Id": user.Id}
 	cursor, err := collection.Find(context.TODO(), filter)
 	if err != nil {
 		responseBody := storeType.ResponseBody{
