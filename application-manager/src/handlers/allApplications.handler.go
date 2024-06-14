@@ -18,7 +18,7 @@ func AllApplications(c echo.Context) error {
 
 	//access db collection
 	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("application")
-	filter := bson.M{"Id": user.Id}
+	filter := bson.M{"_id": user.Id}
 	cursor, err := collection.Find(context.TODO(), filter)
 	if err != nil {
 		responseBody := storeType.ResponseBody{

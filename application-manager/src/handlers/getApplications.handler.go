@@ -38,7 +38,7 @@ func GetApplication(c echo.Context) error {
 	application := models.ApplicationModel{}
 	//--create helper functions
 	applicationCollection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("applications")
-	err = applicationCollection.FindOne(context.TODO(), bson.M{"Id": applicationId, "user": user.Id}).Decode(&application)
+	err = applicationCollection.FindOne(context.TODO(), bson.M{"_id": applicationId, "user": user.Id}).Decode(&application)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			return c.JSON(http.StatusNotFound, storeTypes.ResponseBody{

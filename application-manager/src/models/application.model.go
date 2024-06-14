@@ -37,6 +37,7 @@ func (app *ApplicationModel) InsertApplication() (*types.DbOperationResult, erro
 	}
 
 	app.CreatedAt = time.Now()
+	app.UpdatedAt = time.Now()
 	_, err = collection.InsertOne(context.Background(), app)
 	if err != nil {
 		return &types.DbOperationResult{OperationSuccess: false}, err

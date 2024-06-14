@@ -22,5 +22,7 @@ func main() {
 	server.GET("/applications", handlers.AllApplications)
 	server.GET("/application/:id", handlers.GetApplication)
 
+	server.POST("/application/create", handlers.CreateApplication)
+
 	serverConfigs.StartListner(server)
 }
