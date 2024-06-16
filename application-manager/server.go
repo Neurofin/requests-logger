@@ -23,6 +23,7 @@ func main() {
 	server.GET("/application/:id", handlers.GetApplication)
 
 	server.POST("/application/create", handlers.CreateApplication)
+	server.POST("/documents/upload-url", handlers.CreateDocumentUploadUrl)
 
 	serverConfigs.StartListner(server)
 }

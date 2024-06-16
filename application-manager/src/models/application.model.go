@@ -32,6 +32,7 @@ func (app *ApplicationModel) InsertApplication() (*types.DbOperationResult, erro
 		return &types.DbOperationResult{OperationSuccess: false}, err
 	}
 
+	//logic to check duplicacy
 	if count > 0 {
 		return &types.DbOperationResult{OperationSuccess: false}, errors.New("application with this name already exists")
 	}
