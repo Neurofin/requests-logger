@@ -54,7 +54,6 @@
 		"OtherCurrentLiabilities": [],
 		"TotalCurrentLiabilitiesandProvisions": []
 	},
-	"TOTALLIABILITIESANDEQUITY": [],
 	"FixedAssets": {
 		"LandandBuildings": [],
 		"PlantandEquipment": [],
@@ -120,8 +119,5 @@
 		"UnbilledRevenue": [],
 		"OtherCurrentAssets": [],
 		"TotalCurrentAssets": []
-	},
-	"TOTALASSETS": [],
-	"TotalDebt": [],
-	"TangibleNetworth": []
+	}
 }

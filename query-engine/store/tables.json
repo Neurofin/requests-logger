@@ -1,0 +1,21 @@
+[
+	{ "id": "ShareholdersFund", "name": "Shareholders Fund", "queryIndex": 0, "formatIndex": 0 },
+	{
+		"id": "Non-CurrentLiabilities",
+		"name": "Non-Current Liabilities",
+		"queryIndex": 1,
+		"formatIndex": 1
+	},
+	{
+		"id": "CurrentLiabilitiesandProvisions",
+		"name": "Current Liabilities and Provisions",
+		"queryIndex": 2,
+		"formatIndex": 2
+	},
+	{ "id": "FixedAssets", "name": "Fixed Assets", "queryIndex": 3, "formatIndex": 3 },
+	{ "id": "IntangibleAssets", "name": "Intangible Assets", "queryIndex": 4, "formatIndex": 4 },
+	{ "id": "CurrentAssets", "name": "Current Assets", "queryIndex": 5, "formatIndex": 7 },
+	{ "id": "Investments", "name": "Investments", "queryIndex": 6, "formatIndex": 5 },
+	{ "id": "OtherAssets", "name": "Other Assets", "queryIndex": 7, "formatIndex": 6 },
+	{ "id": "Statement(End)Date", "name": "Profit and Loss", "queryIndex": 8, "formatIndex": 8 }
+]
