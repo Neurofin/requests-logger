@@ -6,10 +6,12 @@ import (
 
 	"application-manager/src/models"
 	"application-manager/src/store/types"
-	"application-manager/src/utils"
 
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+
+	fileService "application-manager/src/services/file"
+	fileStore "application-manager/src/services/file/store/types"
 )
 
 func CreateDocumentUploadUrl(c echo.Context) error {
@@ -29,14 +31,14 @@ func CreateDocumentUploadUrl(c echo.Context) error {
 	}
 
 	// Generate the S3 key for the document . key = ApplitionId/DocumentName
-	documentKey := fmt.Sprintf("%s/%s", jsonBody.ApplicationId, jsonBody.DocumentName)
+	documentKey := jsonBody.ApplicationId + "/" + jsonBody.DocumentName
 
-	presignInput := types.CreateUploadUrlInput{
-		Bucket: "user-uploads-123", // bucket name
+	presignInput := fileStore.GetPresignedUrlInput{
+		Bucket: "application-docs", // bucket name
 		Key:    documentKey,
 	}
 
-	presignUrl, err := utils.GetPresignedUrl(presignInput)
+	presignUrl, err := fileService.GetPresignedUploadUrl(presignInput)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, types.ResponseBody{
 			Message: "Failed to generate presigned URL",

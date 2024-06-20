@@ -2,14 +2,17 @@ package handlers
 
 import (
 	"application-manager/src/models"
+	authStore "application-manager/src/services/auth/store/types"
 	"application-manager/src/store/types"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CreateApplication(c echo.Context) error {
+
+	user := c.Get("user").(authStore.TokenValidationResponseData)
+
 	jsonBody := types.CreateApplicationInput{}
 
 	if err := c.Bind(&jsonBody); err != nil {
@@ -30,9 +33,8 @@ func CreateApplication(c echo.Context) error {
 	}
 
 	newApplication := models.ApplicationModel{
-		Id:   primitive.NewObjectID(),
 		Name: jsonBody.Name,
-		User: jsonBody.User,
+		User: user.Id,
 	}
 
 	output, err := newApplication.InsertApplication()
@@ -44,6 +46,7 @@ func CreateApplication(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	//TODO: Fetch created application
 	responseData := types.ResponseBody{
 		Message: "Created application successfully",
 		Data:    output,

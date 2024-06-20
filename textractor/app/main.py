@@ -12,7 +12,7 @@ async def main(
     file_source: str,
     file_output: str = None,
 ):
-    extractor = Textractor()
+    extractor = Textractor(region_name="ap-south-1")
 
     document = extractor.start_document_analysis(
         file_source=file_source,

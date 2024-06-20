@@ -4,6 +4,7 @@ import (
 	authStore "application-manager/src/services/auth/store/types"
 	"application-manager/src/store/types"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"os"
@@ -38,6 +39,11 @@ func ValidateToken(token string) (authStore.TokenValidationResponseData, error) 
 	err = json.Unmarshal(responseBodyInBytes, &responseBody)
 	if err != nil {
 		return responseData, err
+	}
+
+	if response.StatusCode != http.StatusOK {
+		errorMessage := responseBody.Message
+		return responseData, errors.New(errorMessage)
 	}
 
 	data := responseBody.Data.(map[string]interface{})

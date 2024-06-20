@@ -1,6 +1,6 @@
-package types
+package fileServiceTypes
 
-type CreateUploadUrlInput struct {
+type GetPresignedUrlInput struct {
 	Bucket string `json:"bucket"`
 	Key    string `json:"key"`
 }

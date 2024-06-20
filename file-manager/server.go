@@ -30,6 +30,7 @@ func main() {
 
 	server.POST("/presign", handlers.CreateUploadUrl)
 	server.GET("/presign", handlers.GetDownloadUrl)
+	server.GET("/folder", handlers.GetFolderContents)
 
 	serverConfigs.StartListner(server)
 }

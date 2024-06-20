@@ -37,7 +37,7 @@ func GetApplication(c echo.Context) error {
 
 	application := models.ApplicationModel{}
 	//--create helper functions
-	applicationCollection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("applications")
+	applicationCollection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("application")
 	err = applicationCollection.FindOne(context.TODO(), bson.M{"_id": applicationId, "user": user.Id}).Decode(&application)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -55,7 +55,7 @@ func GetApplication(c echo.Context) error {
 	var documents []models.DocumentModel
 
 	// Fetch the documents associated with the application
-	documentCollection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("documents")
+	documentCollection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("document")
 	cursor, err := documentCollection.Find(context.TODO(), bson.M{"application": applicationId})
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, storeTypes.ResponseBody{

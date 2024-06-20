@@ -1,6 +1,7 @@
 import json
 import pickle
 from contextlib import asynccontextmanager
+from pydantic import BaseModel
 
 import joblib
 from fastapi import FastAPI
@@ -41,8 +42,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+class Item(BaseModel):
+    text: str
 
 @app.post("/classify")
-async def predict(x: str):
-    classname, confidence = ml_models["rf_classifier"](x)
+async def predict(item: Item):
+    classname, confidence = ml_models["rf_classifier"](x=item.text)
     return {"data": [{"Name": classname, "Score": confidence}]}

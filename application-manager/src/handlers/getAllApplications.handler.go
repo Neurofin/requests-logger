@@ -13,7 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func AllApplications(c echo.Context) error {
+func GetAllApplications(c echo.Context) error {
 	user := c.Get("user").(authType.TokenValidationResponseData)
 
 	//access db collection
