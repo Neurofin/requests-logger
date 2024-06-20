@@ -1,31 +1,17 @@
-import json
-import pickle
 from contextlib import asynccontextmanager
 
 import joblib
+import numpy as np
 from fastapi import FastAPI
 
 ml_models = {}
 
 
-def classifier(x: str):
-    serialized_string = json.dumps(x.strip(), ensure_ascii=False)
-    custom_text = serialized_string
-    tfidf_vectorizer = joblib.load("models/tfidf_vectorizer.pkl")
-    with open("models/random_forest_classifier.pkl", "rb") as file:
-        loaded_classifier = pickle.load(file)
-    custom_text_tfidf = tfidf_vectorizer.transform([custom_text])
-    predicted_label = loaded_classifier.predict(custom_text_tfidf)[0]
-    # Get the confidence score for the prediction
-    confidence_scores = loaded_classifier.predict_proba(custom_text_tfidf)
-
-    # Find the index of the predicted label in the classes
-    class_labels = loaded_classifier.classes_
-    predicted_label_index = list(class_labels).index(predicted_label)
-
-    # Get the confidence score for the predicted label
-    print(confidence_scores)
-    confidence_score = confidence_scores[0][predicted_label_index]
+def classifier(text: str):
+    best_pipeline = joblib.load("models/best_pipeline.pkl")
+    predicted_probabilities = best_pipeline.predict_proba([text])[0]
+    predicted_label = best_pipeline.predict([text])[0]
+    confidence_score = np.max(predicted_probabilities)
     return predicted_label, confidence_score
 
 
