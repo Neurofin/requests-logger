@@ -3,6 +3,7 @@ package logics
 import (
 	"auth/src/models"
 	"auth/src/utils"
+	"errors"
 )
 
 func CreateUserLogic(user models.UserModel) (models.UserModel, error) {
@@ -22,6 +23,12 @@ func CreateUserLogic(user models.UserModel) (models.UserModel, error) {
 		Password: encryptedPassword,
 		Type: user.Type,
 		Org: user.Org,
+	}
+
+	existingUserResult, _ := newUser.GetUser()
+	operationStatus := existingUserResult.OperationSuccess
+	if operationStatus {
+		return newUser, errors.New("email/phone already exists")
 	}
 
 	_, err := newUser.InsertUser()

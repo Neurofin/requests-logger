@@ -9,7 +9,7 @@ import (
 )
 
 func ValidateToken(next echo.HandlerFunc) echo.HandlerFunc {
-	return func (c echo.Context) error {
+	return func(c echo.Context) error {
 		jsonData := types.ValidateTokenInput{}
 		jsonData.Token = c.Request().Header.Get("authorization")
 
@@ -18,7 +18,7 @@ func ValidateToken(next echo.HandlerFunc) echo.HandlerFunc {
 			println(err.Error())
 			responseBody := types.ResponseBody{
 				Message: "Invalid Token",
-				Data: err.Error(),
+				Data:    err.Error(),
 			}
 			return c.JSON(http.StatusUnauthorized, responseBody)
 		}
@@ -28,7 +28,7 @@ func ValidateToken(next echo.HandlerFunc) echo.HandlerFunc {
 			println(err.Error())
 			responseBody := types.ResponseBody{
 				Message: "Invalid Token",
-				Data: err.Error(),
+				Data:    err.Error(),
 			}
 			return c.JSON(http.StatusUnauthorized, responseBody)
 		}
