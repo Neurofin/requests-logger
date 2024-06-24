@@ -1,8 +1,9 @@
 import requests
+import os
 
 def get_download_url(bucket: str, key: str):
     try:
-        url = "http://localhost:3001" + "/presign?bucket=" + bucket + "&key=" + key
+        url = os.getenv("FILE_SERVICE_URL") + "/presign?bucket=" + bucket + "&key=" + key
         response = requests.get(url)
         response.raise_for_status()  # Raises HTTPError for bad responses
         return response.json()
