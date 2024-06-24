@@ -11,21 +11,20 @@ import (
 	"auth/src/store/types"
 )
 
-
 type OrgModel struct {
 	Id   primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
-	Name string `json:"name,omitempty" bson:"name,omitempty"`
+	Name string             `json:"name,omitempty" bson:"name,omitempty"`
 	types.Timestamps
 }
 
 func (org *OrgModel) InsertOrg() (*types.DbOperationResult, error) {
-	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("org")
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.OrgCollection)
 
 	org.CreatedAt = time.Now()
 	org.UpdatedAt = time.Now()
 	_, err := collection.InsertOne(context.Background(), org)
 
-	if err !=nil {
+	if err != nil {
 		result := &types.DbOperationResult{
 			OperationSuccess: false,
 		}
@@ -39,11 +38,11 @@ func (org *OrgModel) InsertOrg() (*types.DbOperationResult, error) {
 }
 
 func (org *OrgModel) UpdateOrg() (*types.DbOperationResult, error) {
-	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("org")
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.OrgCollection)
 
 	org.UpdatedAt = time.Now()
 	_, err := collection.UpdateByID(context.Background(), org.Id, org)
-	if err !=nil {
+	if err != nil {
 		result := &types.DbOperationResult{
 			OperationSuccess: false,
 		}
@@ -57,12 +56,12 @@ func (org *OrgModel) UpdateOrg() (*types.DbOperationResult, error) {
 }
 
 func (org *OrgModel) GetOrg() (*types.DbOperationResult, error) {
-	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("org")
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.OrgCollection)
 
 	var orgDoc OrgModel
 	err := collection.FindOne(context.Background(), org).Decode(&orgDoc)
 
-	if err !=nil {
+	if err != nil {
 		result := &types.DbOperationResult{
 			OperationSuccess: false,
 		}
@@ -71,7 +70,7 @@ func (org *OrgModel) GetOrg() (*types.DbOperationResult, error) {
 
 	result := &types.DbOperationResult{
 		OperationSuccess: true,
-		Data: orgDoc,
+		Data:             orgDoc,
 	}
 	return result, err
 }

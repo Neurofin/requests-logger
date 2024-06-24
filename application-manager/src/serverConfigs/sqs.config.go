@@ -41,7 +41,9 @@ func ListenToDocumentUploadEvents(queName string, eventHandler func(eventBody ty
 	// Listner loop
 	for {
 		messagesPipe, err := SqsClient.ReceiveMessage(context.TODO(), &sqs.ReceiveMessageInput{
-			QueueUrl: queUrl,
+			QueueUrl:            queUrl,
+			MaxNumberOfMessages: 10,
+			WaitTimeSeconds:     0,
 		})
 		if err != nil {
 			panic(err)
@@ -49,6 +51,7 @@ func ListenToDocumentUploadEvents(queName string, eventHandler func(eventBody ty
 
 		// Messages loop
 		for _, message := range messagesPipe.Messages {
+
 			body := *message.Body
 			data := []byte(body)
 
@@ -65,6 +68,12 @@ func ListenToDocumentUploadEvents(queName string, eventHandler func(eventBody ty
 			}
 
 			eventHandler(eventBody)
+
+			deleteInput := sqs.DeleteMessageInput{
+				QueueUrl:      queUrl,
+				ReceiptHandle: message.ReceiptHandle,
+			}
+			SqsClient.DeleteMessage(context.Background(), &deleteInput)
 		}
 	}
 }

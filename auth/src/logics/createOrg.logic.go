@@ -6,9 +6,10 @@ import (
 	"errors"
 )
 
+// TODO: Make input specific to logic requirement
 func CreateOrgLogic(org types.CreateOrgInput) (models.OrgModel, error) {
 
-	newOrg := models.OrgModel {
+	newOrg := models.OrgModel{
 		Name: org.Name,
 	}
 
@@ -18,8 +19,7 @@ func CreateOrgLogic(org types.CreateOrgInput) (models.OrgModel, error) {
 		return newOrg, errors.New("an org with the name already exists")
 	}
 
-	_, err := newOrg.InsertOrg()
-	if err != nil {
+	if _, err := newOrg.InsertOrg(); err != nil {
 		return newOrg, err
 	}
 

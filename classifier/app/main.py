@@ -33,5 +33,5 @@ class Item(BaseModel):
 
 @app.post("/classify")
 async def predict(item: Item):
-    classname, confidence = ml_models["rf_classifier"](x=item.text)
+    classname, confidence = ml_models["rf_classifier"](text=item.text)
     return {"data": [{"Name": classname, "Score": confidence}]}

@@ -5,7 +5,6 @@ import (
 	"application-manager/src/store"
 	"application-manager/src/store/types"
 	"context"
-	"errors"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -13,35 +12,77 @@ import (
 )
 
 type ApplicationModel struct {
-	Id      primitive.ObjectID     `json:"id,omitempty" bson:"_id,omitempty"`
-	Name    string                 `json:"name" bson:"name"`
-	User    primitive.ObjectID     `json:"user" bson:"user"`
-	Flow    primitive.ObjectID     `json:"flow,omitempty" bson:"flow,omitempty"`
+	Id                 primitive.ObjectID     `json:"id,omitempty" bson:"_id,omitempty"`
+	Org                primitive.ObjectID     `json:"org,omitempty" bson:"org,omitempty"`
+	Flow               primitive.ObjectID     `json:"flow,omitempty" bson:"flow,omitempty"`
+	ApplicationDetails map[string]interface{} `json:"applicationDetails,omitempty" bson:"applicationDetails,omitempty"`
 	types.Timestamps
 }
 
-func (app *ApplicationModel) InsertApplication() (*types.DbOperationResult, error) {
-	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("application")
+func (app *ApplicationModel) InsertApplication() (types.DbOperationResult, error) {
 
-	// Check for existing application with the same name
-	filter := bson.D{{Key: "name", Value: app.Name}}
-
-	count, err := collection.CountDocuments(context.Background(), filter)
-	if err != nil {
-		return &types.DbOperationResult{OperationSuccess: false}, err
+	result := types.DbOperationResult{
+		OperationSuccess: false,
 	}
 
-	//logic to check duplicacy
-	if count > 0 {
-		return &types.DbOperationResult{OperationSuccess: false}, errors.New("application with this name already exists")
-	}
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.ApplicationCollection)
 
 	app.CreatedAt = time.Now()
 	app.UpdatedAt = time.Now()
-	_, err = collection.InsertOne(context.Background(), app)
+	operationResult, err := collection.InsertOne(context.Background(), app)
 	if err != nil {
-		return &types.DbOperationResult{OperationSuccess: false}, err
+		return result, err
 	}
 
-	return &types.DbOperationResult{OperationSuccess: true}, nil
+	result.OperationSuccess = true
+	result.Data = operationResult.InsertedID
+	return result, nil
+}
+
+func (app *ApplicationModel) GetApplication() (types.DbOperationResult, error) {
+	result := types.DbOperationResult{
+		OperationSuccess: false,
+	}
+
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.ApplicationCollection)
+
+	filter := bson.D{{
+		Key:   "_id",
+		Value: app.Id,
+	}}
+
+	if app.Org != primitive.NilObjectID {
+		filter = append(filter, bson.E{
+			Key:   "org",
+			Value: app.Org,
+		})
+	}
+
+	data := ApplicationModel{}
+	if err := collection.FindOne(context.Background(), filter).Decode(&data); err != nil {
+		return result, err
+	}
+
+	result.OperationSuccess = true
+	result.Data = data
+	return result, nil
+}
+
+func (app *ApplicationModel) UpdateApplication() (types.DbOperationResult, error) {
+
+	result := types.DbOperationResult{
+		OperationSuccess: false,
+	}
+
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.ApplicationCollection)
+
+	UpdateResult, err := collection.UpdateByID(context.Background(), app.Id, bson.D{{Key: "$set", Value: app}})
+
+	if err != nil {
+		return result, err
+	}
+
+	result.OperationSuccess = true
+	result.Data = UpdateResult
+	return result, nil
 }

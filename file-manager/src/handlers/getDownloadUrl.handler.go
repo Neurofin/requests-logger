@@ -12,41 +12,30 @@ import (
 
 func GetDownloadUrl(c echo.Context) error {
 
-	jsonData := getDownloadUrlInput {}
+	responseData := ResponseBody{}
 
-	inputErr := c.Bind(&jsonData)
-	if inputErr != nil {
-
-		println(inputErr.Error())
-		responseData := ResponseBody{
-			Message: "Error in input params, please verify them again",
-			Data: inputErr.Error(),
-		}
+	input := getDownloadUrlInput{}
+	if err := c.Bind(&input); err != nil {
+		responseData.Message = "Error in input params, please verify them again"
+		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
-
 	}
 
 	presignClient := serverConfig.S3PresignClient
 	request, err := presignClient.PresignGetObject(context.TODO(), &s3.GetObjectInput{
-		Bucket: &jsonData.Bucket,
-		Key:    &jsonData.Key,
+		Bucket: &input.Bucket,
+		Key:    &input.Key,
 	}, func(opts *s3.PresignOptions) {
-		opts.Expires = time.Duration( int64(time.Hour))
+		opts.Expires = time.Duration(int64(time.Hour))
 	})
 
 	if err != nil {
-
-		println(err.Error())
-		responseData := ResponseBody{
-			Message: "Couldn't get a presigned download url",
-			Data: err.Error(),
-		}
-		return c.JSON(http.StatusBadRequest, responseData)
+		responseData.Message = "Couldn't get a presigned download url"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusInternalServerError, responseData)
 	}
 
-	responseData := ResponseBody{
-		Message: "Created presigned get url successfully",
-		Data: request,
-	}
+	responseData.Message = "Created presigned get url successfully"
+	responseData.Data = request
 	return c.JSON(http.StatusOK, responseData)
 }

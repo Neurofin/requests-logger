@@ -2,11 +2,13 @@ package handlers
 
 import (
 	"application-manager/src/models"
-	authServiceTypes "application-manager/src/services/auth/store/types"
 	"application-manager/src/store/types"
+	"application-manager/src/utils"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type DocumentTypeInput struct {
@@ -26,6 +28,7 @@ type ChecklistItemInput struct {
 }
 
 type CreateFlowInput struct {
+	Org            string               `json:"org"`
 	Uid            string               `json:"uid"`
 	Name           string               `json:"name"`
 	DocumentTypes  []DocumentTypeInput  `json:"documentTypes"`
@@ -33,7 +36,6 @@ type CreateFlowInput struct {
 }
 
 func CreateFlow(c echo.Context) error {
-	user := c.Get("user").(authServiceTypes.TokenValidationResponseData)
 
 	responseData := types.ResponseBody{}
 	jsonInput := CreateFlowInput{}
@@ -44,13 +46,20 @@ func CreateFlow(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	org, err := primitive.ObjectIDFromHex(jsonInput.Org)
+	if err != nil {
+		println(err.Error())
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
 	newFlow := models.FlowModel{
-		Org:  user.Org,
+		Org:  org,
 		Name: jsonInput.Name,
 		Uid:  jsonInput.Uid,
 	}
 
-	if _, err := newFlow.InsertFlow(); err != nil {
+	if _, err = newFlow.InsertFlow(); err != nil {
 		println(err.Error())
 		responseData.Message = "Error inserting flow document"
 		responseData.Data = err.Error()
@@ -73,18 +82,44 @@ func CreateFlow(c echo.Context) error {
 			Name:        docType.Name,
 			Description: docType.Description,
 			Flow:        flowDoc.Id,
+			Uid:         docType.Uid,
 		}
+		docTypeDoc.CreatedAt = time.Now()
+		docTypeDoc.UpdatedAt = time.Now()
 		documentTypesToBeInserted = append(documentTypesToBeInserted, docTypeDoc)
 	}
 
-	if _, err := models.BulkInsertDocumentTypes(documentTypesToBeInserted); err != nil {
+	if _, err := utils.BulkInsertToDb(documentTypesToBeInserted, "documentType"); err != nil {
 		println(err.Error())
 		responseData.Message = "Error inserting document types"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	var checklistItemsToBeInserted []interface{}
+	for _, checklistItem := range jsonInput.ChecklistItems {
+		checklistItemDoc := models.ChecklistItemModel{
+			Name:         checklistItem.Name,
+			Goal:         checklistItem.Goal,
+			Rules:        checklistItem.Rules,
+			Taxonomy:     checklistItem.Taxonomy,
+			Prompt:       checklistItem.Prompt,
+			GroupUid:     checklistItem.GroupUid,
+			RequiredDocs: checklistItem.RequiredDocs, //TODO: Add validation with doctype
+			Flow:         flowDoc.Id,
+		}
+		checklistItemDoc.CreatedAt = time.Now()
+		checklistItemDoc.UpdatedAt = time.Now()
+		checklistItemsToBeInserted = append(checklistItemsToBeInserted, checklistItemDoc)
+	}
+	if _, err := utils.BulkInsertToDb(checklistItemsToBeInserted, "checklistItem"); err != nil {
+		println(err.Error())
+		responseData.Message = "Error inserting checklist items"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
+
 	responseData.Message = "Created Flow Successfully"
-	responseData.Data = newFlow
+	responseData.Data = flowDoc
 	return c.JSON(http.StatusCreated, responseData)
 }

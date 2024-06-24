@@ -6,7 +6,8 @@ import (
 	"errors"
 )
 
-func CreateUserLogic(user models.UserModel) (models.UserModel, error) {
+// TODO: Make input specific to logic requirement
+func CreateUser(user models.UserModel) (models.UserModel, error) {
 
 	encryptedPassword, encryptionError := utils.EncrytPassword(user.Password)
 
@@ -15,14 +16,14 @@ func CreateUserLogic(user models.UserModel) (models.UserModel, error) {
 		return user, encryptionError
 	}
 
-	newUser := models.UserModel {
+	newUser := models.UserModel{
 		FirstName: user.FirstName,
-		LastName: user.LastName,
-		Email: user.Email,
-		Phone: user.Phone,
-		Password: encryptedPassword,
-		Type: user.Type,
-		Org: user.Org,
+		LastName:  user.LastName,
+		Email:     user.Email,
+		Phone:     user.Phone,
+		Password:  encryptedPassword,
+		Type:      user.Type,
+		Org:       user.Org,
 	}
 
 	existingUserResult, _ := newUser.GetUser()
@@ -31,8 +32,7 @@ func CreateUserLogic(user models.UserModel) (models.UserModel, error) {
 		return newUser, errors.New("email/phone already exists")
 	}
 
-	_, err := newUser.InsertUser()
-	if err != nil {
+	if _, err := newUser.InsertUser(); err != nil {
 		return newUser, err
 	}
 

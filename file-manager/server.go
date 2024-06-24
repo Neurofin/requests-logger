@@ -16,21 +16,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-
-
 func main() {
 	server := echo.New()
 
 	serverConfigs.LoadEnvVariables(server)
-	
+
 	serverConfigs.SetupS3PresignClient(server)
-	serverConfigs.ConnectToMongo()
 
 	server.GET("/", handlers.HelloWorldHandler)
 
 	server.POST("/presign", handlers.CreateUploadUrl)
 	server.GET("/presign", handlers.GetDownloadUrl)
-	server.GET("/folder", handlers.GetFolderContents)
 
 	serverConfigs.StartListner(server)
 }

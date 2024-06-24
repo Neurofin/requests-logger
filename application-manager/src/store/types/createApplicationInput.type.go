@@ -5,12 +5,13 @@ import (
 )
 
 type CreateApplicationInput struct {
-	Name string   `json:"name,omitempty" query:"name"`
+	FlowId       string `json:"flowId"`
+	NumberOfDocs int    `json:"numberOfDocs"`
 }
 
 func (i *CreateApplicationInput) Validate() (bool, error) {
-	if i.Name == "" {
-		return false, errors.New("name is missing or is not a string")
+	if i.FlowId == "" {
+		return false, errors.New("flow is missing or is not a string")
 	}
 	return true, nil
 }

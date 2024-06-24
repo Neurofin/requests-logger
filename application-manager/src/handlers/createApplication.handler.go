@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"application-manager/src/models"
+	"application-manager/src/orchestrators"
 	authStore "application-manager/src/services/auth/store/types"
 	"application-manager/src/store/types"
 	"net/http"
@@ -11,46 +11,32 @@ import (
 
 func CreateApplication(c echo.Context) error {
 
+	responseData := types.ResponseBody{}
+
 	user := c.Get("user").(authStore.TokenValidationResponseData)
 
-	jsonBody := types.CreateApplicationInput{}
-
-	if err := c.Bind(&jsonBody); err != nil {
-		responseData := types.ResponseBody{
-			Message: "Error parsing json, please check type of each parameter",
-			Data:    err.Error(),
-		}
+	input := types.CreateApplicationInput{}
+	if err := c.Bind(&input); err != nil {
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
-
-	isValid, inputErr := jsonBody.Validate()
+	isValid, err := input.Validate()
 	if !isValid {
-		responseData := types.ResponseBody{
-			Message: "Error validating input",
-			Data:    inputErr.Error(),
-		}
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	newApplication := models.ApplicationModel{
-		Name: jsonBody.Name,
-		User: user.Id,
-	}
-
-	output, err := newApplication.InsertApplication()
+	newApplication, err := orchestrators.CreateApplication(user.Org, input.FlowId, input.NumberOfDocs)
 	if err != nil {
-		responseData := types.ResponseBody{
-			Message: "Error inserting document into database",
-			Data:    err.Error(),
-		}
-		return c.JSON(http.StatusBadRequest, responseData)
+		responseData.Message = "Error creating application"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusInternalServerError, responseData)
 	}
 
-	//TODO: Fetch created application
-	responseData := types.ResponseBody{
-		Message: "Created application successfully",
-		Data:    output,
-	}
+	responseData.Message = "Created application successfully"
+	responseData.Data = newApplication
 	return c.JSON(http.StatusOK, responseData)
 
 }

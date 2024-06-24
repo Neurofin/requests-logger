@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"auth/src/logics"
+	orchestrators "auth/src/orchestrator"
 	"auth/src/store/types"
 	"net/http"
 
@@ -9,33 +9,29 @@ import (
 )
 
 func Login(c echo.Context) error {
-	jsonBody := types.LoginInput{}
-	c.Bind(&jsonBody)
-	isValid, inputErr := jsonBody.Validate()
+	responseData := types.ResponseBody{}
 
+	input := types.LoginInput{}
+	if err := c.Bind(&input); err != nil {
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
+	isValid, err := input.Validate()
 	if !isValid {
-		println(inputErr.Error())
-		responseData := types.ResponseBody{
-			Message: "Error parsing json, please check type of each parameter",
-			Data: inputErr.Error(),
-		}
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	token, err := logics.LoginUserLogic(jsonBody)
-
+	token, err := orchestrators.Login(input)
 	if err != nil {
-		println(err.Error())
-		responseData := types.ResponseBody{
-			Message: "Error logging in",
-			Data: err.Error(),
-		}
-		return c.JSON(http.StatusBadRequest, responseData)
+		responseData.Message = "Error logging in"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusInternalServerError, responseData)
 	}
 
-	responseData := types.ResponseBody{
-		Message: "User loggedin successfully",
-		Data: token,
-	}
+	responseData.Message = "User loggedin successfully"
+	responseData.Data = token
 	return c.JSON(http.StatusOK, responseData)
 }

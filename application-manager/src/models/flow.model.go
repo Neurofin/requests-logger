@@ -54,10 +54,15 @@ func (flow *FlowModel) GetFlow() (types.DbOperationResult, error) {
 				Value: flow.Id,
 			}},
 		},
-	}, {
-		Key:   "org",
-		Value: flow.Org,
 	}}
+
+	if flow.Org != primitive.NilObjectID {
+		filter = append(filter, bson.E{
+			Key:   "org",
+			Value: flow.Org,
+		})
+	}
+
 	if err := collection.FindOne(context.Background(), filter).Decode(&flowDoc); err != nil {
 		return result, err
 	}

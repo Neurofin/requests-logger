@@ -1,9 +1,7 @@
 package handlers
 
 import (
-	"auth/src/logics"
-	"auth/src/models"
-	"auth/src/store/enums"
+	orchestrators "auth/src/orchestrator"
 	"auth/src/store/types"
 	"net/http"
 
@@ -11,55 +9,29 @@ import (
 )
 
 func AdminSignup(c echo.Context) error {
+	responseData := types.ResponseBody{}
 
-	jsonBody := types.AdminSignupInput{}
-	c.Bind(&jsonBody)
-	isValid, inputErr := jsonBody.Validate()
+	input := types.AdminSignupInput{}
+	if err := c.Bind(&input); err != nil {
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
+	isValid, err := input.Validate()
 	if !isValid {
-		println(inputErr.Error())
-		responseData := types.ResponseBody{
-			Message: "Error parsing json, please check type of each parameter",
-			Data: inputErr.Error(),
-		}
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	orgInput := types.CreateOrgInput{
-		Name: jsonBody.OrgName,
-	}
-	newOrg, err := logics.CreateOrgLogic(orgInput)
+	token, err := orchestrators.AdminSignup(input)
 	if err != nil {
-		println(err.Error())
-		responseData := types.ResponseBody{
-			Message: "Error creating org",
-			Data: err.Error(),
-		}
-		return c.JSON(http.StatusBadRequest, responseData)
+		responseData.Message = "Error while signing up"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusInternalServerError, responseData)
 	}
 
-	newUser := models.UserModel {
-		FirstName: jsonBody.FirstName,
-		LastName: jsonBody.LastName,
-		Email: jsonBody.Email,
-		Phone: jsonBody.Phone,
-		Password: jsonBody.Password,
-		Type: enums.Admin,
-		Org: newOrg.Id,
-	}
-
-	token, err := logics.SignupLogic(newUser)
-	if err != nil {
-		println(err.Error())
-		responseData := types.ResponseBody{
-			Message: "Error signing up",
-			Data: err.Error(),
-		}
-		return c.JSON(http.StatusBadRequest, responseData)
-	}
-
-	responseData := types.ResponseBody{
-		Message: "User signed up successfully",
-		Data: token,
-	}
-	return c.JSON(http.StatusOK, responseData)
+	responseData.Message = "User signed up successfully"
+	responseData.Data = token
+	return c.JSON(http.StatusCreated, responseData)
 }

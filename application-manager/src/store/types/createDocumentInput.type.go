@@ -1,6 +1,5 @@
 package types
 
-type CreateDocumentInput struct {
-	DocumentName  string `json:"documentName"`
+type AddApplicationDocumentInput struct {
 	ApplicationId string `json:"applicationId"`
 }

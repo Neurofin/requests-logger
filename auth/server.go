@@ -18,8 +18,6 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-
-
 func main() {
 	server := echo.New()
 
@@ -30,9 +28,6 @@ func main() {
 	server.Use(middleware.Logger())
 
 	server.GET("/", handlers.HelloWorldHandler)
-	
-	// server.POST("admin/org", handlers.CreateOrg)
-	// server.GET("admin/org", handlers.GetOrg)
 
 	server.POST("/admin/user/signup", handlers.AdminSignup)
 	server.POST("/user/login", handlers.Login)

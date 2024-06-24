@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"auth/src/logics"
 	"auth/src/models"
+	orchestrators "auth/src/orchestrator"
 	"auth/src/store/enums"
 	"auth/src/store/types"
 	"net/http"
@@ -11,45 +11,41 @@ import (
 )
 
 func Signup(c echo.Context) error {
+	responseData := types.ResponseBody{}
 
 	userDetails := c.Get("user").(models.UserModel)
 
-	jsonBody := types.SignupInput{}
-	c.Bind(&jsonBody)
-	isValid, inputErr := jsonBody.Validate()
+	input := types.SignupInput{}
+	if err := c.Bind(&input); err != nil {
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
+	isValid, err := input.Validate()
 	if !isValid {
-		println(inputErr.Error())
-		responseData := types.ResponseBody{
-			Message: "Error parsing json, please check type of each parameter",
-			Data: inputErr.Error(),
-		}
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	newUser := models.UserModel {
-		FirstName: jsonBody.FirstName,
-		LastName: jsonBody.LastName,
-		Email: jsonBody.Email,
-		Phone: jsonBody.Phone,
-		Password: jsonBody.Password,
-		Type: enums.Member,
-		Org: userDetails.Org,
+	newUser := models.UserModel{
+		FirstName: input.FirstName,
+		LastName:  input.LastName,
+		Email:     input.Email,
+		Phone:     input.Phone,
+		Password:  input.Password,
+		Type:      enums.Member,
+		Org:       userDetails.Org,
 	}
 
-	token, err := logics.SignupLogic(newUser)
+	token, err := orchestrators.Signup(newUser)
 	if err != nil {
-
-		println(err.Error())
-		responseData := types.ResponseBody{
-			Message: "Error signing up",
-			Data: err.Error(),
-		}
-		return c.JSON(http.StatusBadRequest, responseData)
+		responseData.Message = "Error signing up"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusInternalServerError, responseData)
 	}
 
-	responseData := types.ResponseBody{
-		Message: "User signed up successfully",
-		Data: token,
-	}
+	responseData.Message = "User signed up successfully"
+	responseData.Data = token
 	return c.JSON(http.StatusCreated, responseData)
 }
