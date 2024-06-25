@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: acme-crt
+spec:
+    secretName: acme-crt-secret
+    dnsNames:
+        - auth.isree.dev
+        - application.isree.dev
+    issuerRef:
+        name: letsencrypt-prod
+        kind: ClusterIssuer

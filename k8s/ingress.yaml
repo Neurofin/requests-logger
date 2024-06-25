@@ -2,6 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
     name: ingress-nginx
+    annotations:
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
     ingressClassName: nginx
     rules:
@@ -35,7 +41,7 @@ spec:
                             name: application-manager
                             port:
                                 number: 80
-    # tls:
-    # - hosts:
-    #     - isree.dev
-    #     secretName: example.com
+    tls:
+        - hosts:
+              - isree.dev
+          secretName: acme-crt-secret

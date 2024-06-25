@@ -23,6 +23,7 @@ func main() {
 		serverConfigs.ListenToDocumentUploadEvents(queName, handlers.S3ObjectCreatedEventHandler)
 	}
 
+	server.Use(middleware.CORS())
 	server.Use(middleware.Logger())
 
 	server.GET("/", handlers.HelloWorldHandler)

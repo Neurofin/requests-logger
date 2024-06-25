@@ -26,6 +26,7 @@ func main() {
 	serverConfigs.ConnectToMongo()
 
 	server.Use(middleware.Logger())
+	server.Use(middleware.CORS())
 
 	server.GET("/", handlers.HelloWorldHandler)
 
