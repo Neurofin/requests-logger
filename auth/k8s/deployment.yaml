@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: file-manager
+    name: auth
 spec:
     selector:
         matchLabels:
-            app: file-manager
+            app: auth
     replicas: 1
     template:
         metadata:
             labels:
-                app: file-manager
+                app: auth
         spec:
             containers:
-                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/file-manager:latest
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/auth:latest
                   imagePullPolicy: Always
-                  name: file-manager
+                  name: auth
                   ports:
-                      - containerPort: 3001
+                      - containerPort: 3002
