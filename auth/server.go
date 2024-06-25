@@ -28,13 +28,13 @@ func main() {
 	server.Use(middleware.Logger())
 	server.Use(middleware.CORS())
 
-	server.GET("/", handlers.HelloWorldHandler)
+	server.GET("/auth", handlers.HelloWorldHandler)
 
-	server.POST("/admin/user/signup", handlers.AdminSignup)
-	server.POST("/user/login", handlers.Login)
+	server.POST("/auth/admin/user/signup", handlers.AdminSignup)
+	server.POST("/auth/user/login", handlers.Login)
 
-	server.POST("/user/signup", handlers.Signup, serverMiddleware.ValidateToken)
-	server.GET("/user/validate", handlers.ValidateToken, serverMiddleware.ValidateToken)
+	server.POST("/auth/user/signup", handlers.Signup, serverMiddleware.ValidateToken)
+	server.GET("/auth/user/validate", handlers.ValidateToken, serverMiddleware.ValidateToken)
 
 	serverConfigs.StartListner(server)
 }

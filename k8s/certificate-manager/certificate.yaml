@@ -5,8 +5,7 @@ metadata:
 spec:
     secretName: acme-crt-secret
     dnsNames:
-        - auth.isree.dev
-        - application.isree.dev
+        - apiv2.neurofin.ai
     issuerRef:
         name: letsencrypt-prod
         kind: ClusterIssuer
