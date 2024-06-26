@@ -1,6 +1,7 @@
 package orchestrators
 
 import (
+	"application-manager/src/dbHelpers"
 	"application-manager/src/models"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -18,11 +19,7 @@ func ApplicationDocChecklistOrchestrator(docType string, application primitive.O
 
 	applicationDoc = applicationDocResult.Data.(models.ApplicationModel)
 
-	checklist := models.ChecklistItemModel{
-		Flow:         applicationDoc.Flow,
-		RequiredDocs: []string{docType},
-	}
-	checklistResults, err := checklist.FetchFlowChecklist()
+	checklistResults, err := dbHelpers.GetFlowChecklist(applicationDoc.Flow)
 	if err != nil {
 		println("checklist.FetchChecklistItemsForDocType", err.Error())
 		return

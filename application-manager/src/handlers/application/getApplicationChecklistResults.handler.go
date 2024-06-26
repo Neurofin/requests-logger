@@ -1,4 +1,4 @@
-package handlers
+package applicationHandlers
 
 import (
 	"application-manager/src/logics"
@@ -9,27 +9,26 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func GetApplicationDocuments(c echo.Context) error {
-
+func GetApplicationChecklistResults(c echo.Context) error {
 	responseData := types.ResponseBody{}
 
 	id := c.Param("id")
 
 	appId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		responseData.Message = "Error fetching documents info"
+		responseData.Message = "Error fetching application checklist results"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	documents, err := logics.GetApplicationDocuments(appId)
+	checklistResults, err := logics.GetAppChecklistResults(appId)
 	if err != nil {
-		responseData.Message = "Error fetching documents info"
+		responseData.Message = "Error fetching application checklist results"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	responseData.Message = "Documents info retrieved successfully"
-	responseData.Data = documents
+	responseData.Message = "Application checklist results fetched successfully"
+	responseData.Data = checklistResults
 	return c.JSON(http.StatusOK, responseData)
 }
