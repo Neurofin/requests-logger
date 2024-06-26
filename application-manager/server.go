@@ -42,9 +42,9 @@ func main() {
 	server.GET("/app/applications", applicationHandlers.GetApplications, serverMiddleware.ValidateToken)
 
 	server.POST("/app/flow", flowHandlers.CreateFlow)
-	server.GET("/app/flow/:id", flowHandlers.GetFlow)
-	server.POST("/app/flow/:id/checklist", flowHandlers.AddFlowChecklist)
-	server.POST("/app/flow/:id/doctypes", flowHandlers.AddFlowDocTypes)
+	server.GET("/app/flow/:flowId", flowHandlers.GetFlow)
+	server.POST("/app/flow/:flowId/checklist", flowHandlers.AddFlowChecklist)
+	server.POST("/app/flow/:flowId/doctypes", flowHandlers.AddFlowDocTypes)
 
 	serverConfigs.StartListner(server)
 }

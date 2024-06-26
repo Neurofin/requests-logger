@@ -46,7 +46,7 @@ func AddFlowDocTypes(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	responseData.Message = "Fetched flow successfully"
+	responseData.Message = "Flow doc types updated successfully"
 	responseData.Data = flow
 	return c.JSON(http.StatusOK, responseData)
 }
