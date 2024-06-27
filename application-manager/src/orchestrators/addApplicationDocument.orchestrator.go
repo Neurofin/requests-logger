@@ -17,7 +17,7 @@ func AddApplicationDocument(input types.AddApplicationDocumentInput) (map[string
 	docId := primitive.NewObjectID()
 	documentKey := input.ApplicationId + "/" + docId.Hex()
 
-	presignUrl, err := logics.GetPresignedUploadUrl(bucket, documentKey)
+	presignUrl, err := logics.GetPresignedUploadUrl(bucket, documentKey, input.Format)
 	if err != nil {
 		return output, err
 	}
@@ -30,6 +30,8 @@ func AddApplicationDocument(input types.AddApplicationDocumentInput) (map[string
 	insertAppDocInput := types.InsertApplicationDocumentInput{
 		DocId:       docId,
 		Application: appId,
+		Name:        input.Name,
+		Format:      input.Format,
 		Status:      "PENDING", //TODO: Create enum
 		S3Location:  "s3://" + bucket + "/" + documentKey,
 	}

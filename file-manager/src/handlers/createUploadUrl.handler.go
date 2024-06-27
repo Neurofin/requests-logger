@@ -22,8 +22,9 @@ func CreateUploadUrl(c echo.Context) error {
 
 	presignClient := serverConfigs.S3PresignClient
 	request, err := presignClient.PresignPutObject(context.TODO(), &s3.PutObjectInput{
-		Bucket: &input.Bucket,
-		Key:    &input.Key,
+		Bucket:      &input.Bucket,
+		Key:         &input.Key,
+		ContentType: &input.ContentType,
 	}, func(opts *s3.PresignOptions) {
 		opts.Expires = time.Duration(int64(time.Hour))
 	})

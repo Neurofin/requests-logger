@@ -23,8 +23,9 @@ func GetDownloadUrl(c echo.Context) error {
 
 	presignClient := serverConfig.S3PresignClient
 	request, err := presignClient.PresignGetObject(context.TODO(), &s3.GetObjectInput{
-		Bucket: &input.Bucket,
-		Key:    &input.Key,
+		Bucket:              &input.Bucket,
+		Key:                 &input.Key,
+		ResponseContentType: &input.ContentType,
 	}, func(opts *s3.PresignOptions) {
 		opts.Expires = time.Duration(int64(time.Hour))
 	})

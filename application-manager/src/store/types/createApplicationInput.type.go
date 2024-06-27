@@ -4,9 +4,14 @@ import (
 	"errors"
 )
 
+type DocsToBeUploaded struct {
+	Name   string `json:"name"`
+	Format string `json:"format"`
+}
+
 type CreateApplicationInput struct {
-	FlowId       string `json:"flowId"`
-	NumberOfDocs int    `json:"numberOfDocs"`
+	FlowId           string             `json:"flowId"`
+	DocsToBeUploaded []DocsToBeUploaded `json:"docsToBeUploaded"`
 }
 
 func (i *CreateApplicationInput) Validate() (bool, error) {

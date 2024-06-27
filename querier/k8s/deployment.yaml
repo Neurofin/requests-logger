@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: classifier
+    name: querier
 spec:
     selector:
         matchLabels:
-            app: classifier
+            app: querier
     replicas: 1
     template:
         metadata:
             labels:
-                app: classifier
+                app: querier
         spec:
             containers:
-                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/classifier:latest
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/querier:latest
                   imagePullPolicy: Always
-                  name: classifier
+                  name: querier
                   ports:
                       - containerPort: 3006

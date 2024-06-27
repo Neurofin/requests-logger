@@ -11,6 +11,8 @@ func InsertApplicationDocument(input types.InsertApplicationDocumentInput) (mode
 
 	applicationDocument := models.ApplicationDocumentModel{
 		Id:          input.DocId,
+		Name:        input.Name,
+		Format:      input.Format,
 		Application: input.Application,
 		Status:      input.Status,
 		S3Location:  input.S3Location,

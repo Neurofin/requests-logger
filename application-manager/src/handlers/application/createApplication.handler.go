@@ -28,7 +28,7 @@ func CreateApplication(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	newApplication, err := orchestrators.CreateApplication(user.Org, input.FlowId, input.NumberOfDocs)
+	newApplication, err := orchestrators.CreateApplication(user.Org, input.FlowId, input.DocsToBeUploaded)
 	if err != nil {
 		responseData.Message = "Error creating application"
 		responseData.Data = err.Error()

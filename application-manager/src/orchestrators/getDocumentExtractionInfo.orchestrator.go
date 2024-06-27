@@ -20,9 +20,9 @@ func GetDocumentExtractionInfo(appId string, org primitive.ObjectID) ([]interfac
 		return result, err
 	}
 
-	mapDocuments := make(map[string]interface{})
+	mapDocuments := make(map[string][]interface{})
 	for _, doc := range documents {
-		mapDocuments[doc.Type] = doc
+		mapDocuments[doc.Type] = append(mapDocuments[doc.Type], doc.Name)
 	}
 
 	flowDocTypes, err := logics.GetFlowDocumentTypes(application.Flow)
@@ -39,6 +39,7 @@ func GetDocumentExtractionInfo(appId string, org primitive.ObjectID) ([]interfac
 		}
 		if _, ok := mapDocuments[Uid]; ok {
 			element["uploaded"] = true
+			element["docNames"] = mapDocuments[Uid]
 		}
 		result = append(result, element)
 	}

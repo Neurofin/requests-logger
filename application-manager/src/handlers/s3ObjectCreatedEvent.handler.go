@@ -48,6 +48,13 @@ func S3ObjectCreatedEventHandler(eventBody types.S3EventBody) {
 		}
 
 		document = documentFetchResult.Data.(models.ApplicationDocumentModel)
+		document.Status = "UPLOADED"
+		_, err = document.UpdateDocument()
+		if err != nil {
+			println("models.Document.UpdateDocument", err.Error())
+			//TODO: Log error
+			continue
+		}
 
 		// Extract text from file
 		text, err := logics.ExtractTextLogic(sourceS3Path, outputS3Path)
@@ -95,6 +102,9 @@ func S3ObjectCreatedEventHandler(eventBody types.S3EventBody) {
 		document.ClassifierOutput = classificationOutput
 		document.Status = "CLASSIFIED"
 		document.Type = classificationOutput.Name
+		if classificationOutput.Score < 0.9 {
+			document.Type = "OTHER"
+		}
 		_, err = document.UpdateDocument()
 		if err != nil {
 			println("models.Document.UpdateDocument", err.Error())

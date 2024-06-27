@@ -31,7 +31,7 @@ func main() {
 	server.GET("/app", handlers.HelloWorldHandler)
 
 	server.POST("/app/application", applicationHandlers.CreateApplication, serverMiddleware.ValidateToken)
-	server.POST("/app/application/document", applicationHandlers.AddApplicationDocument, serverMiddleware.ValidateToken)
+	server.POST("/app/application/document", applicationHandlers.AddApplicationDocuments, serverMiddleware.ValidateToken)
 
 	server.GET("/app/application/:id", applicationHandlers.GetApplication, serverMiddleware.ValidateToken)
 	server.GET("/app/application/:id/documents", applicationHandlers.GetApplicationDocuments, serverMiddleware.ValidateToken)

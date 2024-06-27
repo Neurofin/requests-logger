@@ -21,9 +21,9 @@ func DownloadApplicationDocument(appId string, docId string) (map[string]string,
 	}
 
 	bucket := parsed.Host
-	key := parsed.Path
+	key := parsed.Path[1:]
 
-	urlResult, err := logics.GetPresignedDownloadUrl(bucket, key)
+	urlResult, err := logics.GetPresignedDownloadUrl(bucket, key, document.Format)
 	if err != nil {
 		return data, err
 	}

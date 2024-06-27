@@ -8,10 +8,13 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func CreateApplication(input types.CreateApplicationLogicInput) (models.ApplicationModel, error) {
+func InsertApplication(input types.CreateApplicationLogicInput) (models.ApplicationModel, error) {
 	newApplication := models.ApplicationModel{
-		Org:  input.Org,
-		Flow: input.Flow,
+		Org:                 input.Org,
+		Flow:                input.Flow,
+		Status:              "PENDING",
+		TotalDocTypes:       input.TotalDocTypes,
+		TotalChecklistItems: input.TotalChecklistItems,
 	}
 
 	_, err := newApplication.GetApplication()

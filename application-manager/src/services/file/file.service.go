@@ -61,7 +61,7 @@ func GetPresignedUploadUrl(input fileStore.GetPresignedUrlInput) (fileStore.Pres
 func GetPresignedDownloadUrl(input fileStore.GetPresignedUrlInput) (fileStore.PresignedUrlResponseData, error) {
 	responseData := fileStore.PresignedUrlResponseData{}
 
-	authServiceUrl := os.Getenv("FILE_SERVICE_URL") + "/presign" + "?bucket=" + input.Bucket + "&key=" + input.Key
+	authServiceUrl := os.Getenv("FILE_SERVICE_URL") + "/presign" + "?bucket=" + input.Bucket + "&key=" + input.Key + "&contentType=" + input.ContentType
 
 	response, err := utils.HttpGet(authServiceUrl)
 

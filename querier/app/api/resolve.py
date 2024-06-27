@@ -46,7 +46,7 @@ def resolve(query: Query):
     os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
     openai.api_key = os.environ["OPENAI_API_KEY"]
 
-    llm = OpenAI(temperature=0, model="gpt-3.5-turbo-16k")
+    llm = OpenAI(temperature=0, model="gpt-4o")
     query_engine = index.as_query_engine(
        chat_mode="context", llm=llm
     )

@@ -16,6 +16,8 @@ import (
 type ApplicationDocumentModel struct {
 	Id               primitive.ObjectID               `json:"id,omitempty" bson:"_id,omitempty"`
 	Application      primitive.ObjectID               `json:"application,omitempty" bson:"application,omitempty"`
+	Name             string                           `json:"name" bson:"name"`
+	Format           string                           `json:"format" bson:"format"`
 	Type             string                           `json:"type,omitempty" bson:"type,omitempty"`
 	Status           string                           `json:"status" bson:"status"` // PENDING, UPLOADED, TEXTRACTED, CLASSIFIED, DELETED
 	S3Location       string                           `json:"s3Location" bson:"s3Location"`
@@ -92,26 +94,18 @@ func (doc *ApplicationDocumentModel) GetDocsReadyToProcess(docTypes []string) (t
 	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.ApplicationDocumentCollection)
 
 	filter := bson.D{
-		{Key: "type",
-			Value: bson.D{
-				{Key: "$in",
-					Value: docTypes,
-				},
-			},
-		},
 		{
 			Key:   "application",
 			Value: doc.Application,
 		},
-		{
-			Key: "status",
-			Value: bson.D{{
-				Key: "$in",
-				Value: bson.A{
-					"CLASSIFIED",
+	}
+	if len(docTypes) > 0 {
+		filter = append(filter, bson.E{Key: "type",
+			Value: bson.D{
+				{Key: "$in",
+					Value: docTypes,
 				},
-			}},
-		},
+			}})
 	}
 	cursor, err := collection.Find(context.Background(), filter)
 	if err != nil {

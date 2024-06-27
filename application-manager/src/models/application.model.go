@@ -12,10 +12,15 @@ import (
 )
 
 type ApplicationModel struct {
-	Id                 primitive.ObjectID     `json:"id,omitempty" bson:"_id,omitempty"`
-	Org                primitive.ObjectID     `json:"org,omitempty" bson:"org,omitempty"`
-	Flow               primitive.ObjectID     `json:"flow,omitempty" bson:"flow,omitempty"`
-	ApplicationDetails map[string]interface{} `json:"applicationDetails,omitempty" bson:"applicationDetails,omitempty"`
+	Id                   primitive.ObjectID       `json:"id,omitempty" bson:"_id,omitempty"`
+	Org                  primitive.ObjectID       `json:"org,omitempty" bson:"org,omitempty"`
+	Flow                 primitive.ObjectID       `json:"flow,omitempty" bson:"flow,omitempty"`
+	Status               string                   `json:"status" bson:"status"` //TODO:Create enum
+	UploadedDocTypes     []string                 `json:"uploadedDocTypes" bson:"uploadedDocTypes"`
+	PassedChecklistItems []map[string]interface{} `json:"passedChecklistItems" bson:"passedChecklistItems"`
+	TotalDocTypes        int                      `json:"totalDocTypes" bson:"totalDocTypes"`
+	TotalChecklistItems  int                      `json:"totalChecklistItems" bson:"totalChecklistItems"`
+	ApplicationDetails   map[string]interface{}   `json:"applicationDetails,omitempty" bson:"applicationDetails,omitempty"`
 	types.Timestamps
 }
 
@@ -76,6 +81,7 @@ func (app *ApplicationModel) UpdateApplication() (types.DbOperationResult, error
 
 	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.ApplicationCollection)
 
+	app.UpdatedAt = time.Now()
 	UpdateResult, err := collection.UpdateByID(context.Background(), app.Id, bson.D{{Key: "$set", Value: app}})
 
 	if err != nil {

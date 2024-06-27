@@ -6,11 +6,13 @@ type ResponseBody struct {
 }
 
 type createUploadUrlInput struct {
-	Bucket string `json:"bucket"`
-	Key    string `json:"key"`
+	Bucket      string `json:"bucket"`
+	Key         string `json:"key"`
+	ContentType string `json:"contentType"`
 }
 
 type getDownloadUrlInput struct {
-	Bucket string `query:"bucket"`
-	Key    string `query:"key"`
+	Bucket      string `query:"bucket"`
+	Key         string `query:"key"`
+	ContentType string `query:"contentType"`
 }
