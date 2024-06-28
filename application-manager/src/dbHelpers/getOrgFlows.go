@@ -12,12 +12,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetOrgApplications(org primitive.ObjectID) (types.DbOperationResult, error) {
+func GetOrgFlows(org primitive.ObjectID) (types.DbOperationResult, error) {
 	result := types.DbOperationResult{}
 
-	var data []models.ApplicationModel
+	var data []models.FlowModel
 
-	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.ApplicationCollection)
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.FlowCollection)
 
 	filter := bson.D{
 		{

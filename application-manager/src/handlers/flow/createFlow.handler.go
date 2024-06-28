@@ -11,11 +11,14 @@ import (
 )
 
 type CreateFlowInput struct {
-	Org            string                     `json:"org"`
-	Uid            string                     `json:"uid"`
-	Name           string                     `json:"name"`
-	DocumentTypes  []types.DocumentTypeInput  `json:"documentTypes"`
-	ChecklistItems []types.ChecklistItemInput `json:"checklistItems"`
+	Org              string                     `json:"org"`
+	Uid              string                     `json:"uid"`
+	Name             string                     `json:"name"`
+	Classifier       string                     `json:"classifier"`
+	ClassifierPrompt string                     `json:"classifierPrompt,omitempty"`
+	Engine           string                     `json:"engine"`
+	DocumentTypes    []types.DocumentTypeInput  `json:"documentTypes"`
+	ChecklistItems   []types.ChecklistItemInput `json:"checklistItems"`
 }
 
 func CreateFlow(c echo.Context) error {
@@ -59,18 +62,22 @@ func CreateFlow(c echo.Context) error {
 
 	flowDoc := flowDocResult.Data.(models.FlowModel)
 
-	if _, err := logics.BulkInsertFlowDocTypes(flowDoc.Id, jsonInput.DocumentTypes); err != nil {
-		println(err.Error())
-		responseData.Message = "Error inserting flow doc types"
-		responseData.Data = err.Error()
-		return c.JSON(http.StatusBadRequest, responseData)
+	if len(jsonInput.DocumentTypes) > 0 {
+		if _, err := logics.BulkInsertFlowDocTypes(flowDoc.Id, jsonInput.DocumentTypes); err != nil {
+			println(err.Error())
+			responseData.Message = "Error inserting flow doc types"
+			responseData.Data = err.Error()
+			return c.JSON(http.StatusBadRequest, responseData)
+		}
 	}
 
-	if _, err := logics.BulkInsertChecklistItems(flowDoc.Id, jsonInput.ChecklistItems); err != nil {
-		println(err.Error())
-		responseData.Message = "Error inserting checklist"
-		responseData.Data = err.Error()
-		return c.JSON(http.StatusBadRequest, responseData)
+	if len(jsonInput.ChecklistItems) > 0 {
+		if _, err := logics.BulkInsertChecklistItems(flowDoc.Id, jsonInput.ChecklistItems); err != nil {
+			println(err.Error())
+			responseData.Message = "Error inserting checklist"
+			responseData.Data = err.Error()
+			return c.JSON(http.StatusBadRequest, responseData)
+		}
 	}
 	responseData.Message = "Created Flow Successfully"
 	responseData.Data = flowDoc

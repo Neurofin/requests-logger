@@ -10,9 +10,11 @@ COPY ./requirements.txt /code/requirements.txt
 # install the package dependencies in the requirements file
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 RUN pip install llama-index-readers-string-iterable
+RUN pip install --upgrade google-cloud-aiplatform
 
 # copy the app inside the code directory
 COPY ./app /code/app
+COPY ./gemini-dnb-24c09ae181db.json /code/gemini-dnb-24c09ae181db.json
 
 EXPOSE 3006
 

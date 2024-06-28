@@ -5,7 +5,6 @@ import (
 	"application-manager/src/models"
 	querierService "application-manager/src/services/querier"
 	querierServiceTypes "application-manager/src/services/querier/store/types"
-	"fmt"
 )
 
 func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, application models.ApplicationModel) {
@@ -65,7 +64,24 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 		}
 		contextDocuments = append(contextDocuments, contextDoc)
 	}
-	queryResultData, err := querierService.ResolveQuery(querierServiceTypes.ResolveQueryInput{ContextDocuments: contextDocuments, Prompt: checklistItem.Prompt})
+	engine := checklistItem.Engine
+	if engine == "" {
+		flow := models.FlowModel{
+			Id: application.Flow,
+		}
+		operationResult, err := flow.GetFlow()
+		if err != nil {
+			println("Error getting flow", err.Error())
+			return
+		}
+		flow = operationResult.Data.(models.FlowModel)
+		engine = flow.Engine
+	}
+	queryResultData, err := querierService.ResolveQuery(querierServiceTypes.ResolveQueryInput{
+		ContextDocuments: contextDocuments,
+		Prompt:           checklistItem.Prompt,
+		Engine:           engine,
+	})
 	if err != nil {
 		println("Error resolving query", err.Error())
 		return
@@ -131,12 +147,8 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 				}
 			}
 			if itemFound && indexOfItem >= 0 {
-				fmt.Println("Item Found", itemFound)
-				fmt.Println("Index", indexOfItem)
-				fmt.Println("In ", passedChecklistItems)
 				passedChecklistItems[indexOfItem] = passedChecklistItems[len(passedChecklistItems)-1]
 				passedChecklistItems = passedChecklistItems[:len(passedChecklistItems)-1]
-				fmt.Println("Out ", passedChecklistItems)
 				application.PassedChecklistItems = passedChecklistItems
 				application.UpdateApplication()
 			}

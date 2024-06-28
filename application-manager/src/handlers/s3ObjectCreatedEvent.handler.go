@@ -91,8 +91,31 @@ func S3ObjectCreatedEventHandler(eventBody types.S3EventBody) {
 			continue
 		}
 
+		applicationDoc := models.ApplicationModel{
+			Id: document.Application,
+		}
+		applicationDocResult, err := applicationDoc.GetApplication()
+		if err != nil {
+			println("application.GetApplication", err.Error())
+			return
+		}
+
+		applicationDoc = applicationDocResult.Data.(models.ApplicationModel)
+
+		flow := models.FlowModel{
+			Id: applicationDoc.Flow,
+		}
+		operationResult, err := flow.GetFlow()
+		if err != nil {
+			println("Error getting flow", err.Error())
+			return
+		}
+		flow = operationResult.Data.(models.FlowModel)
+
+		isLLMBased := flow.Classifier == "LLM_BASED"
+
 		// Classify the file and update database with classifier output
-		classificationOutput, err := logics.ClassifyDoc(text)
+		classificationOutput, err := logics.ClassifyDoc(text, isLLMBased, textractOutputPath, flow.ClassifierPrompt)
 		if err != nil {
 			println("logics.ClassifyDoc", err.Error())
 			//TODO: Log error
@@ -102,7 +125,7 @@ func S3ObjectCreatedEventHandler(eventBody types.S3EventBody) {
 		document.ClassifierOutput = classificationOutput
 		document.Status = "CLASSIFIED"
 		document.Type = classificationOutput.Name
-		if classificationOutput.Score < 0.9 {
+		if classificationOutput.Score < 80 {
 			document.Type = "OTHER"
 		}
 		_, err = document.UpdateDocument()

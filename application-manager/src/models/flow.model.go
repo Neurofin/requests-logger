@@ -12,11 +12,13 @@ import (
 )
 
 type FlowModel struct {
-	Id         primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
-	Uid        string             `json:"uid" bson:"uid"`
-	Org        primitive.ObjectID `json:"org,omitempty" bson:"org,omitempty"`
-	Name       string             `json:"name" bson:"name"`
-	Classifier string             `json:"classifier,omitempty" bson:"classifier,omitempty"`
+	Id               primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`
+	Uid              string             `json:"uid" bson:"uid"`
+	Org              primitive.ObjectID `json:"org,omitempty" bson:"org,omitempty"`
+	Name             string             `json:"name" bson:"name"`
+	Classifier       string             `json:"classifier,omitempty" bson:"classifier,omitempty"`
+	ClassifierPrompt string             `json:"classifierPrompt,omitempty" bson:"classifierPrompt,omitempty"`
+	Engine           string             `json:"engine" bson:"engine"`
 	types.Timestamps
 }
 

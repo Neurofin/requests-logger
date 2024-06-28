@@ -1,6 +1,8 @@
 package applicationHandlers
 
 import (
+	"application-manager/src/dbHelpers"
+	"application-manager/src/models"
 	"application-manager/src/orchestrators"
 	authStore "application-manager/src/services/auth/store/types"
 	"application-manager/src/store/types"
@@ -28,6 +30,17 @@ func CreateApplication(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	if input.FlowId == "" {
+		operationResult, err := dbHelpers.GetOrgFlows(user.Org)
+		if err != nil {
+			responseData.Message = "Error creating application"
+			responseData.Data = err.Error()
+			return c.JSON(http.StatusInternalServerError, responseData)
+		}
+		flows := operationResult.Data.([]models.FlowModel)
+		flow := flows[0]
+		input.FlowId = flow.Uid
+	}
 	newApplication, err := orchestrators.CreateApplication(user.Org, input.FlowId, input.DocsToBeUploaded)
 	if err != nil {
 		responseData.Message = "Error creating application"

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from api import resolve
+from api import classify
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,9 +11,6 @@ app = FastAPI()
 async def root():
     return { 'message': "Hello World!" }
 
-@app.get("/stupid")
-def getResolve():
-    print("I am stupid")
-    return { 'message': "I am stupid" }
 
 app.include_router(resolve.router)
+app.include_router(classify.router)
