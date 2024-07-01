@@ -12,9 +12,9 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 
 	isMasterQuery := checklistItem.MasterChecklistItem
 
-	if isMasterQuery {
-		docsRequired = []string{}
-	}
+	// if isMasterQuery {
+	// 	docsRequired = []string{}
+	// }
 
 	document := models.ApplicationDocumentModel{
 		Application: application.Id,
@@ -27,7 +27,11 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 	}
 
 	uploadedDocuments := uploadedDocumentsResults.Data.([]models.ApplicationDocumentModel)
-	if len(uploadedDocuments) < len(docsRequired) && !checklistItem.MasterChecklistItem {
+	documentTypeMapping := map[string][]interface{}{}
+	for _, doc := range uploadedDocuments {
+		documentTypeMapping[doc.Type] = append(documentTypeMapping[doc.Type], doc)
+	}
+	if len(documentTypeMapping) < len(docsRequired) && !checklistItem.MasterChecklistItem {
 		// Create/Update query result
 		queryResult := models.ChecklistItemResultModel{
 			Application:   application.Id,
@@ -47,18 +51,18 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 		return
 	}
 
-	if isMasterQuery {
-		unclassifiedDocFound := false
-		for _, doc := range uploadedDocuments {
-			if doc.Status != "CLASSIFIED" {
-				unclassifiedDocFound = true
-				break
-			}
-		}
-		if unclassifiedDocFound {
-			return
-		}
-	}
+	// if isMasterQuery {
+	// 	unclassifiedDocFound := false
+	// 	for _, doc := range uploadedDocuments {
+	// 		if doc.Status != "CLASSIFIED" {
+	// 			unclassifiedDocFound = true
+	// 			break
+	// 		}
+	// 	}
+	// 	if unclassifiedDocFound {
+	// 		return
+	// 	}
+	// }
 
 	//Call Query Engine for result and update the result
 	contextDocuments := []querierServiceTypes.ContextDocument{}
@@ -92,49 +96,39 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 		return
 	}
 
-	applicationDocResult, err := application.GetApplication()
-	if err != nil {
-		println("application.GetApplication", err.Error())
-		return
-	}
+	// applicationDocResult, err := application.GetApplication()
+	// if err != nil {
+	// 	println("application.GetApplication", err.Error())
+	// 	return
+	// }
 
-	application = applicationDocResult.Data.(models.ApplicationModel)
+	// application = applicationDocResult.Data.(models.ApplicationModel)
 
 	if isMasterQuery {
 		application.ApplicationDetails = queryResultData
-		application.Status = "PROCESSED"
+		// application.Status = "PROCESSED"
 
-		document := models.ApplicationDocumentModel{
-			Application: application.Id,
-		}
+		// document := models.ApplicationDocumentModel{
+		// 	Application: application.Id,
+		// }
 
-		uploadedDocumentsResults, err := document.GetDocsReadyToProcess(docsRequired)
-		if err != nil {
-			println("Error finding docs", err)
-			return
-		}
+		// uploadedDocumentsResults, err := document.GetDocsReadyToProcess(docsRequired)
+		// if err != nil {
+		// 	println("Error finding docs", err)
+		// 	return
+		// }
 
-		uploadedDocuments := uploadedDocumentsResults.Data.([]models.ApplicationDocumentModel)
+		// uploadedDocuments := uploadedDocumentsResults.Data.([]models.ApplicationDocumentModel)
 
-		for _, doc := range uploadedDocuments {
-			if doc.Status != "CLASSIFIED" {
-				println("Not classified")
-				application.Status = "PENDING"
-				break
-			}
-		}
-
-		uniqueDocTypesMap := make(map[string]bool)
-		for _, doc := range uploadedDocuments {
-			uniqueDocTypesMap[doc.Type] = true
-		}
-
-		uniqueDocTypes := []string{}
-		for docType := range uniqueDocTypesMap {
-			uniqueDocTypes = append(uniqueDocTypes, docType)
-		}
-		application.UploadedDocTypes = uniqueDocTypes
+		// for _, doc := range uploadedDocuments {
+		// 	if doc.Status != "CLASSIFIED" {
+		// 		println("Not classified")
+		// 		application.Status = "PENDING"
+		// 		break
+		// 	}
+		// }
 		application.UpdateApplication()
+
 		return
 	} else {
 
@@ -148,35 +142,43 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 			return
 		}
 
-		if queryResultData["status"] == "Success" {
-			passedChecklistItems := application.PassedChecklistItems
-			itemFound := false
-			for i := range passedChecklistItems {
-				if passedChecklistItems[i]["goal"] == queryResultData["goal"] {
-					itemFound = true
-				}
-			}
-			if !itemFound {
-				passedChecklistItems = append(passedChecklistItems, queryResultData)
-				application.PassedChecklistItems = passedChecklistItems
-				application.UpdateApplication()
-			}
-		} else {
-			passedChecklistItems := application.PassedChecklistItems
-			itemFound := false
-			indexOfItem := -1
-			for i := range passedChecklistItems {
-				if passedChecklistItems[i]["goal"] == queryResultData["goal"] {
-					itemFound = true
-					indexOfItem = i
-				}
-			}
-			if itemFound && indexOfItem >= 0 {
-				passedChecklistItems[indexOfItem] = passedChecklistItems[len(passedChecklistItems)-1]
-				passedChecklistItems = passedChecklistItems[:len(passedChecklistItems)-1]
-				application.PassedChecklistItems = passedChecklistItems
-				application.UpdateApplication()
-			}
-		}
+		// if queryResultData["status"] == "Success" {
+		// 	passedChecklistItems := application.PassedChecklistItems
+		// 	itemFound := false
+		// 	for i := range passedChecklistItems {
+		// 		if passedChecklistItems[i]["goal"] == queryResultData["goal"] {
+		// 			itemFound = true
+		// 		}
+		// 	}
+		// 	if !itemFound {
+		// 		passedChecklistItems = append(passedChecklistItems, queryResultData)
+		// 		application.PassedChecklistItems = passedChecklistItems
+		// 		application.UpdateApplication()
+		// 	}
+		// } else {
+		// 	passedChecklistItems := application.PassedChecklistItems
+		// 	itemFound := false
+		// 	indexOfItem := -1
+
+		// 	// Loop through the passed checklist items to find the item with the matching goal
+		// 	for i := range passedChecklistItems {
+		// 		if goal, ok := passedChecklistItems[i]["goal"]; ok && goal == queryResultData["goal"] {
+		// 			itemFound = true
+		// 			indexOfItem = i
+		// 			break
+		// 		}
+		// 	}
+
+		// 	// If the item is found, remove it from the list
+		// 	if itemFound && indexOfItem >= 0 {
+		// 		// Move the last item to the index of the found item
+		// 		passedChecklistItems[indexOfItem] = passedChecklistItems[len(passedChecklistItems)-1]
+		// 		// Truncate the slice to remove the last item
+		// 		passedChecklistItems = passedChecklistItems[:len(passedChecklistItems)-1]
+		// 		// Update the application with the modified checklist items
+		// 		application.PassedChecklistItems = passedChecklistItems
+		// 		application.UpdateApplication()
+		// 	}
+		// }
 	}
 }

@@ -3,7 +3,6 @@ package handlers
 import (
 	"application-manager/src/logics"
 	"application-manager/src/models"
-	"application-manager/src/orchestrators"
 	fileService "application-manager/src/services/file"
 	fileStore "application-manager/src/services/file/store/types"
 	"application-manager/src/store/types"
@@ -136,10 +135,9 @@ func S3ObjectCreatedEventHandler(eventBody types.S3EventBody) {
 		}
 
 		println("S3 Object Created Event Handled")
-		// TODO: Remove Que Item
 		// Run checklist based on uploaded files
 
-		orchestrators.ApplicationDocChecklistOrchestrator(classificationOutput.Name, document.Application)
+		// orchestrators.ApplicationDocChecklistOrchestrator(classificationOutput.Name, document.Application)
 	}
 
 }
