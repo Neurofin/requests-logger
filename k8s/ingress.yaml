@@ -11,7 +11,7 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
-        - host: apiv2.neurofin.ai
+        - host: apiv2-staging.neurofin.ai
           http:
               paths:
                   - path: /auth
@@ -21,7 +21,7 @@ spec:
                             name: auth
                             port:
                                 number: 80
-        - host: apiv2.neurofin.ai
+        - host: apiv2-staging.neurofin.ai
           http:
               paths:
                   - path: /app
@@ -33,5 +33,5 @@ spec:
                                 number: 80
     tls:
         - hosts:
-              - apiv2.neurofin.ai
+              - apiv2-staging.neurofin.ai
           secretName: acme-crt-secret

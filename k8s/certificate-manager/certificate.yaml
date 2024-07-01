@@ -5,7 +5,7 @@ metadata:
 spec:
     secretName: acme-crt-secret
     dnsNames:
-        - apiv2.neurofin.ai
+        - apiv2-staging.neurofin.ai
     issuerRef:
         name: letsencrypt-prod
         kind: ClusterIssuer

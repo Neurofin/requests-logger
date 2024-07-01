@@ -68,6 +68,14 @@ func AddApplicationDocuments(c echo.Context) error {
 	application.Status = "PENDING"
 	application.UpdateApplication()
 
+	// Listener for updates to the documents
+	documentIds := []primitive.ObjectID{}
+	for _, doc := range documents {
+		document := doc["document"].(models.ApplicationDocumentModel)
+		documentIds = append(documentIds, document.Id)
+	}
+	go orchestrators.ApplicationDocumentClassificationEventListener(application.Id, documentIds)
+
 	responseData.Message = "Created documents and presigned URLs successfully"
 	responseData.Data = documents
 	return c.JSON(http.StatusOK, responseData)

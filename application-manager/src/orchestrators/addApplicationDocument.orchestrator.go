@@ -21,7 +21,7 @@ func AddApplicationDocument(input types.AddApplicationDocumentInput) (map[string
 
 	output := make(map[string]interface{}) // TODO: Create type for this output
 
-	bucket := store.ApplicationDocumentsBucket
+	bucket := serverConfigs.ApplicationDocumentsBucket
 
 	docId := primitive.NewObjectID()
 	documentKey := input.ApplicationId + "/" + docId.Hex()
@@ -50,15 +50,12 @@ func AddApplicationDocument(input types.AddApplicationDocumentInput) (map[string
 		return output, err
 	}
 
-	// Listener for updates to the documents
-	go ApplicationDocumentClassificationEventListener(appId)
-
 	output["document"] = applicationDoc
 	output["presignUrl"] = presignUrl
 	return output, nil
 }
 
-func ApplicationDocumentClassificationEventListener(application primitive.ObjectID) error {
+func ApplicationDocumentClassificationEventListener(application primitive.ObjectID, documentIds []primitive.ObjectID) error {
 
 	timeout := 5 * time.Minute
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
@@ -84,10 +81,7 @@ func ApplicationDocumentClassificationEventListener(application primitive.Object
 		select {
 		case <-ctx.Done():
 			fmt.Println("No events for 5 minutes.")
-			document := models.ApplicationDocumentModel{
-				Application: application,
-			}
-			operationResult, err := document.GetDocsReadyToProcess([]string{})
+			operationResult, err := dbHelpers.GetDocuments(documentIds)
 			if err != nil {
 				return err
 			}
@@ -170,6 +164,7 @@ func ApplicationDocumentClassificationEventListener(application primitive.Object
 			}
 			applicationDoc.PassedChecklistItems = passedChecklistItems
 
+			// TODO:Call Signature Model and store the s3 urls
 			applicationDoc.Status = "PROCESSED"
 			applicationDoc.UpdateApplication()
 			return nil
@@ -180,9 +175,21 @@ func ApplicationDocumentClassificationEventListener(application primitive.Object
 					return err
 				}
 				fmt.Printf("Received insert event: %v\n", event)
-				cancel()
-				ctx, cancel = context.WithTimeout(context.Background(), timeout)
-				defer cancel()
+
+				operationResult, err := dbHelpers.GetDocuments(documentIds)
+				if err != nil {
+					return err
+				}
+
+				//Check documents status
+				documents := operationResult.Data.([]models.ApplicationDocumentModel)
+				for _, doc := range documents {
+					if doc.Status != "CLASSIFIED" {
+						cancel()
+						ctx, cancel = context.WithTimeout(context.Background(), timeout)
+						defer cancel()
+					}
+				}
 			}
 		}
 	}

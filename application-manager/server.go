@@ -20,7 +20,7 @@ func main() {
 	serverConfigs.ConnectToMongo()
 
 	if os.Getenv("CONSUMER") == "TRUE" {
-		queName := "ApplicationDocumentUploadQue"
+		queName := os.Getenv("S3_QUEUE")
 		serverConfigs.SetupSqsClient()
 		serverConfigs.ListenToDocumentUploadEvents(queName, handlers.S3ObjectCreatedEventHandler)
 	}
@@ -37,6 +37,7 @@ func main() {
 	server.GET("/app/application/:id/documents", applicationHandlers.GetApplicationDocuments, serverMiddleware.ValidateToken)
 	server.GET("/app/application/:appId/document/:docId/download", applicationHandlers.DownloadApplicationDocument, serverMiddleware.ValidateToken)
 	server.GET("/app/application/:id/documents/extraction-info", applicationHandlers.GetDocumentExtractionInfo, serverMiddleware.ValidateToken)
+	server.GET("/app/application/:id/documents/signatures", applicationHandlers.GetDocumentsSignatures, serverMiddleware.ValidateToken)
 	server.GET("/app/application/:id/checklist", applicationHandlers.GetApplicationChecklistResults, serverMiddleware.ValidateToken)
 
 	server.GET("/app/applications", applicationHandlers.GetApplications, serverMiddleware.ValidateToken)

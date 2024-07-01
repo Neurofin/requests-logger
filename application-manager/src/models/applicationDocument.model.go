@@ -23,6 +23,7 @@ type ApplicationDocumentModel struct {
 	S3Location       string                           `json:"s3Location" bson:"s3Location"`
 	TextractLocation string                           `json:"textractLocation,omitempty" bson:"textractLocation,omitempty"`
 	ClassifierOutput classifierServiceTypes.ClassData `json:"classifierOutput,omitempty" bson:"classifierOutput,omitempty"` //TODO: Decouple classifier output type from db
+	Signatures       []string                         `json:"signatures" bson:"signatures"`
 	types.Timestamps
 }
 

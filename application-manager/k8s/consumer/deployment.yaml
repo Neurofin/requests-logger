@@ -13,7 +13,7 @@ spec:
                 app: application-manager-consumer
         spec:
             containers:
-                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/application-manager-consumer:test
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/application-manager-consumer:dev
                   imagePullPolicy: Always
                   name: application-manager-consumer
                   ports:
