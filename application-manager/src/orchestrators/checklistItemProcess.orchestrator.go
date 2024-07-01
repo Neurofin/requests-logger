@@ -48,10 +48,15 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 	}
 
 	if isMasterQuery {
+		unclassifiedDocFound := false
 		for _, doc := range uploadedDocuments {
 			if doc.Status != "CLASSIFIED" {
-				return
+				unclassifiedDocFound = true
+				break
 			}
+		}
+		if unclassifiedDocFound {
+			return
 		}
 	}
 
@@ -98,6 +103,26 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 	if isMasterQuery {
 		application.ApplicationDetails = queryResultData
 		application.Status = "PROCESSED"
+
+		document := models.ApplicationDocumentModel{
+			Application: application.Id,
+		}
+
+		uploadedDocumentsResults, err := document.GetDocsReadyToProcess(docsRequired)
+		if err != nil {
+			println("Error finding docs", err)
+			return
+		}
+
+		uploadedDocuments := uploadedDocumentsResults.Data.([]models.ApplicationDocumentModel)
+
+		for _, doc := range uploadedDocuments {
+			if doc.Status != "CLASSIFIED" {
+				println("Not classified")
+				application.Status = "PENDING"
+				break
+			}
+		}
 
 		uniqueDocTypesMap := make(map[string]bool)
 		for _, doc := range uploadedDocuments {

@@ -6,14 +6,14 @@ spec:
     selector:
         matchLabels:
             app: application-manager-consumer
-    replicas: 1
+    replicas: 4
     template:
         metadata:
             labels:
                 app: application-manager-consumer
         spec:
             containers:
-                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/application-manager-consumer:latest
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/application-manager-consumer:test
                   imagePullPolicy: Always
                   name: application-manager-consumer
                   ports:

@@ -22,7 +22,7 @@ safety_settings = {
 }
 
 def generate(input_array: list[str], version: str):
-    vertexai.init(project="gemini-dnb", location="us-central1", credentials=credentials)
+    vertexai.init(project="gemini-dnb", location="asia-south1", credentials=credentials)
     model = GenerativeModel(
         f"gemini-{version}",
     )

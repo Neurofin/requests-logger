@@ -67,7 +67,7 @@ func ListenToDocumentUploadEvents(queName string, eventHandler func(eventBody ty
 				continue
 			}
 
-			eventHandler(eventBody)
+			go eventHandler(eventBody)
 
 			deleteInput := sqs.DeleteMessageInput{
 				QueueUrl:      queUrl,
