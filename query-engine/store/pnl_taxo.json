@@ -1,0 +1,198 @@
+{
+	"Revenue": [
+		"Sales Finished goods/ products- Export",
+		"Sales Finished goods/ Product- Domestic",
+		"Sale of traded goods",
+		"Sale of service",
+		"Contract revenue",
+		"Sales turnover"
+	],
+	"Less:DirectExpenditure": [],
+	"CostofMaterialsandFinishedGoodsConsumed": [
+		"Cost of materials consumed",
+		"Cost of finished goods consumed",
+		"Changes in inventory",
+		"Consumption of stores & spares",
+		"Consumption of packing material",
+		"Consumption of tool & Spares"
+	],
+	"PurchasesforResale": ["Purchases for resale", "Purchases for stock-in-trade"],
+	"Electricity/PowerandFuelandWaterExpenses": [
+		"Electricity expenses",
+		"Electricity duty",
+		"Power expenses",
+		"Power charges",
+		"Petrol expenses",
+		"Diesel Expenses",
+		"Water expenses",
+		"Water charges"
+	],
+	"SubContract/JobWorkCharges": ["Subcontract charges", "Contract labour charges"],
+	"RepairsandMaintenance-PlantandMachinery": [
+		"Repairs & maintenance - Plant",
+		"Repairs & maintenance - Machinery"
+	],
+	"SalariesandWages": [
+		"Salaries & wages",
+		"Contribution to provident fund & other funds",
+		"Contribution to gratuity",
+		"Employee training expenses",
+		"Employee Insurance expenses"
+	],
+	"OtherManufacturingExpenses": [
+		"Civil & mechanical work",
+		"Design & drawaing",
+		"Factory expenses",
+		"In process servicing, inspection, testing",
+		"Technical fees",
+		"Royalty",
+		"Plant, Vehicle hire charges",
+		"Transporation chages",
+		"Demurrage charges",
+		"Cost of Power Purchased",
+		"Cost of Material, Product, Software and Hardware"
+	],
+	"FreightExpenses[Direct]": ["Inward Carriage", "Warehouse expenses"],
+	"OtherDirectExpenditure": [
+		"Cost of sales, cost of material, product, software, hardware",
+		"Software Development and Business Process Management Expenses",
+		"Services Rendered By Business Associates and Others",
+		"Access Charges",
+		"Interconnect Charges",
+		"Provisions",
+		"Cost of contruction",
+		"Cost of power purchased",
+		"Dumrrage charges"
+	],
+	"GrossProfit/(Loss)": [],
+	"Add:OtherOperatingIncome": [
+		"Sale of scrap, scrap sale",
+		"Export incentives",
+		"Comission Income",
+		"MEIS income"
+	],
+	"Less:GeneralandAdministrationExpenses": [],
+	"Insurance": ["Insurance"],
+	"ProfessionalandLegalFees": ["Audit fees", "Legal expenses"],
+	"RepairsandMaintenance": [
+		"Repair and maintenance -vehicle",
+		"Repair and maintenance -building"
+	],
+	"TravellingandConveyanceExpenses": ["Travelling & conveyance expenses"],
+	"ExpensestowardsCommunityDevelopmentandDonations": ["CSR expenses", "donations"],
+	"Directors'RemunerationandFees": ["Directors remuneration"],
+	"Partners'Remuneration": ["Partner's remuneration"],
+	"Lease/RentCharges": ["Lease / Rent Charges"],
+	"OtherGeneralExpenses": [
+		"Printing and stationary",
+		"Rates & taxes",
+		"Vendour charges",
+		"Subscriptions and membership",
+		"Packing materials",
+		"Management & IT support",
+		"Diwali expenses",
+		"Sundry expenses",
+		"Staff welfare expense",
+		"Labour welfare expense",
+		"Telephone expenses",
+		"Communication costs",
+		"Technical fees",
+		"consultancy fees",
+		"Security Charges",
+		"security service charges",
+		"Consignment Fees",
+		"Petrol, Diesel Expenses",
+		"Internet Charges",
+		"Networking Charges",
+		"Preliminary expenses written off",
+		"Rebates and penalties"
+	],
+	"Less:SellingandDistributionExpenses": [],
+	"AdvertisementandBusinessPromotionExpenses": [
+		"Advertising Expenses",
+		"Marketing Expenses",
+		"Business Promotion Expenses",
+		"Market Research Expenses"
+	],
+	"OtherSellingandDistributionExpenses": [
+		"Secondary Packaging",
+		"Brokerage",
+		"Discount",
+		"Comission",
+		"Outward carrige",
+		"Technical Service Fees and Royalty"
+	],
+	"Less:LossonSaleofFixedAssets/Investments": [
+		"Loss on Sale of Fixed Assets",
+		"Loss on Sale of Investment"
+	],
+	"Less:LossonForeignExchangeTransactions": ["Loss on Foreign Exchange Transactions"],
+	"Less:Provisions": ["Provision for bad debts, write offs, waiver of interest"],
+	"Less:BankandFinanceCharges": ["Bank charges", "Borrowing costs"],
+	"Less:BadDebtswrittenoff": [],
+	"Less:OtherExpenseswrittenoff": ["Sundry expenses written off"],
+	"Less:ResearchandDevelopmentExpenditure": ["Research and development"],
+	"Less:ClaimsforLossandDamages": [],
+	"Less:LossonRedemptionofInvestments": [],
+	"Less:LiquidatedDamages": [],
+	"Less:Depreciation/AmortizationandDepletion": ["Depreciation", "Amortization"],
+	"Add:CapitalizedExpenditure/TransfertoDeferredRevenue": [],
+	"OperatingProfit": [],
+	"Add:OtherNonOperatingIncome": [],
+	"DividendandInterestIncome": ["Dividend received", "Interest income, interest received"],
+	"LeaseRentandHireCharges": ["Lease rent received, lease income"],
+	"LiabilitiesandProvisionsWrittenBack": [
+		"provisions writtten back",
+		"Provision in Value of Investments Written back",
+		"Profit on sale of land, build"
+	],
+	"ProfitonSaleofFixedAssetsandInvestments": [
+		"Profit on sale of land, build",
+		"profit on sale of mutual fund, investments and others"
+	],
+	"ProfitonForeignExchangeTransactions": [
+		"gain on foreign exchnage transaction",
+		"income on foreign exchange"
+	],
+	"ProfitfromJointVentures/PartnershipFirms": ["profit earned on JV"],
+	"MiscellaneousIncome": [
+		"Goodwill written back",
+		"Advances and doubtful debt written back",
+		"Insurance Claim Received",
+		"Income from Liquidated Damages",
+		"Revenue Grant",
+		"Premium on Investment in Shares",
+		"Income from Redemption of Securities",
+		"Income from Waiver of Interest",
+		"Refund of Tax and Duties"
+	],
+	"EarningsbeforeInterestandTax(EBIT)": [],
+	"Less:InterestExpenditure": [],
+	"Interestcost": [
+		"Interest on Long Term Loans",
+		"Interest on Deposits",
+		"Interest on Loans and Advances",
+		"Interest on Capital",
+		"Other Interest"
+	],
+	"ProfitbeforeTaxandExtraordinaryItems": [],
+	"Add/LessExtraordinaryItemsBeforeTax": [
+		"Income received from sale of land (if treated extraordinary)"
+	],
+	"LessPriorPeriodExpenditure": [],
+	"NetProfitbeforeTaxationandafterExtraordinaryItems": [],
+	"Less:TotalTaxProvision": [],
+	"TaxProvision": [],
+	"Add/(Less):CurrentYearDeferredTax": [],
+	"OtherTax": [],
+	"ProfitafterTax": [],
+	"Add/(Less):ExtraordinaryItems": ["Items which are not classified under profit & loss account"],
+	"ProfitafterTaxandExtraordinaryItems": [],
+	"PriorYearAdjustment": [],
+	"Less:MinorityInterests": [],
+	"Less:DividendsandTransfertoReserves": [],
+	"Less:BonusIssuefromAccumulatedProfits": [],
+	"TransfertoReserves": [],
+	"Plus/(Minus)RetainedEarnings/(Loss)b/f": [],
+	"RetainedEarnings/(Loss)c/f": []
+}

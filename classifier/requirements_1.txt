@@ -1,0 +1,5 @@
+scikit-learn==1.3.0
+joblib
+fastapi
+numpy
+pydantic==2.7.4

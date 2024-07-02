@@ -1,0 +1,1731 @@
+[
+	{
+		"id": "Revenue",
+		"name": "Revenue",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 0,
+		"descriptions": [
+			"Revenue from operations",
+			"Only Operating Revenue",
+			"Sales Finished goods/ products- Export",
+			"Sales Finished goods/ Product- Domestic",
+			"Sale of traded goods",
+			"Sale of service",
+			"Contract revenue",
+			"Sales turnover"
+		]
+	},
+	{
+		"id": "CostofMaterialsandFinishedGoodsConsumed",
+		"name": "Cost of Materials and Finished Goods Consumed",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 1,
+		"descriptions": [
+			"Cost of materials consumed",
+			"Cost of finished goods consumed",
+			"Changes in inventory",
+			"Consumption of stores & spares",
+			"Consumption of packing material",
+			"Consumption of tool & Spares"
+		]
+	},
+	{
+		"id": "PurchasesforResale",
+		"name": "Purchases for Resale",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 2,
+		"descriptions": ["Purchases for resale", "Purchases for stock-in-trade"]
+	},
+	{
+		"id": "Electricity/PowerandFuelandWaterExpenses",
+		"name": "Electricity / Power and Fuel and WaterExpenses",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 3,
+		"descriptions": [
+			"Electricity expenses",
+			"Electricity duty",
+			"Power expenses",
+			"Power charges",
+			"Petrol expenses",
+			"Diesel Expenses",
+			"Water expenses",
+			"Water charges"
+		]
+	},
+	{
+		"id": "SubContract/JobWorkCharges",
+		"name": "SubContract / JobWorkCharges",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": ["Subcontract charges", "Contract labour charges"]
+	},
+	{
+		"id": "RepairsandMaintenance-PlantandMachinery",
+		"name": "Repairs and Maintenance - Plant and Machinery",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 5,
+		"descriptions": ["Repairs & maintenance - Plant", "Repairs & maintenance - Machinery"]
+	},
+	{
+		"id": "SalariesandWages",
+		"name": "Salaries and Wages",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 6,
+		"descriptions": [
+			"Salaries & wages",
+			"Contribution to provident fund & other funds",
+			"Contribution to gratuity",
+			"Employee training expenses",
+			"Employee Insurance expenses"
+		]
+	},
+	{
+		"id": "OtherManufacturingExpenses",
+		"name": "Other Manufacturing Expenses",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 7,
+		"descriptions": [
+			"Civil & mechanical work",
+			"Design & drawaing",
+			"Factory expenses",
+			"In process servicing, inspection, testing",
+			"Technical fees",
+			"Royalty",
+			"Plant, Vehicle hire charges",
+			"Transporation chages",
+			"Demurrage charges",
+			"Cost of Power Purchased",
+			"Cost of Material, Product, Software and Hardware"
+		]
+	},
+	{
+		"id": "FreightExpenses[Direct]",
+		"name": "Freight Expenses [Direct]",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 8,
+		"descriptions": ["Inward Carriage", "Warehouse expenses"]
+	},
+	{
+		"id": "OtherDirectExpenditure",
+		"name": "Other Direct Expenditure",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 9,
+		"descriptions": [
+			"Cost of sales, cost of material, product, software, hardware",
+			"Software Development and Business Process Management Expenses",
+			"Services Rendered By Business Associates and Others",
+			"Access Charges",
+			"Interconnect Charges",
+			"Provisions",
+			"Cost of contruction",
+			"Cost of power purchased",
+			"Dumrrage charges"
+		]
+	},
+	{
+		"id": "Less:DirectExpenditure",
+		"name": "Less: DirectExpenditure",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 10,
+		"descriptions": ["Sum of queryIndex 1 to 9 of Statement(End)Date Table"]
+	},
+	{
+		"id": "GrossProfit/(Loss)",
+		"name": "Gross Profit / (Loss)",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 11,
+		"descriptions": ["Sum of queryIndex 0 and 10 of Statement(End)Date Table"]
+	},
+	{
+		"id": "Add:OtherOperatingIncome",
+		"name": "Add: Other Operating Income",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 12,
+		"descriptions": [
+			"Sale of scrap, scrap sale",
+			"Export incentives",
+			"Comission Income",
+			"MEIS income"
+		]
+	},
+	{
+		"id": "Insurance",
+		"name": "Insurance",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 13,
+		"descriptions": ["Insurance"]
+	},
+	{
+		"id": "ProfessionalandLegalFees",
+		"name": "Professional and Legal Fees",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 14,
+		"descriptions": ["Audit fees", "Legal expenses"]
+	},
+	{
+		"id": "RepairsandMaintenance",
+		"name": "Repairs and Maintenance",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 15,
+		"descriptions": ["Repair and maintenance - vehicle", "Repair and maintenance - building"]
+	},
+	{
+		"id": "TravellingandConveyanceExpenses",
+		"name": "Travelling and Conveyance Expenses",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 16,
+		"descriptions": ["Travelling & conveyance expenses"]
+	},
+	{
+		"id": "ExpensestowardsCommunityDevelopmentandDonations",
+		"name": "Expenses towards Community Development and Donations",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 17,
+		"descriptions": ["CSR expenses", "donations"]
+	},
+	{
+		"id": "Directors'RemunerationandFees",
+		"name": "Directors' Remuneration and Fees",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 18,
+		"descriptions": ["Directors remuneration"]
+	},
+	{
+		"id": "Partners'Remuneration",
+		"name": "Partners' Remuneration",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 19,
+		"descriptions": ["Partner's remuneration"]
+	},
+	{
+		"id": "Lease/RentCharges",
+		"name": "Lease / Rent Charges",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 20,
+		"descriptions": ["Lease / Rent Charges"]
+	},
+	{
+		"id": "OtherGeneralExpenses",
+		"name": "Other General Expenses",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 21,
+		"descriptions": [
+			"Printing and stationary",
+			"Rates & taxes",
+			"Vendour charges",
+			"Subscriptions and membership",
+			"Packing materials",
+			"Management & IT support",
+			"Diwali expenses",
+			"Sundry expenses",
+			"Staff welfare expense",
+			"Labour welfare expense",
+			"Telephone expenses",
+			"Communication costs",
+			"Technical fees",
+			"consultancy fees",
+			"Security Charges",
+			"security service charges",
+			"Consignment Fees",
+			"Petrol, Diesel Expenses",
+			"Internet Charges",
+			"Networking Charges",
+			"Preliminary expenses written off",
+			"Rebates and penalties"
+		]
+	},
+	{
+		"id": "Less:GeneralandAdministrationExpenses",
+		"name": "Less: General and Administration Expenses",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 22,
+		"descriptions": ["Sum of queryIndex 13 to 21 of Statement(End)Date Table"]
+	},
+	{
+		"id": "AdvertisementandBusinessPromotionExpenses",
+		"name": "Advertisement and Business Promotion Expenses",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 23,
+		"descriptions": [
+			"Advertising Expenses",
+			"Marketing Expenses",
+			"Business Promotion Expenses",
+			"Market Research Expenses"
+		]
+	},
+	{
+		"id": "OtherSellingandDistributionExpenses",
+		"name": "Other Selling and Distribution Expenses",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 24,
+		"descriptions": [
+			"Secondary Packaging",
+			"Brokerage",
+			"Discount",
+			"Comission",
+			"Outward carrige",
+			"Technical Service Fees and Royalty"
+		]
+	},
+	{
+		"id": "Less:SellingandDistributionExpenses",
+		"name": "Less: Selling and Distribution Expenses",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 25,
+		"descriptions": ["Sum of queryIndex 23 and 24 of Statement(End)Date Table"]
+	},
+	{
+		"id": "Less:LossonSaleofFixedAssets/Investments",
+		"name": "Less: Loss on Sale of Fixed Assets / Investments",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 26,
+		"descriptions": ["Loss on Sale of Fixed Assets", "Loss on Sale of Investment"]
+	},
+	{
+		"id": "Less:LossonForeignExchangeTransactions",
+		"name": "Less: Loss on Foreign Exchange Transactions",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 27,
+		"descriptions": ["Loss on Foreign Exchange Transactions"]
+	},
+	{
+		"id": "Less:Provisions",
+		"name": "Less: Provisions",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 28,
+		"descriptions": ["Provision for bad debts, write offs, waiver of interest"]
+	},
+	{
+		"id": "Less:BankandFinanceCharges",
+		"name": "Less: Bank and Finance Charges",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 29,
+		"descriptions": ["Bank charges", "Borrowing costs"]
+	},
+	{
+		"id": "Less:BadDebtswrittenoff",
+		"name": "Less: Bad Debts written off",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 30,
+		"descriptions": []
+	},
+	{
+		"id": "Less:OtherExpenseswrittenoff",
+		"name": "Less: Other Expenses written off",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 31,
+		"descriptions": ["Sundry expenses written off"]
+	},
+	{
+		"id": "Less:ResearchandDevelopmentExpenditure",
+		"name": "Less: Research and Development Expenditure",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 32,
+		"descriptions": ["Research and development"]
+	},
+	{
+		"id": "Less:ClaimsforLossandDamages",
+		"name": "Less: Claims for Loss and Damages",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 33,
+		"descriptions": []
+	},
+	{
+		"id": "Less:LossonRedemptionofInvestments",
+		"name": "Less: Loss on Redemption of Investments",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 34,
+		"descriptions": []
+	},
+	{
+		"id": "Less:LiquidatedDamages",
+		"name": "Less: Liquidated Damages",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 35,
+		"descriptions": []
+	},
+	{
+		"id": "Less:Depreciation/AmortizationandDepletion",
+		"name": "Less: Depreciation / Amortization and Depletion",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 36,
+		"descriptions": ["Depreciation", "Amortization"]
+	},
+	{
+		"id": "Add:CapitalizedExpenditure/TransfertoDeferredRevenue",
+		"name": "Add: Capitalized Expenditure / Transfer to Deferred Revenue",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 37,
+		"descriptions": ["Depreciation", "Amortization"]
+	},
+	{
+		"id": "OperatingProfit",
+		"name": "Operating Profit",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 38,
+		"descriptions": [
+			"Sum of queryIndex 11, 12, 22, 25 and 26 to 37 of Statement(End)Date Table"
+		]
+	},
+	{
+		"id": "DividendandInterestIncome",
+		"name": "Dividend and Interest Income",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 39,
+		"descriptions": ["Dividend received", "Interest income, interest received"]
+	},
+	{
+		"id": "LeaseRentandHireCharges",
+		"name": "Lease Rent and Hire Charges",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 40,
+		"descriptions": ["Lease rent received, lease income"]
+	},
+	{
+		"id": "LiabilitiesandProvisionsWrittenBack",
+		"name": "Liabilities and Provisions Written Back",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 41,
+		"descriptions": [
+			"provisions writtten back",
+			"Provision in Value of Investments Written back",
+			"Profit on sale of land, build"
+		]
+	},
+	{
+		"id": "ProfitonSaleofFixedAssetsandInvestments",
+		"name": "Profit on Sale of Fixed Assets and Investments",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 42,
+		"descriptions": [
+			"Profit on sale of land, build",
+			"profit on sale of mutual fund, Investments and others"
+		]
+	},
+	{
+		"id": "ProfitonForeignExchangeTransactions",
+		"name": "Profit on Foreign Exchange Transactions",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 43,
+		"descriptions": ["gain on foreign exchnage transaction", "income on foreign exchange"]
+	},
+	{
+		"id": "ProfitfromJointVentures/PartnershipFirms",
+		"name": "Profit from Joint Ventures / Partnership Firms",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 44,
+		"descriptions": ["profit earned on JV"]
+	},
+	{
+		"id": "MiscellaneousIncome",
+		"name": "Miscellaneous Income",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 45,
+		"descriptions": [
+			"Goodwill written back",
+			"Advances and doubtful debt written back",
+			"Insurance Claim Received",
+			"Income from Liquidated Damages",
+			"Revenue Grant",
+			"Premium on Investment in Shares",
+			"Income from Redemption of Securities",
+			"Income from Waiver of Interest",
+			"Refund of Tax and Duties"
+		]
+	},
+	{
+		"id": "Add:OtherNonOperatingIncome",
+		"name": "Add: Other Non Operating Income",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 46,
+		"descriptions": ["Sum of queryIndex 39 to 45 of Statement(End)Date Table"]
+	},
+	{
+		"id": "EarningsbeforeInterestandTax(EBIT)",
+		"name": "Earnings before Interest and Tax (EBIT)",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 47,
+		"descriptions": ["Sum of queryIndex 38 and 46 of Statement(End)Date Table"]
+	},
+	{
+		"id": "Interestcost",
+		"name": "Interest cost",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 48,
+		"descriptions": [
+			"Interest on Long Term Loans",
+			"Interest on Deposits",
+			"Interest on Loans and Advances",
+			"Interest on Capital",
+			"Other Interest"
+		]
+	},
+	{
+		"id": "Less:InterestExpenditure",
+		"name": "Less: Interest Expenditure",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 49,
+		"descriptions": ["Same value as queryIndex 48 of Statement(End)Date Table"]
+	},
+	{
+		"id": "ProfitbeforeTaxandExtraordinaryItems",
+		"name": "Profit before Tax and Extraordinary Items",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 50,
+		"descriptions": ["Sum of queryIndex 47 and 49 of Statement(End)Date Table"]
+	},
+	{
+		"id": "Add/LessExtraordinaryItemsBeforeTax",
+		"name": "Add / Less Extraordinary Items Before Tax",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 51,
+		"descriptions": ["Income received from sale of land (if treated extraordinary)"]
+	},
+	{
+		"id": "LessPriorPeriodExpenditure",
+		"name": "Less Prior Period Expenditure",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 52,
+		"descriptions": []
+	},
+	{
+		"id": "NetProfitbeforeTaxationandafterExtraordinaryItems",
+		"name": "Net Profit before Taxation and after Extraordinary Items",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 53,
+		"descriptions": ["Sum of queryIndex 50 to 52 of Statement(End)Date Table"]
+	},
+	{
+		"id": "TaxProvision",
+		"name": "Tax Provision",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 54,
+		"descriptions": []
+	},
+	{
+		"id": "Add/(Less):CurrentYearDeferredTax",
+		"name": "Add / (Less): Current Year Deferred Tax",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 55,
+		"descriptions": []
+	},
+	{
+		"id": "OtherTax",
+		"name": "Other Tax",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 56,
+		"descriptions": []
+	},
+	{
+		"id": "Less:TotalTaxProvision",
+		"name": "Less: Total Tax Provision",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 57,
+		"descriptions": ["Sum of queryIndex 54 to 56 of Statement(End)Date Table"]
+	},
+	{
+		"id": "ProfitafterTax",
+		"name": "Profit after Tax",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 58,
+		"descriptions": ["Sum of queryIndex 53 and 57 of Statement(End)Date Table"]
+	},
+	{
+		"id": "Add/(Less):ExtraordinaryItems",
+		"name": "Add / (Less): Extraordinary Items",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 59,
+		"descriptions": ["Items which are not classified under profit & loss account"]
+	},
+	{
+		"id": "ProfitafterTaxandExtraordinaryItems",
+		"name": "Profit after Tax and Extraordinary Items",
+		"table": "Statement(End)Date",
+		"type": "CALCULATED",
+		"queryIndex": 60,
+		"descriptions": ["Sum of queryIndex 58 and 59 of Statement(End)Date Table"]
+	},
+	{
+		"id": "PriorYearAdjustment",
+		"name": "Prior Year Adjustment",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 61,
+		"descriptions": []
+	},
+	{
+		"id": "Less:MinorityInterests",
+		"name": "Less: Minority Interests",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 62,
+		"descriptions": []
+	},
+	{
+		"id": "Less:DividendsandTransfertoReserves",
+		"name": "Less: Dividends and Transfer to Reserves",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 63,
+		"descriptions": []
+	},
+	{
+		"id": "Less:BonusIssuefromAccumulatedProfits",
+		"name": "Less: Bonus Issue from Accumulated Profits",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 64,
+		"descriptions": []
+	},
+	{
+		"id": "TransfertoReserves",
+		"name": "Transfer to Reserves",
+		"table": "Statement(End)Date",
+		"type": "QUERIED",
+		"queryIndex": 65,
+		"descriptions": []
+	},
+	{
+		"id": "EquityShareCapital/ShareCapital",
+		"name": "Equity Share Capital/ Share Capital",
+		"table": "ShareholdersFund",
+		"type": "QUERIED",
+		"queryIndex": 0,
+		"descriptions": [
+			"Share capital",
+			"Issued, subscribed and paid up shares",
+			"Partner's capital account"
+		]
+	},
+	{
+		"id": "PreferenceCapital",
+		"name": "Preference Capital",
+		"table": "ShareholdersFund",
+		"type": "QUERIED",
+		"queryIndex": 1,
+		"descriptions": ["Preferance share"]
+	},
+	{
+		"id": "EmployeeStockOption",
+		"name": "Employee Stock Option",
+		"table": "ShareholdersFund",
+		"type": "QUERIED",
+		"queryIndex": 2,
+		"descriptions": ["Employee stock option"]
+	},
+	{
+		"id": "CapitalReserve",
+		"name": "Capital Reserve",
+		"table": "ShareholdersFund",
+		"type": "QUERIED",
+		"queryIndex": 3,
+		"descriptions": ["Capital reserve", "Capital Reserve on Bargain Purchase"]
+	},
+	{
+		"id": "GeneralReserve",
+		"name": "General Reserve",
+		"table": "ShareholdersFund",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": ["General reserve"]
+	},
+	{
+		"id": "OtherReserves",
+		"name": "Other Reserves",
+		"table": "ShareholdersFund",
+		"type": "QUERIED",
+		"queryIndex": 5,
+		"descriptions": [
+			"Legal reserve",
+			"Specific Reserve",
+			"Contingency Reserve",
+			"Capital Redemption Reserve",
+			"Debenture Redemption Reserve",
+			"Bond Redemption Reserve",
+			"Revaluation Reserve",
+			"Amalgamation Reserve",
+			"Reserve on amalgamation"
+		]
+	},
+	{
+		"id": "SecuritiesPremiumAccount",
+		"name": "Securities Premium Account",
+		"table": "ShareholdersFund",
+		"type": "QUERIED",
+		"queryIndex": 6,
+		"descriptions": ["Securities premium", "Changes in balance of security premium"]
+	},
+	{
+		"id": "RetainedEarnings/(Loss)",
+		"name": "Retained Earnings/(Loss)",
+		"table": "ShareholdersFund",
+		"type": "QUERIED",
+		"queryIndex": 7,
+		"descriptions": [
+			"Surplus/deficit in statement of profit and loss",
+			"Reserves and suplus",
+			"Changes in balance of retained earnings"
+		]
+	},
+	{
+		"id": "Others",
+		"name": "Others",
+		"table": "ShareholdersFund",
+		"type": "QUERIED",
+		"queryIndex": 8,
+		"descriptions": [
+			"Minority interest, minority share",
+			"FCCB Premium",
+			"Calls in Advance",
+			"Capital Grants and subsidies",
+			"Foreign exchange adjustments",
+			"Share application money pending for allotment"
+		]
+	},
+	{
+		"id": "TotalShareholdersFund",
+		"name": "Total Shareholders Fund",
+		"table": "ShareholdersFund",
+		"type": "CALCULATED",
+		"queryIndex": 9,
+		"descriptions": ["Total of all the properties which belong to Shareholders Fund table"]
+	},
+	{
+		"id": "LongTermSecuredLoans",
+		"name": "LongTerm Secured Loans",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 0,
+		"descriptions": [
+			"secured term loans",
+			"term loan from others",
+			"long term loans",
+			"mortage loans",
+			"Vehicle loans",
+			"hire purchase loans",
+			"term loan from financial institution",
+			"loans repayable on demand (long)",
+			"terms loan from banks"
+		]
+	},
+	{
+		"id": "LongTermUnSecuredLoans",
+		"name": "LongTerm UnSecured Loans",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 1,
+		"descriptions": [
+			"Unsecured loans from bank",
+			"Unseucred loans from financial institutions",
+			"external commercial borrowings"
+		]
+	},
+	{
+		"id": "SalesTaxDeferralLoans",
+		"name": "Sales Tax Deferral Loans",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 2,
+		"descriptions": ["Sales Tax Deferral Loans"]
+	},
+	{
+		"id": "DeferredTaxLiability",
+		"name": "Deferred Tax Liability",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 3,
+		"descriptions": ["Deferred Tax Liability"]
+	},
+	{
+		"id": "DuetoParent/Subsidiaries",
+		"name": "Due to Parent/ Subsidiaries",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": ["Loan from holding/ parent compant", "loans from subsidiaries"]
+	},
+	{
+		"id": "Inter-companyLoans[LongTerm]",
+		"name": "Inter-company Loans [Long Term]",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 5,
+		"descriptions": [
+			"loans from group companies",
+			"loans from affiliates",
+			"intercompany loans"
+		]
+	},
+	{
+		"id": "DuetoDirectors/Shareholders/Promoters(LongTerm)",
+		"name": "Due to Directors / Shareholders / Promoters (Long Term)",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 6,
+		"descriptions": [
+			"loans from directors",
+			"loans from partners",
+			"loans from Related Parties",
+			"unsecured loans from directors/ related parties",
+			"External commercial borrowing from parent"
+		]
+	},
+	{
+		"id": "DuetoCustomers(LongTerm)",
+		"name": "Due to Customers (Long Term) ",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 7,
+		"descriptions": ["Advance received from customer"]
+	},
+	{
+		"id": "DebenturesandBonds(includesFCCB)",
+		"name": "Debentures and Bonds (includes FCCB)",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 8,
+		"descriptions": ["Debentures", "Foreign currency convertible bonds"]
+	},
+	{
+		"id": "Deposits(LongTerm)",
+		"name": "Deposits (Long Term)",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 9,
+		"descriptions": ["Public Deposits", "Trade Deposits", "Other Deposits", "Security Deposits"]
+	},
+	{
+		"id": "ProvidentandPensions(LongTerm)",
+		"name": "Provident and Pensions (Long Term)",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 10,
+		"descriptions": ["Provision for Gratuity", "Provision for Compensated Absences"]
+	},
+	{
+		"id": "Provisions",
+		"name": "Provisions",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 11,
+		"descriptions": [
+			"Advance received from customer",
+			"Provisions",
+			"Provision for employee benefits",
+			"Provision for warranty"
+		]
+	},
+	{
+		"id": "OtherNonCurrentLiabilities",
+		"name": "Other Non Current Liabilities",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 12,
+		"descriptions": [
+			"Long Term Notes Payable",
+			"Long Term Bills Payable",
+			"Deferred Income / Deferred Liabilities",
+			"Mobilization Advance",
+			"Deferred Revenue Grants",
+			"FCCB Premium (Long Term)",
+			"deferred government grant"
+		]
+	},
+	{
+		"id": "Less:CurrentPortionofLongTermDebt",
+		"name": "Less : Current Portion of Long Term Debt",
+		"table": "Non-CurrentLiabilities",
+		"type": "QUERIED",
+		"queryIndex": 13,
+		"descriptions": ["current maturities of long term borrowings"]
+	},
+	{
+		"id": "TotalNon-CurrentLiabilities",
+		"name": "Total Non-Current Liabilities",
+		"table": "Non-CurrentLiabilities",
+		"type": "CALCULATED",
+		"queryIndex": 14,
+		"descriptions": ["Sum of all the properties of Non-currentLiabilities table"]
+	},
+	{
+		"id": "AccountsPayable",
+		"name": "Accounts Payable",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 0,
+		"descriptions": [
+			"Trade payables",
+			"Trade creditors",
+			"Outstanding dues of micro and small enterprises",
+			"Outstanding dues of creditors other than micro and small enterprises",
+			"Acceptances"
+		]
+	},
+	{
+		"id": "CreditorsforCapitalGoods",
+		"name": "Creditors for Capital Goods",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 1,
+		"descriptions": [
+			"payble for purchase of plant, property and equipment",
+			"Creditors for Capital Expenditure"
+		]
+	},
+	{
+		"id": "Acceptances/BillsPayable",
+		"name": "Acceptances / Bills Payable",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 2,
+		"descriptions": [
+			"acceptances other than trade payables",
+			"bills payables",
+			"bills creditors"
+		]
+	},
+	{
+		"id": "OtherPayables/Accruals",
+		"name": "OtherPayables / Accruals",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 3,
+		"descriptions": ["payables to employees", "other payables", "Payable to related parties"]
+	},
+	{
+		"id": "Leaseliabilities",
+		"name": "Lease liabilities",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": ["short term lease liabilities"]
+	},
+	{
+		"id": "Unsecuredloans",
+		"name": "Unsecured loans",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 5,
+		"descriptions": ["unsecured loans from banks/ financial institutions"]
+	},
+	{
+		"id": "Securedloans",
+		"name": "Secured loans",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 6,
+		"descriptions": [
+			"Borrowings from financial institution",
+			"Vehicle. Hire purchase loans",
+			"short term loan payable on demand",
+			"loan payable on demand"
+		]
+	},
+	{
+		"id": "Bankloans",
+		"name": "Bank loans",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 7,
+		"descriptions": [
+			"Bank overdraft",
+			"cash credit",
+			"packing credit limit",
+			"export packing credit limit",
+			"cash credit from various banks",
+			"short term working capital loans",
+			"overdarft from bank",
+			"working capital term loan"
+		]
+	},
+	{
+		"id": "CurrentPortionofLongTermDebt",
+		"name": "Current Portion of Long Term Debt",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 8,
+		"descriptions": ["Current Portion of long term debt"]
+	},
+	{
+		"id": "DebenturesandBonds(Short-Term)",
+		"name": "Debentures and Bonds (Short-Term)",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 9,
+		"descriptions": ["debentures (short term)", "bonds (short term)"]
+	},
+	{
+		"id": "CommercialPaper",
+		"name": "Commercial Paper",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 10,
+		"descriptions": ["Commercial Paper"]
+	},
+	{
+		"id": "InterestAccrued",
+		"name": "Interest Accrued",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 11,
+		"descriptions": [
+			"accured interest",
+			"interest accrued on term loans/ unsecured loans",
+			"interest accrued but not due",
+			"interest accrued and due"
+		]
+	},
+	{
+		"id": "Duetocustomers",
+		"name": "Due to customers",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 12,
+		"descriptions": ["Advances received from customer", "advances from customer"]
+	},
+	{
+		"id": "Duetoparent/subsidiaries",
+		"name": "Due to parent / subsidiaries",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 13,
+		"descriptions": ["Loan from holding/ parent compant", "loans from subsidiaries"]
+	},
+	{
+		"id": "InterCompanyLoans",
+		"name": "Inter Company Loans",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 14,
+		"descriptions": ["inter Coporate Deposits"]
+	},
+	{
+		"id": "DuetoDirectors/Shareholders/Promoters",
+		"name": "Due to Directors / Shareholders / Promoters",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 15,
+		"descriptions": [
+			"loans from directors",
+			"loans from partners",
+			"loans from Related Parties"
+		]
+	},
+	{
+		"id": "Deposits",
+		"name": "Deposits",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 16,
+		"descriptions": [
+			"Public Deposits",
+			"intercorporate deposits",
+			"security deposits",
+			"trade deposits",
+			"deposits and advances received",
+			"other deposits"
+		]
+	},
+	{
+		"id": "ProvidentandPensions",
+		"name": "Provident and Pensions",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 17,
+		"descriptions": ["Provident and Pensions"]
+	},
+	{
+		"id": "Unclaimed/UnpaidDividends",
+		"name": "Unclaimed / Unpaid Dividends",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 18,
+		"descriptions": ["Unclaimed Dividends"]
+	},
+	{
+		"id": "Provisions",
+		"name": "Provisions",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 19,
+		"descriptions": [
+			"provisin for wealth tax",
+			"Provision for employee benefits",
+			"provision for redemption of debentures",
+			"provision for dividends",
+			"Provision for warranty",
+			"Provision for Onerous Contracts",
+			"provision for income tax",
+			"provision for fringe benefit tax"
+		]
+	},
+	{
+		"id": "Othercurrentliabities",
+		"name": "Other current liabities",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "QUERIED",
+		"queryIndex": 20,
+		"descriptions": [
+			"deferred income",
+			"notes payable",
+			"share appliaction money pending for allotment",
+			"statutory dues paybale",
+			"Statutory liabilities",
+			"Deferred Tax (Short Term)",
+			"Consideration payable on acquisition",
+			"Unearned revenue",
+			"Deferred Government Grant",
+			"duties and taxes payable"
+		]
+	},
+	{
+		"id": "TotalCurrentLiabilitiesandProvisions",
+		"name": "Total CurrentLiabilitiesandProvisions",
+		"table": "CurrentLiabilitiesandProvisions",
+		"type": "CALCULATED",
+		"queryIndex": 21,
+		"descriptions": ["Sum of all properties of CurrentLiabilitiesandProvisions table"]
+	},
+	{
+		"id": "LandandBuildings",
+		"name": "Land and Buildings",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 0,
+		"descriptions": ["Land", "Building", "Factory Building"]
+	},
+	{
+		"id": "Property,Plant,MachineryandEquipment",
+		"name": "Property, Plant, Machinery and Equipment",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 1,
+		"descriptions": [
+			"Plant & Machinery",
+			"Plant & Equipment",
+			"Plant & Machinery-Solar Rooftop"
+		]
+	},
+	{
+		"id": "LeaseholdLand",
+		"name": "Leasehold Land",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 2,
+		"descriptions": ["Leasehold Land"]
+	},
+	{
+		"id": "TransportationVehicles",
+		"name": "Transportation Vehicles",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 3,
+		"descriptions": ["Transporation vehicles", "Motor Vehicles", "Motor Car", "Vehicles"]
+	},
+	{
+		"id": "OfficeEquipment",
+		"name": "Office Equipment",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": ["Furniture,Fixtures and Fittings", "Furniture & Fixtures"]
+	},
+	{
+		"id": "LeaseholdLand",
+		"name": "Leasehold Land",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": ["office Equipments"]
+	},
+	{
+		"id": "LeaseholdImprovements",
+		"name": "Leasehold Improvements",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 5,
+		"descriptions": [
+			"Tools & dies",
+			"Electronic data processing equipment",
+			"Aircrafts / Helicopters / Ships / Vessels",
+			"Computers / Servers / Printers and other IT Equipment",
+			"Computer Servers",
+			"Laboratory Equipments"
+		]
+	},
+	{
+		"id": "CapitalWorkinProgress",
+		"name": "Capital Work in Progress",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 6,
+		"descriptions": ["Capital Work in Progress", "Projects in Progress"]
+	},
+	{
+		"id": "LandRights",
+		"name": "Land Rights",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 7,
+		"descriptions": ["Right of use of assets"]
+	},
+	{
+		"id": "AssetRevaluation",
+		"name": "Asset Revaluation",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 8,
+		"descriptions": ["Asser Revaluation"]
+	},
+	{
+		"id": "OtherFixedAssets",
+		"name": "Other FixedAssets",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 9,
+		"descriptions": [
+			"Electrical Installation",
+			"Electrical Installments & equipments",
+			"Transmission Lines and Cables"
+		]
+	},
+	{
+		"id": "Less:AccumulatedDepreciation",
+		"name": "Less: Accumulated Depreciation",
+		"table": "FixedAssets",
+		"type": "QUERIED",
+		"queryIndex": 10,
+		"descriptions": ["Less: Accumulated Depreciation"]
+	},
+	{
+		"id": "TotalFixedAssets",
+		"name": "Total FixedAssets",
+		"table": "FixedAssets",
+		"type": "CALCULATED",
+		"queryIndex": 11,
+		"descriptions": ["Sum of all properties of FixedAssets table"]
+	},
+	{
+		"id": "Goodwill",
+		"name": "Goodwill",
+		"table": "IntangibleAssets",
+		"type": "QUERIED",
+		"queryIndex": 0,
+		"descriptions": ["Goodwill"]
+	},
+	{
+		"id": "Trademark/Copyright/Patent",
+		"name": "Trademark / Copyright / Patent",
+		"table": "IntangibleAssets",
+		"type": "QUERIED",
+		"queryIndex": 2,
+		"descriptions": ["Trademark / Copyright / Patent", "Intellictual Property"]
+	},
+	{
+		"id": "PreliminaryExpenses/Pre-operativeexpenses",
+		"name": "Preliminary Expenses/ Pre-operative expenses",
+		"table": "IntangibleAssets",
+		"type": "QUERIED",
+		"queryIndex": 3,
+		"descriptions": ["Preliminary Expenses/ Pre-operative expenses"]
+	},
+	{
+		"id": "Software",
+		"name": "Software",
+		"table": "IntangibleAssets",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": ["Computer Software", "Software License"]
+	},
+	{
+		"id": "ProductDevelopment/Registrations",
+		"name": "Product Development/ Registrations",
+		"table": "IntangibleAssets",
+		"type": "QUERIED",
+		"queryIndex": 5,
+		"descriptions": ["Product Development/ Registrations"]
+	},
+
+	{
+		"id": "OtherInatangible",
+		"name": "Other Inatangible",
+		"table": "IntangibleAssets",
+		"type": "QUERIED",
+		"queryIndex": 6,
+		"descriptions": [
+			"Miscellaneous Expenditure not written off",
+			"VRS Expenses not written off",
+			"Issue Expenses not written off",
+			"Intagible assets under development",
+			"Landing Rights",
+			"Data Access Fees",
+			"Non-Compete Fee"
+		]
+	},
+	{
+		"id": "TotalIntangibleAssets",
+		"name": "Total Intangible Assets",
+		"table": "IntangibleAssets",
+		"type": "CALCULATED",
+		"queryIndex": 7,
+		"descriptions": ["Sum of all properties of IntangibleAssets table"]
+	},
+	{
+		"id": "CashandBank",
+		"name": "Cash and Bank",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 0,
+		"descriptions": [
+			"Cash and cash equivalents",
+			"Balance with Banks-In current accounts",
+			"Other Bank balance",
+			"Cheques, drafts on hand",
+			"Cash in hand",
+			"Exchange earner's foreign currency account",
+			"Balance with Banks-In deposit accounts with orginal maturity less than 3 months",
+			"Bank balances available on demand deposits with orginal maturity of 3 months"
+		]
+	},
+	{
+		"id": "BalanceinUnclaimedDividendAccount",
+		"name": "Balance in Unclaimed Dividend Account",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 1,
+		"descriptions": ["Deposits with original maturity of between 3 to 12 months"]
+	},
+	{
+		"id": "FixedDepositAccount",
+		"name": "Fixed Deposit Account",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 2,
+		"descriptions": [
+			"Fixed deposit under lien",
+			"Earmarked balances with banks",
+			"Security against guarantees and other commitments",
+			"Deposits with original maturity less than 3 months"
+		]
+	},
+	{
+		"id": "MarginDepositAccount",
+		"name": "Margin Deposit Account",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 3,
+		"descriptions": ["Margin Money Deposit", "Balances held as margin money"]
+	},
+	{
+		"id": "AccountsReceivables",
+		"name": "Accounts Receivables",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": [
+			"Accounts Receivable",
+			"Trade receivables",
+			"Sundry debtors",
+			"Trade Receivables from related partie"
+		]
+	},
+	{
+		"id": "Inventory:FinishedGoods",
+		"name": "Inventory : Finished Goods",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 5,
+		"descriptions": ["inventory of finished goods/ products"]
+	},
+	{
+		"id": "Inventory:RawMaterial",
+		"name": "Inventory : Raw Material",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 6,
+		"descriptions": ["Raw Material and Packing Materials"]
+	},
+	{
+		"id": "Inventory:Work-in-Progress",
+		"name": "Inventory : Work-in-Progress",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 7,
+		"descriptions": ["Work-in-Progress", "Goods in transit", "raw materials in transit"]
+	},
+	{
+		"id": "Inventory:TradeGoods",
+		"name": "Inventory: Trade Goods",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 8,
+		"descriptions": ["Trade Goods"]
+	},
+	{
+		"id": "Inventory:Others",
+		"name": "Inventory: Others",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 9,
+		"descriptions": ["Stores and Spares", "Consumable & Spares", "Scrap", "Components"]
+	},
+	{
+		"id": "Prepayments",
+		"name": "Prepayments",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 10,
+		"descriptions": ["Prepaid expenses"]
+	},
+	{
+		"id": "Advancestosuppliersandotherloansandadvances",
+		"name": "Advances to suppliers and other loans and advances",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 11,
+		"descriptions": [
+			"Loans to employees",
+			"Advance to employees",
+			"Advances for supply of goods and services",
+			"Advance to suppliers",
+			"Advance to trade creditors",
+			"Advance to others",
+			"Other advances"
+		]
+	},
+	{
+		"id": "DuefromParent/ Subsidiaries",
+		"name": "Due from Parent/ Subsidiaries",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 12,
+		"descriptions": [
+			"Advances to holding company",
+			"due from parent/ holding company",
+			"advances/ loans to subsidiaries"
+		]
+	},
+	{
+		"id": "InterCompanyLoans/Advances",
+		"name": "Inter Company Loans / Advances",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 13,
+		"descriptions": ["Loans to related party"]
+	},
+	{
+		"id": "DuefromDirectors/Shareholders/Promoters",
+		"name": "Due from Directors/ Shareholders/ Promoters",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 14,
+		"descriptions": [
+			"loans to directors",
+			"advances to directors",
+			"loans to shareholders/ promoters"
+		]
+	},
+	{
+		"id": "Deposits",
+		"name": "Deposits",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 15,
+		"descriptions": [
+			"Other deposits with financial institutions",
+			"security deposits",
+			"trade deposits",
+			"corporate deposits"
+		]
+	},
+	{
+		"id": "CurrentInvestments",
+		"name": "Current Investments",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 16,
+		"descriptions": [
+			"Marketable securities",
+			"Investment in quoted/unquoted shares",
+			"Investment in mutual funds"
+		]
+	},
+	{
+		"id": "TDSandAdvanceTax",
+		"name": "TDS and Advance Tax",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 17,
+		"descriptions": [
+			"Advance income tax",
+			"Advance tax net of provision",
+			"Advance Custom duty",
+			"Tax Refund"
+		]
+	},
+	{
+		"id": "Interest/DividendReceivable",
+		"name": "Interest/ Dividend Receivable",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 18,
+		"descriptions": [
+			"Interest accrued on investments/balances with banks",
+			"Interest accrued on loans",
+			"Interest accrued but not due on loans to related parties",
+			"Interest receivables",
+			"Accrued Interest"
+		]
+	},
+	{
+		"id": "UnbilledRevenue",
+		"name": "Unbilled revenue",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 19,
+		"descriptions": ["Unbilled revenue"]
+	},
+	{
+		"id": "OtherCurrentAssets",
+		"name": "Other Current Assets",
+		"table": "CurrentAssets",
+		"type": "QUERIED",
+		"queryIndex": 20,
+		"descriptions": [
+			"Insurance claim receivables",
+			"Accrued Export Incentives",
+			"other receivables",
+			"TDS/TCS recoverable",
+			"Refund due from government authorities",
+			"Balances with statutory/government authorities",
+			"Balance with revenue authorities",
+			"Receivable from Government-Grants",
+			"Balance with Government authorities-GST/custom & excise",
+			"Lease Rent receivable",
+			"Deferred operating lease rentals"
+		]
+	},
+	{
+		"id": "TotaltCurrentAssets",
+		"name": "Total Current Assets",
+		"table": "CurrentAssets",
+		"type": "CALCULATED",
+		"queryIndex": 21,
+		"descriptions": ["Sum of all feilds under the table current assets"]
+	},
+	{
+		"id": "InvestmentinSubsidiaries",
+		"name": "Investment in Subsidiaries",
+		"table": "Investments",
+		"type": "QUERIED",
+		"queryIndex": 0,
+		"descriptions": ["Investment in Subsidiaries"]
+	},
+	{
+		"id": "InvestmentinGroupCompanies/Affiliates/Jointventuresandpartnerships",
+		"name": "Investment in Group Companies / Affiliates/ Joint ventures and partnerships",
+		"table": "Investments",
+		"type": "QUERIED",
+		"queryIndex": 1,
+		"descriptions": ["Investment in Subsidiaries"]
+	},
+	{
+		"id": "InvestmentinMutualFunds/Shares",
+		"name": "Investment in Mutual Funds/ Shares",
+		"table": "Investments",
+		"type": "QUERIED",
+		"queryIndex": 2,
+		"descriptions": ["Investment in Mutual Funds/ Shares"]
+	},
+	{
+		"id": "InvestmentinDebentures/Bonds/GovtSecurities",
+		"name": "Investment in Debentures / Bonds/ Govt Securities",
+		"table": "Investments",
+		"type": "QUERIED",
+		"queryIndex": 3,
+		"descriptions": ["Investment in Debentures / Bonds/ Govt Securities"]
+	},
+	{
+		"id": "OtherInvestments",
+		"name": "Other Investments",
+		"table": "Investments",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": ["Investment Properties"]
+	},
+	{
+		"id": "Less:ProvisionforDiminutioninValueofInvestments",
+		"name": "Less: Provision for Diminution in Value of Investments",
+		"table": "Investments",
+		"type": "QUERIED",
+		"queryIndex": 5,
+		"descriptions": ["Less: Provision for Diminution in Value of Investments"]
+	},
+	{
+		"id": "TotalInvestments",
+		"name": "Total Investments",
+		"table": "Investments",
+		"type": "CALCULATED",
+		"queryIndex": 6,
+		"descriptions": ["Sum of all properties of Ivestments table"]
+	},
+	{
+		"id": "DeferredTaxAsset",
+		"name": "Deferred Tax Asset",
+		"table": "OtherAssets",
+		"type": "QUERIED",
+		"queryIndex": 0,
+		"descriptions": ["Deferred Tax Asset"]
+	},
+	{
+		"id": "DuefromParentandSubsidiaries",
+		"name": "Due from Parent and Subsidiaries",
+		"table": "OtherAssets",
+		"type": "QUERIED",
+		"queryIndex": 1,
+		"descriptions": [
+			"Loans to holding company",
+			"loan to parent company",
+			"Loans To parties other than related parties",
+			"Loans to subsidiaries"
+		]
+	},
+	{
+		"id": "Otherloansreceivables",
+		"name": "Other loans receivables",
+		"table": "OtherAssets",
+		"type": "QUERIED",
+		"queryIndex": 2,
+		"descriptions": ["Other loans receivables"]
+	},
+	{
+		"id": "Intercompanyloans",
+		"name": "Intercompany loans",
+		"table": "OtherAssets",
+		"type": "QUERIED",
+		"queryIndex": 3,
+		"descriptions": ["loans from related parties"]
+	},
+	{
+		"id": "DuefromDirectors/Shareholders/Promoters(NonCurrent)",
+		"name": "Due from Directors / Shareholders / Promoters (Non Current)",
+		"table": "OtherAssets",
+		"type": "QUERIED",
+		"queryIndex": 4,
+		"descriptions": [
+			"Loans to directors",
+			"Loans to promoters",
+			"Loans to shareholders",
+			"Advance to Director's relatives",
+			"advances to directors"
+		]
+	},
+	{
+		"id": "Deposits",
+		"name": "Deposits",
+		"table": "OtherAssets",
+		"type": "QUERIED",
+		"queryIndex": 5,
+		"descriptions": [
+			"Trade Deposits",
+			"Tender Deposits/ Margin deposits",
+			"Fixed deposits (maturity more than 12 months)",
+			"security deposits (long term)",
+			"Public deposits",
+			"Bank Deposits (due to mature after 12 months from the reporting date)",
+			"Fixed Deposits/Deposits held with bank with original maturity more than 12 months"
+		]
+	},
+	{
+		"id": "OtherAssets",
+		"name": "Other Assets",
+		"table": "OtherAssets",
+		"type": "QUERIED",
+		"queryIndex": 6,
+		"descriptions": [
+			"Advance for land & Building",
+			"Advances for Property, Plant and equipment",
+			"Capital advances",
+			"Advance to suppliers for capital goods",
+			"Balances with Government authorities",
+			"Duty scripts",
+			"Emploee advances",
+			"Contract assets",
+			"Advance Income tax",
+			"Prepaid expenses",
+			"Finance Lease receivables",
+			"Gratuity assets",
+			"Income tax recoverable",
+			"Value added tax/sales tax receivables",
+			"Amount paid under protest/dispute"
+		]
+	},
+	{
+		"id": "TotalOtherAssets",
+		"name": "Total Other Assets",
+		"table": "OtherAssets",
+		"type": "CALCULATED",
+		"queryIndex": 7,
+		"descriptions": ["Sum of all properties of OtherAssets table"]
+	}
+]

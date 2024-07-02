@@ -1,0 +1,346 @@
+{
+	"EquityShareCapital/ShareCapital": [
+		"share capital",
+		"Issued, subscribed and paid up shares",
+		"Partner's capital account"
+	],
+	"PreferenceCapital": ["Preferance share"],
+	"EmployeeStockOption": ["Employee stock option"],
+	"CapitalReserve": ["Capital reserve", "Capital Reserve on Bargain Purchase"],
+	"GeneralReserve": ["General reserve"],
+	"OtherReserves": [
+		"Legal reserve",
+		"Specific Reserve",
+		"Contingency Reserve",
+		"Capital Redemption Reserve",
+		"Debenture Redemption Reserve",
+		"Bond Redemption Reserve",
+		"Revaluation Reserve",
+		"Amalgamation Reserve",
+		"Reserve on amalgamation"
+	],
+	"SecuritiesPremiumAccount": ["Securities premium", "Changes in balance of security premium"],
+	"RetainedEarnings/(Loss)": [
+		"Surplus/deficit in statement of profit and loss",
+		"Reserves and suplus",
+		"Changes in balance of retained earnings"
+	],
+	"Others": [
+		"Minority interest, minority share",
+		"FCCB Premium",
+		"Calls in Advance",
+		"Capital Grants and subsidies",
+		"Foreign exchange adjustments",
+		"Share application money pending for allotment"
+	],
+	"TotalShareholdersFund": [],
+	"LongTermSecuredLoans": [
+		"secured term loans",
+		"term loan from others",
+		"long term loans",
+		"mortage loans",
+		"Vehicle loans",
+		"hire purchase loans",
+		"term loan from financial institution",
+		"loans repayable on demand (long)",
+		"terms loan from banks"
+	],
+	"LongTermUnsecuredLoans": [
+		"Unsecured loans from bank",
+		"Unseucred loans from financial institutions",
+		"external commercial borrowings"
+	],
+	"SalesTaxDeferralLoans": ["sales tax deferral loans"],
+	"DeferredTaxLiability": [],
+	"DuetoParent/Subsidiaries": [
+		"loan from holding company (short term)",
+		"loan from subsidiary (short term)"
+	],
+	"Inter-companyLoans[LongTerm]": [
+		"loans from group companies",
+		"loans from affiliates",
+		"intercompany loans"
+	],
+	"DuetoDirectors/Shareholders/Promoters(LongTerm)": [
+		"loans from directors",
+		"loans from partners",
+		"loans from Related Parties",
+		"unsecured loans from directors/ related parties",
+		"External commercial borrowing from parent",
+		"Loan From related party"
+	],
+	"DuetoCustomers(LongTerm)": ["Advance received from customer"],
+	"DebenturesandBonds(includesFCCB)": ["Debentures", "Foreign currency convertible bonds"],
+	"Deposits(LongTerm)": [
+		"Public Deposits",
+		"Trade Deposits",
+		"Other Deposits",
+		"Security Deposits"
+	],
+	"ProvidentandPensions(LongTerm)": [
+		"Provision for Gratuity",
+		"Provision for Compensated Absences"
+	],
+	"Provisions": [
+		"provisin for wealth tax",
+		"Provision for employee benefits",
+		"provision for redemption of debentures",
+		"provision for dividends",
+		"Provision for warranty",
+		"Provision for Onerous Contracts",
+		"provision for income tax",
+		"provision for fringe benefit tax"
+	],
+	"LeaseLiabilities(LongTerm)": [],
+	"OtherNonCurrentLiabilities": [
+		"Long Term Notes Payable",
+		"Long Term Bills Payable",
+		"Deferred Income / Deferred Liabilities",
+		"Mobilization Advance",
+		"Deferred Revenue Grants",
+		"FCCB Premium (Long Term)",
+		"deferred government grant"
+	],
+	"Less:CurrentPortionofLongTermDebt": ["current maturities of long term borrowings"],
+	"TotalNon-CurrentLiabilities": [],
+	"AccountsPayable": [
+		"Trade payables",
+		"Trade creditors",
+		"Outstanding dues of micro and small enterprises",
+		"Outstanding dues of creditors other than micro and small enterprises",
+		"Acceptances"
+	],
+	"CreditorsforCapitalGoods": [
+		"payble for purchase of plant, property and equipment",
+		"Creditors for Capital Expenditure"
+	],
+	"Acceptances/BillsPayable": ["acceptances other than trade payables", "bills payables"],
+	"OtherPayables/Accruals": [
+		"payables to employees",
+		"other payables",
+		"Payable to related parties"
+	],
+	"LeaseLiabilities": ["short term lease liabilities"],
+	"UnsecuredLoans": ["unsecured loans from banks/ financial institutions"],
+	"SecuredLoans": [
+		"Borrowings from financial institution",
+		"Vehicle. Hire purchase loans",
+		"short term loan payable on demand",
+		"loan payable on demand"
+	],
+	"BankLoans": [
+		"Bank overdraft",
+		"cash credit",
+		"packing credit limit",
+		"export packing credit limit",
+		"cash credit from various banks",
+		"short term working capital loans",
+		"overdarft from bank",
+		"working capital term loan"
+	],
+	"CurrentPortionofLongTermDebt": ["current portion of long term debt"],
+	"DebenturesandBonds(Short-Term)": ["debentures (short term)", "bonds (short term)"],
+	"CommercialPaper": ["commercial paper"],
+	"InterestAccured": [
+		"accured interest",
+		"interest accrued on term loans/ unsecured loans",
+		"interest accrued but not due",
+		"interest accrued and due"
+	],
+	"DuetoCustomers": ["Advances received from customer", "advances from customer"],
+	"InterCompanyLoans": ["inter corporate deposits (short term)"],
+	"DuetoDirectors/Shareholders/Promoters": [
+		"loans from directors (short term)",
+		"loans from partners (short term)",
+		"loans from Related Parties (short term)"
+	],
+	"Deposits": [
+		"Other deposits with financial institutions",
+		"security deposits",
+		"trade deposits",
+		"corporate deposits"
+	],
+	"ProvidentandPensions": [],
+	"Unclaimed/UnpaidDividends": ["uncliamed dividend"],
+	"DutiesandTaxesPayable": ["duties and taxes payable"],
+	"OtherCurrentLiabilities": [
+		"deferred income",
+		"notes payable",
+		"share appliaction money pending for allotment",
+		"statutory dues paybale",
+		"Statutory liabilities",
+		"Deferred Tax (Short Term)",
+		"Consideration payable on acquisition",
+		"Unearned revenue",
+		"Deferred Government Grant"
+	],
+	"TotalCurrentLiabilitiesandProvisions": [],
+	"TOTALLIABILITIESANDEQUITY": [],
+	"LandandBuildings": ["Land", "Building", "Factory Building"],
+	"PlantandEquipment": [
+		"Plant & Machinery",
+		"Plant & Equipment",
+		"Plant & Machinery-Solar Rooftop"
+	],
+	"LeaseholdLand": ["Leasehold Land"],
+	"TransportationVehicles": ["Transporation vehicles", "Motor Vehicles", "Motor Car", "Vehicles"],
+	"OfficeEquipment": ["Furniture,Fixtures and Fittings", "Furniture & Fixtures"],
+	"CapitalWorkinProgress": ["Capital Work in Progress", "Projects in Progress"],
+	"LandRights": ["Right of use of assets"],
+	"AssetRevaluation": [],
+	"OtherFixedAssets": [
+		"Electrical Installation",
+		"Electrical Installments & equipments",
+		"Transmission Lines and Cables"
+	],
+	"Less:AccumulatedDepreciation": [],
+	"TotalFixedAssets": [],
+	"Goodwill": [],
+	"Trademark/Copyright/Patent": ["Trademark / Copyright / Patent", "Intellictual Property"],
+	"PreliminaryExpenses/Pre-operativeexpensesnotwrittenoff": [],
+	"TechnicalKnowhow": [],
+	"Software": ["Computer Software", "Software License"],
+	"ProductDevelopment/Registrations": [],
+	"OtherIntangibles": [
+		"Miscellaneous Expenditure not written off",
+		"VRS Expenses not written off",
+		"Issue Expenses not written off",
+		"Intagible assets under development",
+		"Landing Rights",
+		"Data Access Fees",
+		"Non-Compete Fee"
+	],
+	"TotalIntangibleAssets": [],
+	"InvestmentinSubsidiaries": [],
+	"InvestmentinGroupCompanies/Affiliates/JointventuresandPartnerships": [],
+	"InvestmentinShares/MutalFunds": [],
+	"InvestmentinDebentures/Bonds/GovtSecurities": [],
+	"OtherInvestments": ["Investment Properties"],
+	"Less:ProvisionforDiminutioninValueofInvestments": [],
+	"TotalInvestments": [],
+	"DeferredTaxAsset": [],
+	"DuefromParentandSubsidiaries(NonCurrent)": [
+		"Loans to holding company",
+		"loan to parent company",
+		"Loans To parties other than related parties",
+		"Loans to subsidiaries"
+	],
+	"OtherLoansReceivable": [],
+	"InterCompanyLoans(OtherAssets)": ["loans from related parties"],
+	"DuefromDirectors/Shareholders/Promoters(NonCurrent)": [
+		"Loans to directors",
+		"loans to shareholders/ promoters",
+		"Advance to Director's relatives",
+		"advances to directors"
+	],
+	"OtherAssets": [
+		"Advance for land & Building",
+		"Advances for Property, Plant and equipment",
+		"Capital advances",
+		"Advance to suppliers for capital goods",
+		"Balances with Government authorities",
+		"Duty scripts",
+		"Emploee advances",
+		"Contract assets",
+		"Advance Income tax",
+		"Prepaid expenses",
+		"Finance Lease receivables",
+		"Gratuity assets",
+		"Income tax recoverable",
+		"Value added tax/sales tax receivables",
+		"Amount paid under protest/dispute"
+	],
+	"TotalOtherAssets": [],
+	"CashandBank": [
+		"Cash and cash equivalents",
+		"Balance with Banks-In current accounts",
+		"Other Bank balance",
+		"Cheques, drafts on hand",
+		"Cash in hand",
+		"Exchange earner's foreign currency account",
+		"Balance with Banks-In deposit accounts with orginal maturity less than 3 months",
+		"Bank balances available on demand deposits with orginal maturity of 3months"
+	],
+	"BalanceinUnclaimedDividendAccount": [
+		"Deposits with original maturity of between 3 to 12 months"
+	],
+	"FixedDepositAccount": [
+		"Fixed deposit under lien",
+		"Earmarked balances with banks",
+		"Security against guarantees and other commitments",
+		"Deposits with original maturity less than 3 months"
+	],
+	"MarginDepositAccount": ["Margin Money Deposit", "Balances held as margin money"],
+	"AccountsReceivables": [
+		"Accounts Receivable",
+		"Trade receivables",
+		"Sundry debtors",
+		"Trade Receivables from related parties"
+	],
+	"Inventory:FinishedGoods": ["inventory of finished goods/ products"],
+	"Inventory:RawMaterial": ["Raw Material and Packing Materials"],
+	"Inventory:Work-in-Progress": [
+		"Work-in-Progress",
+		"Goods in transit",
+		"raw materials in transit"
+	],
+	"Inventory:TradeGoods": ["Trading goods"],
+	"Inventory:Others": ["Stores and Spares", "Consumable & Spares", "Scrap", "Components"],
+	"Prepayments": ["prepaid expenses"],
+	"Advancestosuppliersandotherloansandadvances": [
+		"Loans to employees",
+		"Advance to employees",
+		"Advances for supply of goods and services",
+		"Advance to suppliers",
+		"Advance to trade creditors",
+		"Advance to others",
+		"Other advances"
+	],
+	"DuefromParent/Subsidiaries": [
+		"Advances to holding company",
+		"due from parent/ holding company",
+		"advances/ loans to subsidiaries"
+	],
+	"InterCompanyLoans/Advances": ["Loans to related party"],
+	"DuefromDirectors/Shareholders/Promoters": [
+		"loans to directors",
+		"advances to directors",
+		"loans to shareholders/ promoters"
+	],
+	"CurrentInvestments": [
+		"Marketable securities",
+		"Investment in quoted/ unquoted shares",
+		"Investment in mutual funds"
+	],
+	"TDSandAdvanceTax": [
+		"Advance income tax",
+		"Advance tax net of provision",
+		"Advance Custom duty",
+		"Tax Refund"
+	],
+	"Interest/DividendReceivable": [
+		"Interest accrued on investments/balances with banks",
+		"Interest accrued on loans",
+		"Interest accrued but not due on loans to related parties",
+		"Interest receivables",
+		"Accrued Interest"
+	],
+	"UnbilledRevenue": [],
+	"OtherCurrentAssets": [
+		"Insurance claim receivables",
+		"Accrued Export Incentives",
+		"other receivables",
+		"TDS/TCS recoverable",
+		"Refund due from government authorities",
+		"Balances with statutory/government authorities",
+		"Balance with revenue authorities",
+		"Receivable from Government-Grants",
+		"Balance with Government authorities-GST/custom & excise",
+		"Lease Rent receivable",
+		"Deferred operating lease rentals"
+	],
+	"TotalCurrentAssets": [],
+	"TOTALASSETS": [],
+	"TotalDebt": [],
+	"TangibleNetworth": []
+}
