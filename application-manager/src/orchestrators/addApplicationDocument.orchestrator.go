@@ -65,9 +65,12 @@ func ApplicationDocumentClassificationEventListener(application primitive.Object
 
 	matchPipeline := bson.D{{
 		Key: "$match", Value: bson.D{
-			{Key: "operationType", Value: "insert"},
-			{Key: "fullDocument.status", Value: "CLASSIFIED"},
-			{Key: "fullDocument.application", Value: application},
+			{Key: "operationType", Value: "update"},
+			{Key: "documentKey._id", Value: bson.D{{
+				Key:   "$in",
+				Value: documentIds,
+			}}},
+			{Key: "updateDescription.updatedFields.status", Value: "CLASSIFIED"},
 		},
 	}}
 	changeStream, err := collection.Watch(ctx, mongo.Pipeline{matchPipeline})
@@ -137,8 +140,16 @@ func ApplicationDocumentClassificationEventListener(application primitive.Object
 
 			//Once all checklists are done, set appropriate application status
 			// Update uploaded Doc types
+
+			applicationDocsResult, err := dbHelpers.GetApplicationDocuments(application)
+			if err != nil {
+				return err
+			}
+
+			applicationDocs := applicationDocsResult.Data.([]models.ApplicationDocumentModel)
+
 			uniqueDocTypesMap := make(map[string]bool)
-			for _, doc := range documents {
+			for _, doc := range applicationDocs {
 				uniqueDocTypesMap[doc.Type] = true
 			}
 
@@ -156,7 +167,7 @@ func ApplicationDocumentClassificationEventListener(application primitive.Object
 
 			checklistResults := operationResult.Data.([]models.ChecklistItemResultModel)
 
-			passedChecklistItems := applicationDoc.PassedChecklistItems
+			passedChecklistItems := []map[string]interface{}{}
 			for _, result := range checklistResults {
 				if result.Result["status"] == "Success" {
 					passedChecklistItems = append(passedChecklistItems, result.Result)
@@ -183,12 +194,17 @@ func ApplicationDocumentClassificationEventListener(application primitive.Object
 
 				//Check documents status
 				documents := operationResult.Data.([]models.ApplicationDocumentModel)
+				allDocsCalssified := true
 				for _, doc := range documents {
 					if doc.Status != "CLASSIFIED" {
 						cancel()
 						ctx, cancel = context.WithTimeout(context.Background(), timeout)
 						defer cancel()
+						allDocsCalssified = false
 					}
+				}
+				if allDocsCalssified {
+					cancel()
 				}
 			}
 		}

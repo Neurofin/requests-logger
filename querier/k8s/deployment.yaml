@@ -13,7 +13,7 @@ spec:
                 app: querier
         spec:
             containers:
-                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/querier:latest
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/querier:dev
                   imagePullPolicy: Always
                   name: querier
                   ports:

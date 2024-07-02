@@ -20,8 +20,9 @@ func ClassifyDoc(text string, isLLMBased bool, docPath string, prompt string) (c
 		classData = response.Data[0]
 	} else {
 		response, err := querierService.Classify(querierServiceTypes.ClassifyInput{
-			DocPath: docPath,
-			Prompt:  prompt,
+			DocPath:   docPath,
+			Prompt:    prompt,
+			DocFormat: "application/json",
 		})
 		if err != nil {
 			return classData, err

@@ -8,6 +8,17 @@ import (
 )
 
 func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, application models.ApplicationModel) {
+
+	flow := models.FlowModel{
+		Id: application.Flow,
+	}
+	operationResult, err := flow.GetFlow()
+	if err != nil {
+		println("Error getting flow", err.Error())
+		return
+	}
+	flow = operationResult.Data.(models.FlowModel)
+
 	docsRequired := checklistItem.RequiredDocs
 
 	isMasterQuery := checklistItem.MasterChecklistItem
@@ -67,29 +78,30 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 	//Call Query Engine for result and update the result
 	contextDocuments := []querierServiceTypes.ContextDocument{}
 	for _, doc := range uploadedDocuments {
+		docPath := doc.TextractLocation
+		if flow.QueryFormat == "FILE" {
+			docPath = doc.S3Location
+		}
 		contextDoc := querierServiceTypes.ContextDocument{
-			DocPath: doc.TextractLocation,
+			DocPath: docPath,
 			DocType: doc.Type,
 		}
 		contextDocuments = append(contextDocuments, contextDoc)
 	}
 	engine := checklistItem.Engine
 	if engine == "" {
-		flow := models.FlowModel{
-			Id: application.Flow,
-		}
-		operationResult, err := flow.GetFlow()
-		if err != nil {
-			println("Error getting flow", err.Error())
-			return
-		}
-		flow = operationResult.Data.(models.FlowModel)
 		engine = flow.Engine
+	}
+
+	docFormat := ""
+	if flow.QueryFormat == "FILE" {
+		docFormat = "application/json"
 	}
 	queryResultData, err := querierService.ResolveQuery(querierServiceTypes.ResolveQueryInput{
 		ContextDocuments: contextDocuments,
 		Prompt:           checklistItem.Prompt,
 		Engine:           engine,
+		DocFormat:        docFormat,
 	})
 	if err != nil {
 		println("Error resolving query", err.Error())

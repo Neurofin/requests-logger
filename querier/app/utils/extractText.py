@@ -59,3 +59,39 @@ def getContextDocumentsMapping(contextDocuments):
         else:
             documents[contextDocument.docType] = [text]
     return documents
+
+
+
+
+def get_bytes_from_url(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raises HTTPError for bad responses
+        return response.content
+    except requests.exceptions.HTTPError as http_err:
+        print(f"HTTP error occurred: {http_err}")  # Handle specific HTTP errors
+    except Exception as err:
+        print(f"Other error occurred: {err}")  # Handle other errors
+    return None
+
+## Download text extracted documents
+def getContextDocumentBytes(s3Path):
+    bucket, key = splitBucketAndKey(s3Path=s3Path)
+    response = services.file.get_download_url(bucket=bucket, key=key)
+    if response == None:
+        return None
+    data = response["data"]
+    url = data["URL"]
+    bytes = get_bytes_from_url(url)
+    return bytes
+
+## Get Context Documents Mapping
+def getContextDocumentBytesMapping(contextDocuments):
+    documents: dict[str, list[str]] = {}
+    for contextDocument in contextDocuments:
+        bytes = getContextDocumentBytes(s3Path=contextDocument.docPath)
+        if contextDocument.docType in documents.keys():
+            documents[contextDocument.docType].append(bytes)
+        else:
+            documents[contextDocument.docType] = [bytes]
+    return documents

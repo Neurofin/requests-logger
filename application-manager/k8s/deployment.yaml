@@ -6,7 +6,7 @@ spec:
     selector:
         matchLabels:
             app: application-manager
-    replicas: 1
+    replicas: 4
     template:
         metadata:
             labels:
