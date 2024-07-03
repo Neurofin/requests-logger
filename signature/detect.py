@@ -130,7 +130,7 @@ from src.yolo_files.utils.torch_utils import select_device, load_classifier, tim
 
 def detect(image_path):
     opt = {
-    'weights': 'signature/SOURCE/yolo_files/best.pt',
+    'weights': 'signature/src/yolo_files/best.pt',
     'source': image_path,
     'img_size': 640,
     'conf_thres': 0.25,
