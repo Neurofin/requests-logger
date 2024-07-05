@@ -32,7 +32,7 @@ class Query(BaseModel):
     engine: str =  "gptAgents-4o"
 
 
-@router.post("/resolve")
+@router.post("/querier/resolve")
 def resolve(query: Query):
 
     engine = query.engine  

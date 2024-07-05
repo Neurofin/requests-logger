@@ -13,7 +13,7 @@ spec:
                 app: file-manager
         spec:
             containers:
-                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/file-manager:latest
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/file-manager:prod
                   imagePullPolicy: Always
                   name: file-manager
                   ports:

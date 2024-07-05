@@ -7,7 +7,7 @@ load_dotenv()
 
 app = FastAPI()
 
-@app.get('/')
+@app.get('/querier')
 async def root():
     return { 'message': "Hello World!" }
 

@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: application-manager
+    name: auth
 spec:
     selector:
         matchLabels:
-            app: application-manager
+            app: auth
     replicas: 2
     template:
         metadata:
             labels:
-                app: application-manager
+                app: auth
         spec:
             containers:
-                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/application-manager:dev
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/auth:staging
                   imagePullPolicy: Always
-                  name: application-manager
+                  name: auth
                   ports:
                       - containerPort: 3002

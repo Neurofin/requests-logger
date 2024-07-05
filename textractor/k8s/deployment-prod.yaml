@@ -13,7 +13,7 @@ spec:
                 app: textractor
         spec:
             containers:
-                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/textractor:latest
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/textractor:prod
                   imagePullPolicy: Always
                   name: textractor
                   ports:

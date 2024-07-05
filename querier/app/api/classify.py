@@ -25,7 +25,7 @@ class Body(BaseModel):
     #geminiQuerier-1.5-flash-001
     engine: str =  "geminiQuerier-1.5-flash-001"
 
-@router.post("/classify")
+@router.post("/querier/classify")
 def classsify(body: Body):
 
     documents = []
