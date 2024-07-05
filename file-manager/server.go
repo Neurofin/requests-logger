@@ -27,6 +27,7 @@ func main() {
 
 	server.POST("/presign", handlers.CreateUploadUrl)
 	server.GET("/presign", handlers.GetDownloadUrl)
+	server.POST("/delete", handlers.DeleteFile)
 
 	serverConfigs.StartListner(server)
 }

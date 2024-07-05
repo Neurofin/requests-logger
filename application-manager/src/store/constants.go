@@ -8,5 +8,3 @@ const ChecklistItemResultCollection = "checklistItemResult"
 const ChecklistItemCollection = "checklistItem"
 const DocumentTypeCollection = "documentType"
 const FlowCollection = "flow"
-
-const ApplicationDocumentsBucket = "application-docs"

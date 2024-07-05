@@ -2,7 +2,7 @@ package orchestrators
 
 import (
 	"application-manager/src/logics"
-	"application-manager/src/store"
+	"application-manager/src/serverConfigs"
 	"application-manager/src/store/types"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -12,7 +12,7 @@ func AddApplicationDocument(input types.AddApplicationDocumentInput) (map[string
 
 	output := make(map[string]interface{}) // TODO: Create type for this output
 
-	bucket := store.ApplicationDocumentsBucket
+	bucket := serverConfigs.ApplicationDocumentsBucket
 
 	docId := primitive.NewObjectID()
 	documentKey := input.ApplicationId + "/" + docId.Hex()

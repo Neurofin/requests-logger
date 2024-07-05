@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: querier
+spec:
+    selector:
+        matchLabels:
+            app: querier
+    replicas: 2
+    template:
+        metadata:
+            labels:
+                app: querier
+        spec:
+            containers:
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/querier:staging
+                  imagePullPolicy: Always
+                  name: querier
+                  ports:
+                      - containerPort: 3006

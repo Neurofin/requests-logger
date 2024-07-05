@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: application-manager-consumer
+spec:
+    selector:
+        matchLabels:
+            app: application-manager-consumer
+    replicas: 2
+    template:
+        metadata:
+            labels:
+                app: application-manager-consumer
+        spec:
+            containers:
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/application-manager-consumer:prod
+                  imagePullPolicy: Always
+                  name: application-manager-consumer
+                  ports:
+                      - containerPort: 3007

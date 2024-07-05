@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: textractor
+spec:
+    selector:
+        matchLabels:
+            app: textractor
+    replicas: 4
+    template:
+        metadata:
+            labels:
+                app: textractor
+        spec:
+            containers:
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/textractor:staging
+                  imagePullPolicy: Always
+                  name: textractor
+                  ports:
+                      - containerPort: 3004

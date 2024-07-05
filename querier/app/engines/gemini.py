@@ -43,7 +43,7 @@ def generate(input_array: list[str], version: str):
 from vertexai.generative_models import Part
 from utils.parsers import textjson_to_json
 
-def geminiQuerier(texts: list[str], prompt: str, version: str):
+def geminiQuerier(documents: list[Part], prompt: str, version: str):
     # documents = []
     # for text in texts:
     #     document = Part.from_data(
@@ -51,7 +51,8 @@ def geminiQuerier(texts: list[str], prompt: str, version: str):
     #         data=text.encode('utf-8'))
     #     documents.append(document)
 
-    response = generate(input_array=[*texts, prompt], version=version)
+    result = {}
+    response = generate(input_array=[*documents, prompt], version=version)
     print(f"Query processing for texts complete")
     try:
         json_format = textjson_to_json(response)
@@ -59,7 +60,7 @@ def geminiQuerier(texts: list[str], prompt: str, version: str):
     except Exception as err:
         print(
             "Error in deserialzing Gemini response. Cause: ",
-            prompt,
+            # prompt,
             "Response: ",
             response,
             err,

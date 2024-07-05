@@ -23,6 +23,7 @@ type ApplicationDocumentModel struct {
 	S3Location       string                           `json:"s3Location" bson:"s3Location"`
 	TextractLocation string                           `json:"textractLocation,omitempty" bson:"textractLocation,omitempty"`
 	ClassifierOutput classifierServiceTypes.ClassData `json:"classifierOutput,omitempty" bson:"classifierOutput,omitempty"` //TODO: Decouple classifier output type from db
+	Signatures       []string                         `json:"signatures" bson:"signatures"`
 	types.Timestamps
 }
 
@@ -80,6 +81,18 @@ func (doc *ApplicationDocumentModel) UpdateDocument() (*types.DbOperationResult,
 		{Key: "textractLocation", Value: doc.TextractLocation},
 		{Key: "timestamps.updatedAt", Value: time.Now()},
 	}}})
+
+	if err != nil {
+		return &types.DbOperationResult{OperationSuccess: false}, err
+	}
+
+	return &types.DbOperationResult{OperationSuccess: true}, nil
+}
+
+func (doc *ApplicationDocumentModel) DeleteDocumentById() (*types.DbOperationResult, error) {
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.ApplicationDocumentCollection)
+
+	_, err := collection.DeleteOne(context.Background(), bson.D{{Key: "_id", Value: doc.Id}})
 
 	if err != nil {
 		return &types.DbOperationResult{OperationSuccess: false}, err
