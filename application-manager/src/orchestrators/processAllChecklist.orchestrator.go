@@ -1,0 +1,84 @@
+package orchestrators
+
+import (
+	"application-manager/src/dbHelpers"
+	"application-manager/src/models"
+	"sync"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+func ProcessAllChecklist(application primitive.ObjectID) error {
+
+	//If all docs are classified, start checklist process
+	applicationDoc := models.ApplicationModel{
+		Id: application,
+	}
+	applicationDocResult, err := applicationDoc.GetApplication()
+	if err != nil {
+		println("application.GetApplication", err.Error())
+		return err
+	}
+
+	applicationDoc = applicationDocResult.Data.(models.ApplicationModel)
+
+	flowOperationResult, err := dbHelpers.GetFlowChecklist(applicationDoc.Flow)
+	if err != nil {
+		return err
+	}
+
+	checklist := flowOperationResult.Data.([]models.ChecklistItemModel)
+
+	var wg sync.WaitGroup
+	for _, item := range checklist {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			ProcessChecklistItemOrchestrator(item, applicationDoc)
+		}()
+	}
+
+	wg.Wait()
+
+	//Once all checklists are done, set appropriate application status
+	// Update uploaded Doc types
+
+	applicationDocsResult, err := dbHelpers.GetApplicationDocuments(application)
+	if err != nil {
+		return err
+	}
+
+	applicationDocs := applicationDocsResult.Data.([]models.ApplicationDocumentModel)
+
+	uniqueDocTypesMap := make(map[string]bool)
+	for _, doc := range applicationDocs {
+		uniqueDocTypesMap[doc.Type] = true
+	}
+
+	uniqueDocTypes := []string{}
+	for docType := range uniqueDocTypesMap {
+		uniqueDocTypes = append(uniqueDocTypes, docType)
+	}
+	applicationDoc.UploadedDocTypes = uniqueDocTypes
+
+	// Update Succesful checklist items
+	operationResult, err := dbHelpers.GetAppChecklistResults(application)
+	if err != nil {
+		return err
+	}
+
+	checklistResults := operationResult.Data.([]models.ChecklistItemResultModel)
+
+	passedChecklistItems := []map[string]interface{}{}
+	for _, result := range checklistResults {
+		if result.Result["status"] == "Success" {
+			passedChecklistItems = append(passedChecklistItems, result.Result)
+		}
+	}
+	applicationDoc.PassedChecklistItems = passedChecklistItems
+
+	// TODO:Call Signature Model and store the s3 urls
+	applicationDoc.Status = "PROCESSED"
+	applicationDoc.UpdateApplication()
+	return nil
+}

@@ -7,7 +7,7 @@ import (
 	querierServiceTypes "application-manager/src/services/querier/store/types"
 )
 
-func ClassifyDoc(text string, isLLMBased bool, docPath string, prompt string) (classifierServiceTypes.ClassData, error) {
+func ClassifyDoc(text string, isLLMBased bool, docPath string, prompt string, isFileBased bool) (classifierServiceTypes.ClassData, error) {
 
 	classData := classifierServiceTypes.ClassData{}
 
@@ -19,10 +19,14 @@ func ClassifyDoc(text string, isLLMBased bool, docPath string, prompt string) (c
 
 		classData = response.Data[0]
 	} else {
+		docFormat := ""
+		if isFileBased {
+			docFormat = "application/json"
+		}
 		response, err := querierService.Classify(querierServiceTypes.ClassifyInput{
 			DocPath:   docPath,
 			Prompt:    prompt,
-			DocFormat: "application/json",
+			DocFormat: docFormat,
 		})
 		if err != nil {
 			return classData, err

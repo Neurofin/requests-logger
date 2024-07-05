@@ -74,7 +74,7 @@ func AddApplicationDocuments(c echo.Context) error {
 		document := doc["document"].(models.ApplicationDocumentModel)
 		documentIds = append(documentIds, document.Id)
 	}
-	go orchestrators.ApplicationDocumentClassificationEventListener(application.Id, documentIds)
+	go orchestrators.DocumentClassificationEventListener(application.Id, documentIds, true)
 
 	responseData.Message = "Created documents and presigned URLs successfully"
 	responseData.Data = documents

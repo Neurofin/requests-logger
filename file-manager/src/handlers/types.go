@@ -16,3 +16,8 @@ type getDownloadUrlInput struct {
 	Key         string `query:"key"`
 	ContentType string `query:"contentType"`
 }
+
+type deleteFileInput struct {
+	Bucket string `json:"bucket"`
+	Key    string `json:"key"`
+}

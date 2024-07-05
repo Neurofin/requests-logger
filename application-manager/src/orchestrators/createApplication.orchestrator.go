@@ -65,7 +65,7 @@ func CreateApplication(org primitive.ObjectID, flowUId string, docsToBeUploaded 
 		document := doc["document"].(models.ApplicationDocumentModel)
 		documentIds = append(documentIds, document.Id)
 	}
-	go ApplicationDocumentClassificationEventListener(newApplication.Id, documentIds)
+	go DocumentClassificationEventListener(newApplication.Id, documentIds, false)
 
 	output["application"] = newApplication
 	output["documents"] = documents

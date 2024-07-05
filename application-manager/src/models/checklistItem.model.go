@@ -18,5 +18,6 @@ type ChecklistItemModel struct {
 	Flow                primitive.ObjectID `json:"flow" bson:"flow"`
 	MasterChecklistItem bool               `json:"masterChecklistItem,omitempty" bson:"masterChecklistItem,omitempty"`
 	Engine              string             `json:"engine" bson:"engine"`
+	QueryDocFormat      string             `json:"queryDocFormat" bson:"queryDocFormat"`
 	types.Timestamps
 }

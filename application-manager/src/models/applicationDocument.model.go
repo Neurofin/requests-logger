@@ -89,6 +89,18 @@ func (doc *ApplicationDocumentModel) UpdateDocument() (*types.DbOperationResult,
 	return &types.DbOperationResult{OperationSuccess: true}, nil
 }
 
+func (doc *ApplicationDocumentModel) DeleteDocumentById() (*types.DbOperationResult, error) {
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.ApplicationDocumentCollection)
+
+	_, err := collection.DeleteOne(context.Background(), bson.D{{Key: "_id", Value: doc.Id}})
+
+	if err != nil {
+		return &types.DbOperationResult{OperationSuccess: false}, err
+	}
+
+	return &types.DbOperationResult{OperationSuccess: true}, nil
+}
+
 func (doc *ApplicationDocumentModel) GetDocsReadyToProcess(docTypes []string) (types.DbOperationResult, error) {
 	result := types.DbOperationResult{}
 

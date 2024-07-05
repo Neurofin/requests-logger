@@ -3,10 +3,9 @@ package handlers
 import (
 	"application-manager/src/logics"
 	"application-manager/src/models"
-	fileService "application-manager/src/services/file"
-	fileStore "application-manager/src/services/file/store/types"
+	"application-manager/src/orchestrators"
 	"application-manager/src/store/types"
-	"application-manager/src/utils"
+	"fmt"
 	"strings"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -23,9 +22,6 @@ func S3ObjectCreatedEventHandler(eventBody types.S3EventBody) {
 
 		object := s3.Object
 		objectKey := object.Key
-
-		sourceS3Path := "s3://" + bucketName + "/" + objectKey
-		outputS3Path := "s3://" + "textractor-dump" + "/" + objectKey
 
 		splitArray := strings.Split(objectKey, "/")
 		docId := splitArray[1]
@@ -76,50 +72,23 @@ func S3ObjectCreatedEventHandler(eventBody types.S3EventBody) {
 		}
 		flow = operationResult.Data.(models.FlowModel)
 
-		isLLMBased := flow.Classifier == "LLM_BASED"
+		isFileBased := flow.QueryFormat == "FILE"
 
 		text := ""
-		fileForClassification := sourceS3Path
-		if !isLLMBased {
-
-			// Extract text from file
-			text, err = logics.ExtractTextLogic(sourceS3Path, outputS3Path)
+		fileForClassification := "s3://" + bucketName + "/" + objectKey
+		if !isFileBased {
+			output, err := orchestrators.ExtractTextAndUpdateDoc(bucketName, objectKey, document)
 			if err != nil {
-				println("logics.ExtractTextLogic", err.Error())
-				//TODO: Log error
-				continue
+				fmt.Println("Error ", err)
 			}
-
-			//Add extract to s3
-			textractBucketName := "extracted-application-docs"
-			fileForClassification = "s3://" + textractBucketName + "/" + objectKey
-
-			presignInput := fileStore.GetPresignedUrlInput{
-				Bucket: textractBucketName,
-				Key:    objectKey,
-			}
-			presignUrl, err := fileService.GetPresignedUploadUrl(presignInput)
-			if err != nil {
-				println("fileService.GetPresignedUploadUrl", err.Error())
-				//TODO: Log error
-				continue
-			}
-
-			utils.PutObjectToS3(presignUrl.URL, text)
-
-			// Update db with extracted file location
-			document.TextractLocation = fileForClassification
-			document.Status = "TEXTRACTED"
-			_, err = document.UpdateDocument()
-			if err != nil {
-				println("models.Document.UpdateDocument", err.Error())
-				//TODO: Log error
-				continue
-			}
+			text = output.Text
+			fileForClassification = output.S3Path
 		}
 
+		isLLMBased := flow.Classifier == "LLM_BASED"
+
 		// Classify the file and update database with classifier output
-		classificationOutput, err := logics.ClassifyDoc(text, isLLMBased, fileForClassification, flow.ClassifierPrompt)
+		classificationOutput, err := logics.ClassifyDoc(text, isLLMBased, fileForClassification, flow.ClassifierPrompt, isFileBased)
 		if err != nil {
 			println("logics.ClassifyDoc", err.Error())
 			//TODO: Log error
@@ -140,9 +109,6 @@ func S3ObjectCreatedEventHandler(eventBody types.S3EventBody) {
 		}
 
 		println("S3 Object Created Event Handled")
-		// Run checklist based on uploaded files
-
-		// orchestrators.ApplicationDocChecklistOrchestrator(classificationOutput.Name, document.Application)
 	}
 
 }
