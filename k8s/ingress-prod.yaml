@@ -31,16 +31,6 @@ spec:
                             name: application-manager
                             port:
                                 number: 80
-        - host: apiv2.neurofin.ai
-          http:
-              paths:
-                  - path: /querier
-                    pathType: Prefix
-                    backend:
-                        service:
-                            name: querier
-                            port:
-                                number: 80
     tls:
         - hosts:
               - apiv2.neurofin.ai

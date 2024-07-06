@@ -7,6 +7,7 @@ import (
 	querierService "application-manager/src/services/querier"
 	querierServiceTypes "application-manager/src/services/querier/store/types"
 	"fmt"
+	"strings"
 )
 
 func ProcessChecklistItemOrchestrator(checklistItem models.ChecklistItemModel, application models.ApplicationModel) {
@@ -97,7 +98,7 @@ func ProcessChecklistItemOrchestrator(checklistItem models.ChecklistItemModel, a
 
 	docFormat := ""
 	if flow.QueryFormat == "FILE" {
-		docFormat = "application/json"
+		docFormat = "application/pdf"
 	}
 
 	if checklistItem.QueryDocFormat == "TEXT" {
@@ -121,10 +122,19 @@ func ProcessChecklistItemOrchestrator(checklistItem models.ChecklistItemModel, a
 		return
 	} else {
 
+		rule := ""
+		if len(checklistItem.Rules) > 0 {
+			rule = strings.Join(checklistItem.Rules, ", ")
+		}
 		queryResult := models.ChecklistItemResultModel{
 			Application:   application.Id,
 			ChecklistItem: checklistItem.Id,
-			Result:        queryResultData,
+			Result: map[string]interface{}{
+				"goal":   checklistItem.Goal,
+				"rule":   rule,
+				"status": queryResultData["status"],
+				"reason": queryResultData["reason"],
+			},
 		}
 		if _, err := logics.UpsertChecklistItemResultLogic(queryResult); err != nil {
 			println("Error upserting query result", err)
