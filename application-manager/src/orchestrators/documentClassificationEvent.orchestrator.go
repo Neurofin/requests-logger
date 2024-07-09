@@ -16,7 +16,7 @@ import (
 
 func DocumentClassificationEventListener(application primitive.ObjectID, documentIds []primitive.ObjectID, limitProcessToDocs bool) error {
 
-	timeout := 5 * time.Minute
+	timeout := 7 * time.Minute
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 

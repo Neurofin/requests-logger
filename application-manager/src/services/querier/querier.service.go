@@ -82,7 +82,11 @@ func Classify(input querierServiceTypes.ClassifyInput) (map[string]interface{}, 
 		return responseData, errors.New("unknown error from querier service")
 	}
 
-	data := responseBody.Data.(map[string]interface{})
+	data, ok := responseBody.Data.(map[string]interface{})
+
+	if !ok {
+		return responseData, errors.New("unknown error from querier service")
+	}
 
 	marshelledData, err := json.Marshal(data)
 	if err != nil {
