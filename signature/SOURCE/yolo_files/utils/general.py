@@ -20,9 +20,9 @@ import torch
 import torchvision
 import yaml
 
-from src.yolo_files.utils.google_utils import gsutil_getsize
-from src.yolo_files.utils.metrics import fitness
-from src.yolo_files.utils.torch_utils import init_torch_seeds
+from SOURCE.yolo_files.utils.google_utils import gsutil_getsize
+from SOURCE.yolo_files.utils.metrics import fitness
+from SOURCE.yolo_files.utils.torch_utils import init_torch_seeds
 
 # Settings
 torch.set_printoptions(linewidth=320, precision=5, profile='long')

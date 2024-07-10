@@ -12,10 +12,10 @@ import torch.nn as nn
 from PIL import Image
 from torch.cuda import amp
 
-from src.yolo_files.utils.datasets import letterbox
-from src.yolo_files.utils.general import non_max_suppression, make_divisible, scale_coords, increment_path, xyxy2xywh, save_one_box
-from src.yolo_files.utils.plots import colors, plot_one_box
-from src.yolo_files.utils.torch_utils import time_synchronized
+from SOURCE.yolo_files.utils.datasets import letterbox
+from SOURCE.yolo_files.utils.general import non_max_suppression, make_divisible, scale_coords, increment_path, xyxy2xywh, save_one_box
+from SOURCE.yolo_files.utils.plots import colors, plot_one_box
+from SOURCE.yolo_files.utils.torch_utils import time_synchronized
 
 
 def autopad(k, p=None):  # kernel, padding

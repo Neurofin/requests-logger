@@ -120,17 +120,17 @@ import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
 
-from src.yolo_files.models.experimental import attempt_load
-from src.yolo_files.utils.datasets import LoadStreams, LoadImages
-from src.yolo_files.utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
+from SOURCE.yolo_files.models.experimental import attempt_load
+from SOURCE.yolo_files.utils.datasets import LoadStreams, LoadImages
+from SOURCE.yolo_files.utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
     scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path, save_one_box
-from src.yolo_files.utils.plots import colors, plot_one_box
-from src.yolo_files.utils.torch_utils import select_device, load_classifier, time_synchronized
+from SOURCE.yolo_files.utils.plots import colors, plot_one_box
+from SOURCE.yolo_files.utils.torch_utils import select_device, load_classifier, time_synchronized
 
 
 def detect(image_path):
     opt = {
-    'weights': 'signature/src/yolo_files/best.pt',
+    'weights': 'SOURCE/yolo_files/best.pt',
     'source': image_path,
     'img_size': 640,
     'conf_thres': 0.25,

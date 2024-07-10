@@ -9,11 +9,11 @@ from pathlib import Path
 sys.path.append(Path(__file__).parent.parent.absolute().__str__())  # to run '$ python *.py' files in subdirectories
 logger = logging.getLogger(__name__)
 
-from src.yolo_files.models.common import *
-from src.yolo_files.models.experimental import *
-from src.yolo_files.utils.autoanchor import check_anchor_order
-from src.yolo_files.utils.general import make_divisible, check_file, set_logging
-from src.yolo_files.utils.torch_utils import time_synchronized, fuse_conv_and_bn, model_info, scale_img, initialize_weights, \
+from SOURCE.yolo_files.models.common import *
+from SOURCE.yolo_files.models.experimental import *
+from SOURCE.yolo_files.utils.autoanchor import check_anchor_order
+from SOURCE.yolo_files.utils.general import make_divisible, check_file, set_logging
+from SOURCE.yolo_files.utils.torch_utils import time_synchronized, fuse_conv_and_bn, model_info, scale_img, initialize_weights, \
     select_device, copy_attr
 
 try:
