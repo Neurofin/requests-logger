@@ -12,10 +12,12 @@ import torch.nn as nn
 from PIL import Image
 from torch.cuda import amp
 
-from SOURCE.yolo_files.utils.datasets import letterbox
-from SOURCE.yolo_files.utils.general import non_max_suppression, make_divisible, scale_coords, increment_path, xyxy2xywh, save_one_box
-from SOURCE.yolo_files.utils.plots import colors, plot_one_box
-from SOURCE.yolo_files.utils.torch_utils import time_synchronized
+# from SOURCE.yolo_files.utils.datasets import letterbox
+# from SOURCE.yolo_files.utils.general import non_max_suppression, make_divisible, scale_coords, increment_path, xyxy2xywh, save_one_box
+# from SOURCE.yolo_files.utils.plots import colors, plot_one_box
+# from SOURCE.yolo_files.utils.torch_utils import time_synchronized
+from yolo_components.attempt_load import plot_one_box, Colors, non_max_suppression, make_divisible, scale_coords, increment_path, xyxy2xywh, save_one_box, letterbox
+import time
 
 
 def autopad(k, p=None):  # kernel, padding
@@ -248,7 +250,7 @@ class autoShape(nn.Module):
         #   torch:           = torch.zeros(16,3,320,640)  # BCHW (scaled to size=640, 0-1 values)
         #   multiple:        = [Image.open('image1.jpg'), Image.open('image2.jpg'), ...]  # list of images
 
-        t = [time_synchronized()]
+        t = [time.time()]
         p = next(self.model.parameters())  # for device and type
         if isinstance(imgs, torch.Tensor):  # torch
             with amp.autocast(enabled=p.device.type != 'cpu'):
@@ -277,19 +279,19 @@ class autoShape(nn.Module):
         x = np.stack(x, 0) if n > 1 else x[0][None]  # stack
         x = np.ascontiguousarray(x.transpose((0, 3, 1, 2)))  # BHWC to BCHW
         x = torch.from_numpy(x).to(p.device).type_as(p) / 255.  # uint8 to fp16/32
-        t.append(time_synchronized())
+        t.append(time.time())
 
         with amp.autocast(enabled=p.device.type != 'cpu'):
             # Inference
             y = self.model(x, augment, profile)[0]  # forward
-            t.append(time_synchronized())
+            t.append(time.time())
 
             # Post-process
             y = non_max_suppression(y, conf_thres=self.conf, iou_thres=self.iou, classes=self.classes)  # NMS
             for i in range(n):
                 scale_coords(shape1, y[i][:, :4], shape0[i])
 
-            t.append(time_synchronized())
+            t.append(time.time())
             return Detections(imgs, y, files, t, self.names, x.shape)
 
 
@@ -324,7 +326,7 @@ class Detections:
                         if crop:
                             save_one_box(box, im, file=save_dir / 'crops' / self.names[int(cls)] / self.files[i])
                         else:  # all others
-                            plot_one_box(box, im, label=label, color=colors(cls))
+                            plot_one_box(box, im, label=label, color=Colors()(cls))
 
             im = Image.fromarray(im.astype(np.uint8)) if isinstance(im, np.ndarray) else im  # from np
             if pprint:

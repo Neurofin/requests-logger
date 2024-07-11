@@ -11,6 +11,16 @@ metadata:
 spec:
     ingressClassName: nginx
     rules:
+        - host: spindle.neurofin.ai
+          http:
+              paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: vision-dash
+                            port:
+                                number: 80
         - host: apiv2.neurofin.ai
           http:
               paths:
@@ -34,4 +44,5 @@ spec:
     tls:
         - hosts:
               - apiv2.neurofin.ai
+              - spindle.neurofin.ai
           secretName: acme-crt-secret

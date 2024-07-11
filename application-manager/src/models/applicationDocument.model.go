@@ -14,16 +14,17 @@ import (
 )
 
 type ApplicationDocumentModel struct {
-	Id               primitive.ObjectID               `json:"id,omitempty" bson:"_id,omitempty"`
-	Application      primitive.ObjectID               `json:"application,omitempty" bson:"application,omitempty"`
-	Name             string                           `json:"name" bson:"name"`
-	Format           string                           `json:"format" bson:"format"`
-	Type             string                           `json:"type,omitempty" bson:"type,omitempty"`
-	Status           string                           `json:"status" bson:"status"` // PENDING, UPLOADED, TEXTRACTED, CLASSIFIED, DELETED
-	S3Location       string                           `json:"s3Location" bson:"s3Location"`
-	TextractLocation string                           `json:"textractLocation,omitempty" bson:"textractLocation,omitempty"`
-	ClassifierOutput classifierServiceTypes.ClassData `json:"classifierOutput,omitempty" bson:"classifierOutput,omitempty"` //TODO: Decouple classifier output type from db
-	Signatures       []string                         `json:"signatures" bson:"signatures"`
+	Id                           primitive.ObjectID               `json:"id,omitempty" bson:"_id,omitempty"`
+	Application                  primitive.ObjectID               `json:"application,omitempty" bson:"application,omitempty"`
+	Name                         string                           `json:"name" bson:"name"`
+	Format                       string                           `json:"format" bson:"format"`
+	Type                         string                           `json:"type,omitempty" bson:"type,omitempty"`
+	Status                       string                           `json:"status" bson:"status"` // PENDING, UPLOADED, TEXTRACTED, CLASSIFIED, DELETED
+	S3Location                   string                           `json:"s3Location" bson:"s3Location"`
+	TextractLocation             string                           `json:"textractLocation,omitempty" bson:"textractLocation,omitempty"`
+	ClassifierOutput             classifierServiceTypes.ClassData `json:"classifierOutput,omitempty" bson:"classifierOutput,omitempty"` //TODO: Decouple classifier output type from db
+	Signatures                   []string                         `json:"signatures" bson:"signatures"`
+	SignatureExtractionAttempted bool                             `json:"signatureExtractionAttempted" bson:"signatureExtractionAttempted"`
 	types.Timestamps
 }
 
@@ -73,14 +74,7 @@ func (doc *ApplicationDocumentModel) GetApplicationDocumentById() (types.DbOpera
 func (doc *ApplicationDocumentModel) UpdateDocument() (*types.DbOperationResult, error) {
 	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection(store.ApplicationDocumentCollection)
 
-	_, err := collection.UpdateByID(context.Background(), doc.Id, bson.D{{Key: "$set", Value: bson.D{
-		{Key: "classifierOutput", Value: doc.ClassifierOutput},
-		{Key: "s3Location", Value: doc.S3Location},
-		{Key: "status", Value: doc.Status},
-		{Key: "type", Value: doc.Type},
-		{Key: "textractLocation", Value: doc.TextractLocation},
-		{Key: "timestamps.updatedAt", Value: time.Now()},
-	}}})
+	_, err := collection.UpdateByID(context.Background(), doc.Id, bson.D{{Key: "$set", Value: doc}})
 
 	if err != nil {
 		return &types.DbOperationResult{OperationSuccess: false}, err

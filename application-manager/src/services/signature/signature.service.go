@@ -1,4 +1,4 @@
-package textractService
+package signatureService
 
 import (
 	signatureServiceTypes "application-manager/src/services/signature/store/types"
@@ -10,12 +10,12 @@ import (
 	"os"
 )
 
-func GetSignatures(input signatureServiceTypes.SignatureInput) ([]string, error) {
-	responseData := []string{}
+func ExtractSignatures(input signatureServiceTypes.SignatureInput) (map[string][]string, error) {
+	responseData := map[string][]string{}
 
-	textractServiceUrl := os.Getenv("SIGNATURE_SERVICE_URL") + "/sign"
+	signatureServiceUrl := os.Getenv("SIGNATURE_SERVICE_URL") + "/extract"
 
-	response, err := utils.HttpJsonPost(textractServiceUrl, input)
+	response, err := utils.HttpJsonPost(signatureServiceUrl, input)
 
 	if err != nil {
 		return responseData, err
@@ -34,7 +34,7 @@ func GetSignatures(input signatureServiceTypes.SignatureInput) ([]string, error)
 	}
 
 	if response.StatusCode != http.StatusOK {
-		return responseData, errors.New("unknown error from textract service")
+		return responseData, errors.New("unknown error from signature service")
 	}
 
 	return responseData, nil
