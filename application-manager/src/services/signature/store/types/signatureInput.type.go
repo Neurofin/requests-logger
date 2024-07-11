@@ -1,5 +1,5 @@
 package signatureServiceTypes
 
 type SignatureInput struct {
-	DocPath string `json:"docPath"`
+	S3Uri string `json:"s3_uri"`
 }

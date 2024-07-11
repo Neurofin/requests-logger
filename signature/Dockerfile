@@ -1,18 +1,19 @@
-# start from the official python base image
-FROM python:3.11
+FROM python:3.11.4
+
+RUN apt-get update && apt-get install -y libgl1
 
 # set the current working dir to code
 WORKDIR /code
 
+
 # copy the file with requirements to code directory
-COPY ./requirements.txt /code/requirements.txt
+COPY ./requirements.txt /requirements.txt
 
 # install the package dependencies in the requirements file
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-RUN pip3 install opencv-python
+RUN pip install --no-cache-dir --upgrade -r /requirements.txt
 
 # copy the app inside the code directory
-COPY ./ /code
+COPY . .
 
 EXPOSE 3008
 
