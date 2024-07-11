@@ -132,7 +132,7 @@ def process_pdf_from_s3(s3_pdf_uri):
                 logging.error(f"Error removing temporary directory {temp_dir}: {cleanup_error}")
         raise
 
-@app.post("/get-signatures")
+@app.post("/signature/extract")
 async def process_pdf_endpoint(s3_pdf_uri: S3PdfUri):
     try:
         s3_uris = process_pdf_from_s3(s3_pdf_uri.s3_uri)

@@ -6,6 +6,7 @@ spec:
     secretName: acme-crt-secret
     dnsNames:
         - apiv2.neurofin.ai
+        - spindle.neurofin.ai
     issuerRef:
         name: letsencrypt-prod
         kind: ClusterIssuer

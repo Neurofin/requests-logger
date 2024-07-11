@@ -3,6 +3,8 @@ package orchestrators
 import (
 	"application-manager/src/dbHelpers"
 	"application-manager/src/models"
+	signatureService "application-manager/src/services/signature"
+	signatureServiceTypes "application-manager/src/services/signature/store/types"
 	"sync"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -77,7 +79,22 @@ func ProcessAllChecklist(application primitive.ObjectID) error {
 	}
 	applicationDoc.PassedChecklistItems = passedChecklistItems
 
-	// TODO:Call Signature Model and store the s3 urls
+	//Call Signature Model and store the s3 urls
+	for _, doc := range applicationDocs {
+		s3Location := doc.S3Location
+		data, err := signatureService.ExtractSignatures(signatureServiceTypes.SignatureInput{
+			S3Uri: s3Location,
+		})
+		if err != nil {
+			println("Error ", err.Error())
+			doc.SignatureExtractionAttempted = true
+			doc.UpdateDocument()
+			continue
+		}
+		doc.SignatureExtractionAttempted = true
+		doc.Signatures = data["s3_uris"]
+		doc.UpdateDocument()
+	}
 	applicationDoc.Status = "PROCESSED"
 	applicationDoc.UpdateApplication()
 	return nil
