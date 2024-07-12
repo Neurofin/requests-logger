@@ -23,6 +23,10 @@ func ExtractSignatures(input signatureServiceTypes.SignatureInput) (map[string][
 
 	defer response.Body.Close()
 
+	if response.StatusCode != http.StatusOK {
+		return responseData, errors.New("unknown error from signature service")
+	}
+
 	responseBodyInBytes, err := io.ReadAll(response.Body)
 	if err != nil {
 		return responseData, err
@@ -31,10 +35,6 @@ func ExtractSignatures(input signatureServiceTypes.SignatureInput) (map[string][
 	err = json.Unmarshal(responseBodyInBytes, &responseData)
 	if err != nil {
 		return responseData, err
-	}
-
-	if response.StatusCode != http.StatusOK {
-		return responseData, errors.New("unknown error from signature service")
 	}
 
 	return responseData, nil

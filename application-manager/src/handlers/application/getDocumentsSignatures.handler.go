@@ -7,6 +7,7 @@ import (
 	"application-manager/src/store/types"
 	"net/http"
 	"net/url"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -32,10 +33,11 @@ func GetDocumentsSignatures(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
-	for index, doc := range documents {
+	outputDocuments := []map[string]interface{}{}
+	for _, doc := range documents {
 		signatureS3Paths := doc.Signatures
 
-		signaturePresignedUrls := []string{}
+		signaturePresignedUrls := []map[string]string{}
 		for _, s3Path := range signatureS3Paths {
 			parsed, err := url.Parse(s3Path)
 			if err != nil {
@@ -57,13 +59,31 @@ func GetDocumentsSignatures(c echo.Context) error {
 				return c.JSON(http.StatusBadRequest, responseData)
 			}
 
-			signaturePresignedUrls = append(signaturePresignedUrls, output.URL)
+			keyBreakdownArray := strings.Split(key, "/")
+
+			clusterIndex := keyBreakdownArray[1]
+			signatureLocation := keyBreakdownArray[2]
+			signatureLocationBreakdown := strings.Split(signatureLocation, "_")
+			signatureLabel := strings.Join(signatureLocationBreakdown[1:], "-")
+
+			resMap := map[string]string{}
+			resMap["label"] = signatureLabel
+			resMap["url"] = output.URL
+			resMap["index"] = clusterIndex
+			signaturePresignedUrls = append(signaturePresignedUrls, resMap)
 		}
 
-		documents[index].Signatures = signaturePresignedUrls
+		if len(signaturePresignedUrls) > 0 {
+			outputDocument := map[string]interface{}{}
+			outputDocument["id"] = doc.Id
+			outputDocument["name"] = doc.Name
+			outputDocument["type"] = doc.Type
+			outputDocument["signatures"] = signaturePresignedUrls
+			outputDocuments = append(outputDocuments, outputDocument)
+		}
 	}
 
 	responseData.Message = "Documents info retrieved successfully"
-	responseData.Data = documents
+	responseData.Data = outputDocuments
 	return c.JSON(http.StatusOK, responseData)
 }

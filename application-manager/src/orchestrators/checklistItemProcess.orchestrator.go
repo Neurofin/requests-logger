@@ -22,7 +22,7 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 
 	uploadedDocumentsResults, err := document.GetDocsReadyToProcess(docsRequired)
 	if err != nil {
-		println("Error finding docs", err)
+		println("Error finding docs", err.Error())
 		return
 	}
 
@@ -41,7 +41,7 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 		}
 
 		if _, err := logics.UpsertChecklistItemResultLogic(queryResult); err != nil {
-			println("Error upserting query result", err)
+			println("Error upserting query result", err.Error())
 			return
 		}
 		return
@@ -110,7 +110,7 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 
 		uploadedDocumentsResults, err := document.GetDocsReadyToProcess(docsRequired)
 		if err != nil {
-			println("Error finding docs", err)
+			println("Error finding docs", err.Error())
 			return
 		}
 
@@ -144,7 +144,7 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 			Result:        queryResultData,
 		}
 		if _, err := logics.UpsertChecklistItemResultLogic(queryResult); err != nil {
-			println("Error upserting query result", err)
+			println("Error upserting query result", err.Error())
 			return
 		}
 

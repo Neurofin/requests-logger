@@ -7,4 +7,5 @@ type CreateApplicationLogicInput struct {
 	Flow                primitive.ObjectID
 	TotalDocTypes       int
 	TotalChecklistItems int
+	SignatureDocs       []string
 }

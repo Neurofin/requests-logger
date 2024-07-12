@@ -17,7 +17,7 @@ func PutObjectToS3(url string, text string) {
 	_ = writer.WriteField("text", text)
 	err := writer.Close()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err.Error())
 		return
 	}
 
@@ -25,13 +25,13 @@ func PutObjectToS3(url string, text string) {
 	req, err := http.NewRequest(method, url, payload)
 
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err.Error())
 		return
 	}
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 	res, err := client.Do(req)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err.Error())
 		return
 	}
 	defer res.Body.Close()
@@ -42,7 +42,7 @@ func PutObjectToS3(url string, text string) {
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println(err.Error())
 		return
 	}
 	fmt.Println(string(body))

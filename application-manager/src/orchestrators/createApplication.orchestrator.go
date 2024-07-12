@@ -37,6 +37,7 @@ func CreateApplication(org primitive.ObjectID, flowUId string, docsToBeUploaded 
 		Flow:                flow.Id,
 		TotalDocTypes:       totalDocTypes,
 		TotalChecklistItems: totalChecklistItems,
+		SignatureDocs:       flow.SignatureDocs,
 	}
 
 	newApplication, err := logics.InsertApplication(logicInput)

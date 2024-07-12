@@ -2,9 +2,8 @@ package orchestrators
 
 import (
 	"application-manager/src/dbHelpers"
+	"application-manager/src/logics"
 	"application-manager/src/models"
-	signatureService "application-manager/src/services/signature"
-	signatureServiceTypes "application-manager/src/services/signature/store/types"
 	"sync"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -52,9 +51,9 @@ func ProcessAllChecklist(application primitive.ObjectID) error {
 
 	applicationDocs := applicationDocsResult.Data.([]models.ApplicationDocumentModel)
 
-	uniqueDocTypesMap := make(map[string]bool)
+	uniqueDocTypesMap := make(map[string][]models.ApplicationDocumentModel)
 	for _, doc := range applicationDocs {
-		uniqueDocTypesMap[doc.Type] = true
+		uniqueDocTypesMap[doc.Type] = append(uniqueDocTypesMap[doc.Type], doc)
 	}
 
 	uniqueDocTypes := []string{}
@@ -80,21 +79,32 @@ func ProcessAllChecklist(application primitive.ObjectID) error {
 	applicationDoc.PassedChecklistItems = passedChecklistItems
 
 	//Call Signature Model and store the s3 urls
-	for _, doc := range applicationDocs {
-		s3Location := doc.S3Location
-		data, err := signatureService.ExtractSignatures(signatureServiceTypes.SignatureInput{
-			S3Uri: s3Location,
-		})
-		if err != nil {
-			println("Error ", err.Error())
-			doc.SignatureExtractionAttempted = true
-			doc.UpdateDocument()
-			continue
+	var wg2 sync.WaitGroup
+	signatureDocTypes := applicationDoc.SignatureDocs
+	for _, docType := range signatureDocTypes {
+		docs := uniqueDocTypesMap[docType]
+		for _, doc := range docs {
+			if !doc.SignatureExtractionAttempted {
+				wg2.Add(1)
+				go func() {
+					defer wg2.Done()
+					logics.ExtractSignatures(doc)
+				}()
+			}
 		}
-		doc.SignatureExtractionAttempted = true
-		doc.Signatures = data["s3_uris"]
-		doc.UpdateDocument()
 	}
+	wg2.Wait()
+
+	// var wg2 sync.WaitGroup
+	// for _, doc := range applicationDocs {
+	// 	wg2.Add(1)
+	// 	go func() {
+	// 		defer wg2.Done()
+	// 		logics.ExtractSignatures(doc)
+	// 	}()
+	// }
+	// wg2.Wait()
+
 	applicationDoc.Status = "PROCESSED"
 	applicationDoc.UpdateApplication()
 	return nil
