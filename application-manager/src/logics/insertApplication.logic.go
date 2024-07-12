@@ -15,6 +15,7 @@ func InsertApplication(input types.CreateApplicationLogicInput) (models.Applicat
 		Status:              "PENDING",
 		TotalDocTypes:       input.TotalDocTypes,
 		TotalChecklistItems: input.TotalChecklistItems,
+		SignatureDocs:       input.SignatureDocs,
 	}
 
 	_, err := newApplication.GetApplication()

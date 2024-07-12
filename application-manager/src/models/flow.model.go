@@ -20,6 +20,7 @@ type FlowModel struct {
 	ClassifierPrompt string             `json:"classifierPrompt,omitempty" bson:"classifierPrompt,omitempty"`
 	Engine           string             `json:"engine" bson:"engine"`
 	QueryFormat      string             `json:"queryFormat" bson:"queryFormat"`
+	SignatureDocs    []string           `json:"signatureDocs" bson:"signatureDocs"`
 	types.Timestamps
 }
 

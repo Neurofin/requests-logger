@@ -79,7 +79,7 @@ func S3ObjectCreatedEventHandler(eventBody types.S3EventBody) {
 		if !isFileBased {
 			output, err := orchestrators.ExtractTextAndUpdateDoc(bucketName, objectKey, document)
 			if err != nil {
-				fmt.Println("Error ", err)
+				fmt.Println("Error ", err.Error())
 			}
 			text = output.Text
 			fileForClassification = output.S3Path

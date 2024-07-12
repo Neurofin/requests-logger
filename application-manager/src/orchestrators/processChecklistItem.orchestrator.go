@@ -31,7 +31,7 @@ func ProcessChecklistItemOrchestrator(checklistItem models.ChecklistItemModel, a
 
 	uploadedDocumentsResults, err := document.GetDocsReadyToProcess(docsRequired)
 	if err != nil {
-		println("Error finding docs", err)
+		println("Error finding docs", err.Error())
 		return
 	}
 
@@ -61,7 +61,7 @@ func ProcessChecklistItemOrchestrator(checklistItem models.ChecklistItemModel, a
 		}
 
 		if _, err := logics.UpsertChecklistItemResultLogic(queryResult); err != nil {
-			println("Error upserting query result", err)
+			println("Error upserting query result", err.Error())
 			return
 		}
 		return
@@ -79,7 +79,7 @@ func ProcessChecklistItemOrchestrator(checklistItem models.ChecklistItemModel, a
 			objectKey := doc.Application.Hex() + "/" + doc.Id.Hex()
 			output, err := ExtractTextAndUpdateDoc(bucketName, objectKey, document)
 			if err != nil {
-				fmt.Println("Error ", err)
+				fmt.Println("Error ", err.Error())
 				return
 			}
 			docPath = output.S3Path
@@ -137,7 +137,7 @@ func ProcessChecklistItemOrchestrator(checklistItem models.ChecklistItemModel, a
 			},
 		}
 		if _, err := logics.UpsertChecklistItemResultLogic(queryResult); err != nil {
-			println("Error upserting query result", err)
+			println("Error upserting query result", err.Error())
 			return
 		}
 	}
