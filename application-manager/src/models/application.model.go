@@ -21,6 +21,7 @@ type ApplicationModel struct {
 	TotalDocTypes        int                      `json:"totalDocTypes" bson:"totalDocTypes"`
 	TotalChecklistItems  int                      `json:"totalChecklistItems" bson:"totalChecklistItems"`
 	ApplicationDetails   map[string]interface{}   `json:"applicationDetails,omitempty" bson:"applicationDetails,omitempty"`
+	SignatureDocs        []string                 `json:"signatureDocs" bson:"signatureDocs"`
 	types.Timestamps
 }
 
