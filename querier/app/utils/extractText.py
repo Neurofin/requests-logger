@@ -14,9 +14,10 @@ def get_text_from_url(url):
         return response.text
     except requests.exceptions.HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")  # Handle specific HTTP errors
+        raise Exception(http_err)
     except Exception as err:
         print(f"Other error occurred: {err}")  # Handle other errors
-    return None
+        raise Exception(err)
 
 def splitBucketAndKey(s3Path: str):
     path_parts=s3Path.replace("s3://","").split("/")

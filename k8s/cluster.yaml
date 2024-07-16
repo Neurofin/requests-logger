@@ -5,8 +5,10 @@ metadata:
     name: eks-test
     region: ap-south-1
 
-nodeGroups:
+managedNodeGroups:
     - name: ng-1
       instanceType: t2.medium
+      minSize: 2
+      maxSize: 2
       desiredCapacity: 2
       volumeSize: 20

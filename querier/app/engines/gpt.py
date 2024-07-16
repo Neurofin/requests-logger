@@ -20,20 +20,9 @@ def gptQuerier(prompt: str, contextTexts: list[str], version: str):
        chat_mode="context", llm=llm
     )
 
-    result = {}
     response = query_engine.query(prompt)
-    # print(response.response)
-    try:
-        json_format = textjson_to_json(response.response)
-        result = json_format
-    except Exception as err:
-        print(
-            "Error in deserialzing GPT response. Cause: ",
-            prompt,
-            "Response: ",
-            response.response,
-            err,
-        )
+    json_format = textjson_to_json(response.response)
+    result = json_format
     return result
 
 from llama_index.core import Settings, Document, SummaryIndex
@@ -52,11 +41,8 @@ def gptAgentsSetup(contextDocs: dict[str, list[str]], version:str):
 
     node_parser = SentenceSplitter()
     
-    # Build agents for each document
-    agents = {}
-    query_engines = {}
-
-    all_nodes = []
+    # # Build agents for each document
+    all_tools = []
 
     folder = f"{int(time.time())}"
     for docType, contents in contextDocs.items():
@@ -67,7 +53,7 @@ def gptAgentsSetup(contextDocs: dict[str, list[str]], version:str):
             documents.append(Document(text=content))
 
         nodes = node_parser.get_nodes_from_documents(documents)
-        all_nodes.extend(nodes)
+        # all_nodes.extend(nodes)
 
         # Build vector index
         vector_index = VectorStoreIndex(nodes)
@@ -106,17 +92,12 @@ def gptAgentsSetup(contextDocs: dict[str, list[str]], version:str):
             system_prompt=f"You are a specialized agent designed to answer queries about {docType}. You must ALWAYS use at least one of the tools provided when answering a question; do NOT rely on prior knowledge."
         )
 
-        agents[docType] = agent
-        query_engines[docType] = vector_index.as_query_engine(similarity_top_k=2)
-
-    # Build top-level agent
-    all_tools = []
-    for filename in contextDocs.keys():
-        wiki_summary = f"This content contains information about {filename}. Use this tool if you want to answer any questions about {filename}.\n"
+        wiki_summary = f"This content contains information about {docType}. Use this tool if you want to answer any questions about {docType}.\n"
+        
         doc_tool = QueryEngineTool(
-            query_engine=agents[filename],
+            query_engine=agent,
             metadata=ToolMetadata(
-                name=f"tool_{filename}",
+                name=f"tool_{docType}",
                 description=wiki_summary,
             ),
         )
@@ -143,17 +124,8 @@ def gptAgentQuerier(prompt: str, contextDocs: dict[str, list[str]], version: str
     topAgentSetup = gptAgentsSetup(contextDocs=contextDocs, version=version)
     topAgent = topAgentSetup["agent"]
     response = topAgent.query(prompt)
-    try:
-        json_format = textjson_to_json(response.response)
-        result = json_format
-    except Exception as err:
-        print(
-            "Error in deserialzing GPT response. Cause: ",
-            prompt,
-            "Response: ",
-            response.response,
-            err,
-        )
+    json_format = textjson_to_json(response.response)
+    result = json_format
     try:
         cleanupFolder(topAgentSetup["folder"])
     except Exception as err:
