@@ -34,48 +34,49 @@ class Query(BaseModel):
 
 @router.post("/querier/resolve")
 def resolve(query: Query):
+    try:
+        engine = query.engine  
+        [engine, version] = query.engine.split("-", 1)
 
-    engine = query.engine  
-    [engine, version] = query.engine.split("-", 1)
+        result = {}
+        if query.docFormat == None or query.docFormat == "":    
+            documents = getContextDocumentsMapping(query.contextDocuments)
 
-    result = {}
-    if query.docFormat == None or query.docFormat == "":    
-        documents = getContextDocumentsMapping(query.contextDocuments)
-
-        if engine == 'gptQuerier':
-            texts = []
-            for docType, contents in documents.items():
-                texts.append(f"{docType}=={'\n'.join(contents)}")
-            result = gptQuerier(prompt=query.prompt, contextTexts=texts, version=version)
-        if engine == 'gptAgents':
-            result = gptAgentQuerier(prompt=query.prompt, contextDocs=documents, version=version)
-        if engine == 'geminiQuerier':
-            inputDocuments = []
-            for docType, contents in documents.items():
-                text = f"{docType}=={'\n'.join(contents)}"
-                encoded_string = base64.b64encode(text.encode("utf-8"))
-                document = Part.from_data(
-                        mime_type="text/plain",
-                        data=base64.b64decode(encoded_string.decode()))
-                inputDocuments.append(document)
-            result = geminiQuerier(prompt=query.prompt, documents=inputDocuments, version=version)
-        
-        return { 'message': "Success", 'data': result }
-    else:
-
-        documents = getContextDocumentBytesMapping(query.contextDocuments)
-
-        if engine == 'geminiQuerier':
-            inputDocuments = []
-            for docType, contents in documents.items():
-                # text = f"{docType}=={'\n'.join(contents)}"
-                for content in contents:
-                    encoded_string = base64.b64encode(content)
+            if engine == 'gptQuerier':
+                texts = []
+                for docType, contents in documents.items():
+                    texts.append(f"{docType}=={'\n'.join(contents)}")
+                result = gptQuerier(prompt=query.prompt, contextTexts=texts, version=version)
+            if engine == 'gptAgents':
+                result = gptAgentQuerier(prompt=query.prompt, contextDocs=documents, version=version)
+            if engine == 'geminiQuerier':
+                inputDocuments = []
+                for docType, contents in documents.items():
+                    text = f"{docType}=={'\n'.join(contents)}"
+                    encoded_string = base64.b64encode(text.encode("utf-8"))
                     document = Part.from_data(
-                            mime_type="application/pdf",
+                            mime_type="text/plain",
                             data=base64.b64decode(encoded_string.decode()))
                     inputDocuments.append(document)
-            result = geminiQuerier(prompt=query.prompt, documents=inputDocuments, version=version)
-        
-        return { 'message': "Success", 'data': result }
+                result = geminiQuerier(prompt=query.prompt, documents=inputDocuments, version=version)
+            
+            return { 'message': "Success", 'data': result }
+        else:
 
+            documents = getContextDocumentBytesMapping(query.contextDocuments)
+
+            if engine == 'geminiQuerier':
+                inputDocuments = []
+                for docType, contents in documents.items():
+                    # text = f"{docType}=={'\n'.join(contents)}"
+                    for content in contents:
+                        encoded_string = base64.b64encode(content)
+                        document = Part.from_data(
+                                mime_type="application/pdf",
+                                data=base64.b64decode(encoded_string.decode()))
+                        inputDocuments.append(document)
+                result = geminiQuerier(prompt=query.prompt, documents=inputDocuments, version=version)
+            
+            return { 'message': "Success", 'data': result }
+    except Exception as e:
+        raise fastapi.HTTPException(status_code=500, detail=str(e))

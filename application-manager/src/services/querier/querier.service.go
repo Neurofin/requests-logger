@@ -24,6 +24,10 @@ func ResolveQuery(input querierServiceTypes.ResolveQueryInput) (map[string]inter
 
 	defer response.Body.Close()
 
+	if response.StatusCode != http.StatusOK {
+		return responseData, errors.New("unknown error from querier service")
+	}
+
 	responseBodyInBytes, err := io.ReadAll(response.Body)
 	if err != nil {
 		return responseData, err
@@ -33,10 +37,6 @@ func ResolveQuery(input querierServiceTypes.ResolveQueryInput) (map[string]inter
 	err = json.Unmarshal(responseBodyInBytes, &responseBody)
 	if err != nil {
 		return responseData, err
-	}
-
-	if response.StatusCode != http.StatusOK {
-		return responseData, errors.New("unknown error from querier service")
 	}
 
 	data := responseBody.Data.(map[string]interface{})
@@ -67,6 +67,10 @@ func Classify(input querierServiceTypes.ClassifyInput) (map[string]interface{}, 
 
 	defer response.Body.Close()
 
+	if response.StatusCode != http.StatusOK {
+		return responseData, errors.New("unknown error from querier service")
+	}
+
 	responseBodyInBytes, err := io.ReadAll(response.Body)
 	if err != nil {
 		return responseData, err
@@ -76,10 +80,6 @@ func Classify(input querierServiceTypes.ClassifyInput) (map[string]interface{}, 
 	err = json.Unmarshal(responseBodyInBytes, &responseBody)
 	if err != nil {
 		return responseData, err
-	}
-
-	if response.StatusCode != http.StatusOK {
-		return responseData, errors.New("unknown error from querier service")
 	}
 
 	data, ok := responseBody.Data.(map[string]interface{})

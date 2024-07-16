@@ -20,20 +20,9 @@ def gptQuerier(prompt: str, contextTexts: list[str], version: str):
        chat_mode="context", llm=llm
     )
 
-    result = {}
     response = query_engine.query(prompt)
-    # print(response.response)
-    try:
-        json_format = textjson_to_json(response.response)
-        result = json_format
-    except Exception as err:
-        print(
-            "Error in deserialzing GPT response. Cause: ",
-            prompt,
-            "Response: ",
-            response.response,
-            err,
-        )
+    json_format = textjson_to_json(response.response)
+    result = json_format
     return result
 
 from llama_index.core import Settings, Document, SummaryIndex
@@ -135,17 +124,8 @@ def gptAgentQuerier(prompt: str, contextDocs: dict[str, list[str]], version: str
     topAgentSetup = gptAgentsSetup(contextDocs=contextDocs, version=version)
     topAgent = topAgentSetup["agent"]
     response = topAgent.query(prompt)
-    try:
-        json_format = textjson_to_json(response.response)
-        result = json_format
-    except Exception as err:
-        print(
-            "Error in deserialzing GPT response. Cause: ",
-            prompt,
-            "Response: ",
-            response.response,
-            err,
-        )
+    json_format = textjson_to_json(response.response)
+    result = json_format
     try:
         cleanupFolder(topAgentSetup["folder"])
     except Exception as err:

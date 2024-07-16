@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 import joblib
 import numpy as np
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 ml_models = {}
 
@@ -33,5 +33,8 @@ class Item(BaseModel):
 
 @app.post("/classify")
 async def predict(item: Item):
-    classname, confidence = ml_models["rf_classifier"](text=item.text)
-    return {"data": [{"Name": classname, "Score": confidence}]}
+    try:
+        classname, confidence = ml_models["rf_classifier"](text=item.text)
+        return {"data": [{"Name": classname, "Score": confidence}]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
