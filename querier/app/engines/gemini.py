@@ -37,7 +37,7 @@ def generate(input_array: list[str], version: str):
         )
         responseText = response.text
     except Exception as err:
-        raise Exception(str(err))
+        raise Exception(err)
     return responseText
 
 from vertexai.generative_models import Part
