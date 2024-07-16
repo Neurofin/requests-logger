@@ -27,9 +27,9 @@ async def main(
             s3_output_path=file_output,
         )
 
-          config = HTMLLinearizationConfig(
-              table_duplicate_text_in_merged_cells=True
-          )
+        config = HTMLLinearizationConfig(
+            table_duplicate_text_in_merged_cells=True
+        )
 #         config = HTMLLinearizationConfig(
 #             figure_layout_prefix="<FIGURE>",
 #             figure_layout_suffix="</FIGURE>",
