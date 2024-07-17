@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func GetOrgApplications(org primitive.ObjectID) (types.DbOperationResult, error) {
+func GetOrgApplications(org primitive.ObjectID, page int, pageSize int) (types.DbOperationResult, error) {
 	result := types.DbOperationResult{}
 
 	var data []models.ApplicationModel
@@ -25,11 +25,18 @@ func GetOrgApplications(org primitive.ObjectID) (types.DbOperationResult, error)
 			Value: org,
 		},
 	}
+
+	// The offset for pagination
+	skip := int64((page - 1) * pageSize)
+	limit := int64(pageSize)
+
 	cursor, err := collection.Find(context.Background(), filter, &options.FindOptions{
 		Sort: bson.D{{
 			Key:   "timestamps.createdAt",
 			Value: -1,
 		}},
+		Skip:  &skip,
+		Limit: &limit,
 	})
 	if err != nil {
 		return result, err

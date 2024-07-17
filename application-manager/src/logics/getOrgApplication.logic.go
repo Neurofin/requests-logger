@@ -7,10 +7,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func GetOrgApplications(org primitive.ObjectID) ([]models.ApplicationModel, error) {
+func GetOrgApplications(org primitive.ObjectID, page int, pageSize int) ([]models.ApplicationModel, error) {
 	data := []models.ApplicationModel{}
 
-	operationResult, err := dbHelpers.GetOrgApplications(org)
+	operationResult, err := dbHelpers.GetOrgApplications(org, page, pageSize)
 	if err != nil {
 		return data, err
 	}
