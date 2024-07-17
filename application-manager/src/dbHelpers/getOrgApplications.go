@@ -26,9 +26,22 @@ func GetOrgApplications(org primitive.ObjectID, page int, pageSize int) (types.D
 		},
 	}
 
+	totalCount, err := collection.CountDocuments(context.Background(), filter)
+	if err != nil {
+		return result, err
+	}
+
 	// The offset for pagination
 	skip := int64((page - 1) * pageSize)
 	limit := int64(pageSize)
+
+	// Adjust skip if it exceeds the total count
+	if skip >= totalCount {
+		skip = totalCount - limit
+		if skip < 0 {
+			skip = 0
+		}
+	}
 
 	cursor, err := collection.Find(context.Background(), filter, &options.FindOptions{
 		Sort: bson.D{{
