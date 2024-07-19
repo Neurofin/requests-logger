@@ -38,11 +38,11 @@ func DocumentClassificationEventListener(application primitive.ObjectID, documen
 	}
 	defer changeStream.Close(ctx)
 
-	fmt.Println("Listening for insert events...")
+	fmt.Println("Listening for events... ", application)
 	for {
 		select {
 		case <-ctx.Done():
-			fmt.Println("No events for 5 minutes.")
+			fmt.Println("Looks like it's done, proceeding to checklist processing")
 
 			operationResult, err := dbHelpers.GetDocuments(documentIds)
 			if err != nil {
@@ -92,7 +92,7 @@ func DocumentClassificationEventListener(application primitive.ObjectID, documen
 				if err := changeStream.Decode(&event); err != nil {
 					return err
 				}
-				fmt.Printf("Received insert event: %v\n", event)
+				fmt.Printf("Received event: %v\n", event)
 
 				operationResult, err := dbHelpers.GetDocuments(documentIds)
 				if err != nil {
