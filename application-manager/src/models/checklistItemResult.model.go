@@ -81,3 +81,23 @@ func (queryResult *ChecklistItemResultModel) UpdateChecklistItemResult() (types.
 	result.OperationSuccess = true
 	return result, nil
 }
+
+func (queryResult *ChecklistItemResultModel) FindChecklistItemResultById() (types.DbOperationResult, error) {
+	result := types.DbOperationResult{
+		OperationSuccess: false,
+	}
+
+	collection := serverConfigs.MongoDBClient.Database(store.DbName).Collection("checklistItemResult")
+
+	data := ChecklistItemResultModel{}
+	if err := collection.FindOne(context.Background(), bson.D{{
+		Key:   "_id",
+		Value: queryResult.Id,
+	}}).Decode(&data); err != nil {
+		return result, err
+	}
+
+	result.OperationSuccess = true
+	result.Data = data
+	return result, nil
+}
