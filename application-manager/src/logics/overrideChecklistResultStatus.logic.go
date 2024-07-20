@@ -22,6 +22,13 @@ func OverrideChecklistResultStatus(checklistResult primitive.ObjectID, newStatus
 	oldStatus := checklistResultObj.Result["status"]
 	checklistResultObj.Result["status"] = newStatus
 
+	overrideStatus := checklistResultObj.Overridden
+	if overrideStatus {
+		overrideStatus = false
+	} else {
+		overrideStatus = true
+	}
+	checklistResultObj.Overridden = overrideStatus
 	if _, err := checklistResultObj.UpdateChecklistItemResult(); err != nil {
 		return output, err
 	}
