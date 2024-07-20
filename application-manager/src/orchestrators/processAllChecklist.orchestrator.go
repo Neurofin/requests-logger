@@ -63,19 +63,11 @@ func ProcessAllChecklist(application primitive.ObjectID) error {
 	applicationDoc.UploadedDocTypes = uniqueDocTypes
 
 	// Update Succesful checklist items
-	operationResult, err := dbHelpers.GetAppChecklistResults(application)
+	passedChecklistItems, err := logics.GetPassedChecklistResults(application)
 	if err != nil {
 		return err
 	}
 
-	checklistResults := operationResult.Data.([]models.ChecklistItemResultModel)
-
-	passedChecklistItems := []map[string]interface{}{}
-	for _, result := range checklistResults {
-		if result.Result["status"] == "Success" {
-			passedChecklistItems = append(passedChecklistItems, result.Result)
-		}
-	}
 	applicationDoc.PassedChecklistItems = passedChecklistItems
 
 	//Call Signature Model and store the s3 urls

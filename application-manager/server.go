@@ -40,6 +40,7 @@ func main() {
 	server.GET("/app/application/:id/documents/extraction-info", applicationHandlers.GetDocumentExtractionInfo, serverMiddleware.ValidateToken)
 	server.GET("/app/application/:id/documents/signatures", applicationHandlers.GetDocumentsSignatures, serverMiddleware.ValidateToken)
 	server.GET("/app/application/:id/checklist", applicationHandlers.GetApplicationChecklistResults, serverMiddleware.ValidateToken)
+	server.POST("/app/application/checklist/override", applicationHandlers.OverrideChecklistResult, serverMiddleware.ValidateToken)
 
 	server.GET("/app/applications", applicationHandlers.GetApplications, serverMiddleware.ValidateToken)
 
