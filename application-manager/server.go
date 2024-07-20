@@ -49,8 +49,7 @@ func main() {
 	server.POST("/app/flow/:flowId/checklist", flowHandlers.AddFlowChecklist)
 	server.POST("/app/flow/:flowId/doctypes", flowHandlers.AddFlowDocTypes)
 
-	go handlers.RestartApplicationListners()
-
+	server.POST("/app/restart", handlers.RestartApplicationListners)
 	serverConfigs.StartListner(server)
 }
 
