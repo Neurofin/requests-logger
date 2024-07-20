@@ -21,13 +21,13 @@ func AddApplicationDocuments(c echo.Context) error {
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
-	// TODO: Add Validation for Input and uncomment below code
-	// isValid, err := input.Validate()
-	// if !isValid {
-	// 	responseData.Message = "Error parsing json, please check type of each parameter"
-	// 	responseData.Data = err.Error()
-	// 	return c.JSON(http.StatusBadRequest, responseData)
-	// }
+	//Validation added for Input
+	isValid, err := input.Validate()
+	if !isValid {
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
 
 	docsToBeUploaded := input.DocsToBeUploaded
 

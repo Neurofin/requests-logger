@@ -2,7 +2,7 @@ package types
 
 import (
 	"errors"
-	"regexp"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type OverrideChecklistResultInput struct {
@@ -12,15 +12,13 @@ type OverrideChecklistResultInput struct {
 	Note              string `json:"note"`
 }
 
-// Regex pattern for MongoDB ObjectID
-var objectIdPattern = regexp.MustCompile("^[a-fA-F0-9]{24}$")
 
 func (i *OverrideChecklistResultInput) Validate() (bool, error) {
 	if i.AppId == "" {
 		return false, errors.New("ApplicationId is missing or is not a String")
 	}
 
-	if !objectIdPattern.MatchString(i.AppId) {
+	if _, err := primitive.ObjectIDFromHex(i.AppId); err != nil {
 		return false, errors.New("ApplicationId is not in valid ObjectID format")
 	}
 
@@ -28,7 +26,7 @@ func (i *OverrideChecklistResultInput) Validate() (bool, error) {
 		return false, errors.New("ChecklistResultId is missing or is not a String")
 	}
 
-	if !objectIdPattern.MatchString(i.ChecklistResultId) {
+	if _, err := primitive.ObjectIDFromHex(i.ChecklistResultId); err != nil {
 		return false, errors.New("ChecklistResultId is not in valid ObjectID format")
 	}
 
