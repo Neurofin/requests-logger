@@ -21,7 +21,7 @@ func OverrideChecklistResult(input types.OverrideChecklistResultInput, user auth
 	}
 
 	// Checklist Result Updation
-	output, err := logics.OverrideChecklistResultStatus(checklistResult, input.Status)
+	output, err := logics.OverrideChecklistResultStatus(checklistResult, input, user)
 	if err != nil {
 		return err
 	}

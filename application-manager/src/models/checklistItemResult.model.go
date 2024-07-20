@@ -17,6 +17,7 @@ type ChecklistItemResultModel struct {
 	ChecklistItem primitive.ObjectID     `json:"checklistItem" bson:"checklistItem"`
 	Result        map[string]interface{} `json:"result,omitempty" bson:"result,omitempty"`
 	Overridden    bool                   `json:"overridden" bson:"overridden"`
+	OverrideMeta  map[string]interface{} `json:"overrideMeta" bson:"overrideMeta"`
 	types.Timestamps
 }
 
