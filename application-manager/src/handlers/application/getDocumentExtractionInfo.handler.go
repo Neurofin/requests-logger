@@ -31,7 +31,9 @@ func GetDocumentExtractionInfo(c echo.Context) error {
 	id := c.Param("id")
 
 	if valid, err := validateGetDocumentExtractionInfoInput(id); !valid {
-		return err
+		responseData.Message = "Error fetching document extraction info"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
 	user, ok := c.Get("user").(authTypes.TokenValidationResponseData)

@@ -30,7 +30,9 @@ func GetApplicationDocuments(c echo.Context) error {
 	id := c.Param("id")
 
 	if valid, err := validateGetApplicationDocumentsInput(id); !valid {
-		return err
+		responseData.Message = "Error fetching documents info"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
 	appId, err := primitive.ObjectIDFromHex(id)

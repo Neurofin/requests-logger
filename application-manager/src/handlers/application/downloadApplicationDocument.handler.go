@@ -38,7 +38,9 @@ func DownloadApplicationDocument(c echo.Context) error {
 	docId := c.Param("docId")
 
 	if valid, err := validateDownloadApplicationDocumentInput(appId, docId); !valid {
-		return err
+		responseData.Message = "Error fetching application"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
 	result, err := orchestrators.DownloadApplicationDocument(appId, docId)

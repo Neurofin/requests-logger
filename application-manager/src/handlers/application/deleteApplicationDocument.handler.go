@@ -38,7 +38,9 @@ func DeleteApplicationDocument(c echo.Context) error {
 	docId := c.Param("docId")
 
 	if valid, err := validateDeleteApplicationDocumentInput(appId, docId); !valid {
-		return err
+		responseData.Message = "Error deleting document"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
 	if err := orchestrators.DeleteApplicationDocument(appId, docId); err != nil {

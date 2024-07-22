@@ -19,7 +19,7 @@ func validateGetApplicationChecklistResultsInput(appId string)(bool, error){
 	if _, err := primitive.ObjectIDFromHex(appId); err!= nil {
 		return false, errors.New("appId is not in valid ObjectID format")
 	}
-	
+
 	return true, nil;
 }
 
@@ -29,7 +29,9 @@ func GetApplicationChecklistResults(c echo.Context) error {
 	id := c.Param("id")
 
 	if valid, err := validateGetApplicationChecklistResultsInput(id); !valid{
-		return err
+		responseData.Message = "Error fetching application checklist results"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
 	appId, err := primitive.ObjectIDFromHex(id)
