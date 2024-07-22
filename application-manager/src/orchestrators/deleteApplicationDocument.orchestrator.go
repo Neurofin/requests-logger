@@ -4,38 +4,12 @@ import (
 	"application-manager/src/models"
 	fileService "application-manager/src/services/file"
 	fileServiceTypes "application-manager/src/services/file/store/types"
-	"errors"
 	"net/url"
-	"strings"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func validateDeleteApplicationDocumentInput(appId string, docId string) (bool, error) {
-	if strings.TrimSpace(appId) == "" {
-		return false, errors.New("appId is missing or is not a string")
-	}
-
-	if _, err := primitive.ObjectIDFromHex(appId); err != nil {
-		return false, errors.New("appId is not in valid ObjectID format")
-	}
-
-	if strings.TrimSpace(docId) == "" {
-		return false, errors.New("docId is missing or is not a string")
-	}
-
-	if _, err := primitive.ObjectIDFromHex(docId); err != nil {
-		return false, errors.New("docId is not in valid ObjectID format")
-	}
-
-	return true, nil
-}
-
 func DeleteApplicationDocument(appId string, docId string) error {
-
-	if valid, err := validateDeleteApplicationDocumentInput(appId, docId); !valid {
-		return err
-	}
 
 	docObjectId, err := primitive.ObjectIDFromHex(docId)
 	if err != nil {

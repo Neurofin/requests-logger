@@ -5,6 +5,7 @@ import (
 	fileService "application-manager/src/services/file"
 	fileServiceTypes "application-manager/src/services/file/store/types"
 	"application-manager/src/store/types"
+	"errors"
 	"net/http"
 	"net/url"
 	"strings"
@@ -13,11 +14,27 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+func validateGetDocumentsSignaturesInput(appId string)(bool, error){
+	if strings.TrimSpace(appId) == "" {
+		return false, errors.New("appId is missing or is not a string")
+	}
+
+	if _, err := primitive.ObjectIDFromHex(appId); err != nil {
+		return false, errors.New("appId is not in valid ObjectID format")
+	}
+
+	return true, nil
+}
+
 func GetDocumentsSignatures(c echo.Context) error {
 
 	responseData := types.ResponseBody{}
 
 	id := c.Param("id")
+
+	if valid, err := validateGetDocumentsSignaturesInput(id); !valid {
+		return err
+	}
 
 	appId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
