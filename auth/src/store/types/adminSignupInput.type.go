@@ -1,6 +1,9 @@
 package types
 
-import "errors"
+import (
+	"errors"
+	"net/mail"
+)
 
 type AdminSignupInput struct {
 	OrgName string `json:"org"`
@@ -17,21 +20,30 @@ func (input *AdminSignupInput) Validate() (bool, error) {
 		return false, errors.New("org is required")
 	}
 
+	if input.FirstName == "" {
+		return false, errors.New("first name is required")
+	}
+
+	if input.LastName == "" {
+		return false, errors.New("last name is required")
+	}
+
 	if input.Email == "" && input.Phone == "" {
 		return false, errors.New("email or phone required")
 	}
 
-	// if input.Email != "" {
-	// 	//TODO: Verify email format
-	// }
-
-	// if input.Phone != "" {
-	// 	//TODO: Verify phone format
-	// }
+	if input.Email != "" && !isValidEmail(input.Email) {
+		return false, errors.New("invalid email format")
+	}
 
 	if input.Password == "" {
 		return false, errors.New("password required")
 	}
 
 	return true, nil
+}
+
+func isValidEmail(email string) bool {
+	_, err := mail.ParseAddress(email)
+	return err == nil
 }
