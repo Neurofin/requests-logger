@@ -2,11 +2,29 @@ package orchestrators
 
 import (
 	"application-manager/src/logics"
+	"errors"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+func validateGetDocumentExtractionInfoInput(appId string) (bool, error) {
+	if strings.TrimSpace(appId) == "" {
+		return false, errors.New("appId is missing or is not a string")
+	}
+
+	if _, err := primitive.ObjectIDFromHex(appId); err != nil {
+		return false, errors.New("appId is not in valid ObjectID format")
+	}
+
+	return true, nil
+}
+
 func GetDocumentExtractionInfo(appId string, org primitive.ObjectID) ([]interface{}, error) {
+
+	if valid, err := validateGetDocumentExtractionInfoInput(appId); !valid {
+		return nil, err
+	}
 
 	result := []interface{}{} //TODO: Add type
 
