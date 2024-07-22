@@ -7,9 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-
 func GetApplication(appId string, org primitive.ObjectID) (models.ApplicationModel, error) {
-	
 	result, err := logics.GetApplication(appId, org)
 	if err != nil {
 		return result, err
