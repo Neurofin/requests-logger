@@ -22,7 +22,7 @@ func ClassifyDoc(text string, isLLMBased bool, docPath string, prompt string, is
 	} else {
 		docFormat := ""
 		if isFileBased {
-			docFormat = "application/json"
+			docFormat = "application/pdf"
 		}
 		response, err := querierService.Classify(querierServiceTypes.ClassifyInput{
 			DocPath:   docPath,
