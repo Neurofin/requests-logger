@@ -21,6 +21,12 @@ func GetDownloadUrl(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	if err := validateGetDownloadUploadUrlInput(input); err != nil {
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
+
 	presignClient := serverConfig.S3PresignClient
 	request, err := presignClient.PresignGetObject(context.TODO(), &s3.GetObjectInput{
 		Bucket:              &input.Bucket,
