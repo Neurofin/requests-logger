@@ -40,6 +40,12 @@ func (input *AdminSignupInput) Validate() (bool, error) {
 		return false, errors.New("password required")
 	}
 
+	validator := &PasswordValidator{AcceptASCIIOnly: true, MaxCharacters: 64, MinCharacters: 8}
+
+	if valid, err := validator.ValidatePassword(input.Password); !valid {
+		return false, err
+	}
+
 	return true, nil
 }
 
