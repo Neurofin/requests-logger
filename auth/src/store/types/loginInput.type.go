@@ -13,6 +13,10 @@ func (input *LoginInput) Validate() (bool, error) {
 		return false, errors.New("email or phone required")
 	}
 
+	if input.Email != "" && !isValidEmail(input.Email) {
+		return false, errors.New("invalid email format")
+	}
+
 	if input.Password == "" {
 		return false, errors.New("password required")
 	}

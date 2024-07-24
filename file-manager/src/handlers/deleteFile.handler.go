@@ -18,6 +18,12 @@ func DeleteFile(c echo.Context) error {
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
+          
+	if err := validateDeleteFileInput(input); err != nil {
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
 
 	client := serverConfigs.S3Client
 

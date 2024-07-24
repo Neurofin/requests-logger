@@ -4,16 +4,37 @@ import (
 	"application-manager/src/orchestrators"
 	authTypes "application-manager/src/services/auth/store/types"
 	types "application-manager/src/store/types"
+	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+func validateGetApplicationInput(appId string) (bool, error) {
+	if strings.TrimSpace(appId) == "" {
+		return false, errors.New("appId is missing or is not a string")
+	}
+
+	if _, err := primitive.ObjectIDFromHex(appId); err != nil {
+		return false, errors.New("appId is not in valid ObjectID format")
+	}
+
+	return true, nil
+}
 
 func GetApplication(c echo.Context) error {
 
 	responseData := types.ResponseBody{}
 
 	id := c.Param("id")
+
+	if valid, err := validateGetApplicationInput(id); !valid {
+		responseData.Message = "Error fetching application"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
 
 	user, ok := c.Get("user").(authTypes.TokenValidationResponseData)
 	if !ok {

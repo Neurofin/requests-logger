@@ -20,6 +20,12 @@ func CreateUploadUrl(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	if err := validateCreateUploadUrlInput(input); err != nil {
+		responseData.Message = "Error parsing json, please check type of each parameter"
+		responseData.Data = err.Error()
+		return c.JSON(http.StatusBadRequest, responseData)
+	}
+
 	presignClient := serverConfigs.S3PresignClient
 	request, err := presignClient.PresignPutObject(context.TODO(), &s3.PutObjectInput{
 		Bucket:      &input.Bucket,
