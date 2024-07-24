@@ -58,6 +58,7 @@ func ProcessChecklistItemOrchestrator(checklistItem models.ChecklistItemModel, a
 				"status": "Failed",
 				"reason": "Required files not uploaded",
 			},
+			RequiredDocs: checklistItem.RequiredDocs,
 		}
 
 		if _, err := logics.UpsertChecklistItemResultLogic(queryResult); err != nil {
@@ -135,6 +136,7 @@ func ProcessChecklistItemOrchestrator(checklistItem models.ChecklistItemModel, a
 				"status": queryResultData["status"],
 				"reason": queryResultData["reason"],
 			},
+			RequiredDocs: checklistItem.RequiredDocs,
 		}
 		if _, err := logics.UpsertChecklistItemResultLogic(queryResult); err != nil {
 			println("Error upserting query result", err.Error())

@@ -18,6 +18,7 @@ type ChecklistItemResultModel struct {
 	Result        map[string]interface{} `json:"result,omitempty" bson:"result,omitempty"`
 	Overridden    bool                   `json:"overridden" bson:"overridden"`
 	OverrideMeta  map[string]interface{} `json:"overrideMeta" bson:"overrideMeta"`
+	RequiredDocs  []string               `json:"requiredDocs" bson:"requiredDocs"`
 	types.Timestamps
 }
 
