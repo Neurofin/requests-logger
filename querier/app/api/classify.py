@@ -27,6 +27,14 @@ class Body(BaseModel):
 
 @router.post("/querier/classify")
 def classsify(body: Body):
+
+    if not body.prompt.strip():
+        raise fastapi.HTTPException(status_code=400, detail="Prompt should not be empty.")
+        
+
+    if not body.docPath.strip():
+        raise fastapi.HTTPException(status_code=400, detail="docPath should not be empty.")
+
     try:
         documents = []
         if body.docFormat == None or body.docFormat == "":
