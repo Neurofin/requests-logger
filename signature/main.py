@@ -134,6 +134,8 @@ def process_pdf_from_s3(s3_pdf_uri):
 
 @app.post("/signature/extract")
 async def process_pdf_endpoint(s3_pdf_uri: S3PdfUri):
+    if not s3_pdf_uri.s3_uri.strip():
+            raise HTTPException(status_code=400, detail="s3_uri should not be empty")
     try:
         s3_uris = process_pdf_from_s3(s3_pdf_uri.s3_uri)
         if not s3_uris:
