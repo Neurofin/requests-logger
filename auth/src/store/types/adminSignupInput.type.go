@@ -3,6 +3,7 @@ package types
 import (
 	"errors"
 	"net/mail"
+	"unicode"
 )
 
 type AdminSignupInput struct {
@@ -20,12 +21,12 @@ func (input *AdminSignupInput) Validate() (bool, error) {
 		return false, errors.New("org is required")
 	}
 
-	if input.FirstName == "" {
-		return false, errors.New("first name is required")
+	if valid, err := isValidName(input.FirstName, "first name"); !valid {
+		return false, err
 	}
 
-	if input.LastName == "" {
-		return false, errors.New("last name is required")
+	if valid, err := isValidName(input.LastName, "last name"); !valid {
+		return false, err
 	}
 
 	if input.Email == "" && input.Phone == "" {
@@ -52,4 +53,22 @@ func (input *AdminSignupInput) Validate() (bool, error) {
 func isValidEmail(email string) bool {
 	_, err := mail.ParseAddress(email)
 	return err == nil
+}
+
+func isValidName(name, fieldName string) (bool, error) {
+	if name == "" {
+		return false, errors.New(fieldName + " is required")
+	}
+
+	if len(name) < 2 {
+		return false, errors.New(fieldName + " must be at least 2 characters long")
+	}
+
+	for _, r := range name {
+		if !unicode.IsLetter(r) {
+			return false, errors.New(fieldName + " contains invalid characters")
+		}
+	}
+
+	return true, nil
 }

@@ -5,10 +5,17 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type Status string
+
+const (
+	Success Status = "Success"
+	Failed Status = "Failed"
+)
+
 type OverrideChecklistResultInput struct {
 	AppId             string `json:"applicationId"`
 	ChecklistResultId string `json:"checklistResultId"`
-	Status            string `json:"status"`
+	Status            Status `json:"status"`
 	Note              string `json:"note"`
 }
 
@@ -30,7 +37,7 @@ func (i *OverrideChecklistResultInput) Validate() (bool, error) {
 		return false, errors.New("ChecklistResultId is not in valid ObjectID format")
 	}
 
-	if i.Status != "Success" && i.Status != "Failed" {
+	if !i.Status.isValid() {
     	return false, errors.New("status must be either 'Success' or 'Failed'")
 	}
 
@@ -39,4 +46,12 @@ func (i *OverrideChecklistResultInput) Validate() (bool, error) {
 	}
 
 	return true, nil
+}
+
+func (s Status) isValid() bool{
+	switch s{
+	case Success, Failed:
+		return true
+	}
+	return false
 }

@@ -28,23 +28,25 @@ func (v *PasswordValidator) ValidatePassword(password string) (bool, error) {
 		}
 	}
 
-	// Password criteria: Must contain at least one number, one uppercase letter, and one lowercase letter
+	// Password criteria: Must contain at least one number, one uppercase letter, one lowercase letter and one special character
 	hasNumber := false
 	hasUpper := false
 	hasLower := false
+	hasSpecial := false
 	for _, char := range password {
-		switch {
-		case unicode.IsNumber(char):
-			hasNumber = true
-		case unicode.IsUpper(char):
+		if unicode.IsNumber(char) {
+		   hasNumber = true
+		} else if unicode.IsUpper(char) {
 			hasUpper = true
-		case unicode.IsLower(char):
+		} else if unicode.IsLower(char) {
 			hasLower = true
+		} else {
+			hasSpecial = true
 		}
 	}
 
-	if !hasNumber || !hasUpper || !hasLower {
-		return false, errors.New("password must contain at least one number, one uppercase letter, and one lowercase letter")
+	if !hasNumber || !hasUpper || !hasLower || !hasSpecial {
+		return false, errors.New("password must contain at least one number, one uppercase letter, one lowercase letter and one special letter")
 	}
 
 	return true, nil
