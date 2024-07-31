@@ -34,6 +34,14 @@ class Query(BaseModel):
 
 @router.post("/querier/resolve")
 def resolve(query: Query):
+
+    if not query.prompt.strip():
+        raise fastapi.HTTPException(status_code=400, detail="Prompt should not be empty.")
+        
+    for doc in query.contextDocuments:
+        if not doc.docPath.strip():
+            raise fastapi.HTTPException(status_code=400, detail="docPath should not be empty.")
+
     try:
         engine = query.engine  
         [engine, version] = query.engine.split("-", 1)

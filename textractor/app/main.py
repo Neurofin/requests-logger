@@ -12,6 +12,10 @@ async def main(
     file_source: str,
     file_output: str = None,
 ):
+    
+    if not file_source.strip():
+        raise HTTPException(status_code=400, detail="file_source should not be empty")
+
     try:
         extractor = Textractor(region_name="ap-south-1")
 
