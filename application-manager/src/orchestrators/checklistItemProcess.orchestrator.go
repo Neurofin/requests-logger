@@ -5,6 +5,7 @@ import (
 	"application-manager/src/models"
 	querierService "application-manager/src/services/querier"
 	querierServiceTypes "application-manager/src/services/querier/store/types"
+	checklistResultStatusEnum "application-manager/src/store/enums"
 )
 
 func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, application models.ApplicationModel) {
@@ -35,7 +36,7 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 			Result: map[string]interface{}{
 				"goal":   checklistItem.Goal,
 				"rule":   checklistItem.Rules[0],
-				"status": "Failed",
+				"status": checklistResultStatusEnum.Failed,
 				"reason": "Required files not uploaded",
 			},
 		}
@@ -148,7 +149,7 @@ func ChecklistItemProcessOrchestrator(checklistItem models.ChecklistItemModel, a
 			return
 		}
 
-		if queryResultData["status"] == "Success" {
+		if queryResultData["status"] == checklistResultStatusEnum.Success {
 			passedChecklistItems := application.PassedChecklistItems
 			itemFound := false
 			for i := range passedChecklistItems {

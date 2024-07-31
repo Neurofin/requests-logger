@@ -3,6 +3,7 @@ package logics
 import (
 	"application-manager/src/dbHelpers"
 	"application-manager/src/models"
+	checklistResultStatusEnum "application-manager/src/store/enums"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -19,7 +20,7 @@ func GetPassedChecklistResults(application primitive.ObjectID) ([]map[string]int
 	checklistResults := operationResult.Data.([]models.ChecklistItemResultModel)
 
 	for _, result := range checklistResults {
-		if result.Result["status"] == "Success" {
+		if result.Result["status"] == checklistResultStatusEnum.Success {
 			passedChecklistItems = append(passedChecklistItems, result.Result)
 		}
 	}
