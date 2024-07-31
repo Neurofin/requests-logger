@@ -1,6 +1,7 @@
 package types
 
 import (
+	checklistResultStatusEnum "application-manager/src/store/enums"
 	"errors"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -8,7 +9,7 @@ import (
 type OverrideChecklistResultInput struct {
 	AppId             string `json:"applicationId"`
 	ChecklistResultId string `json:"checklistResultId"`
-	Status            string `json:"status"`
+	Status            checklistResultStatusEnum.Status `json:"status"`
 	Note              string `json:"note"`
 }
 
@@ -30,7 +31,7 @@ func (i *OverrideChecklistResultInput) Validate() (bool, error) {
 		return false, errors.New("ChecklistResultId is not in valid ObjectID format")
 	}
 
-	if i.Status != "Success" && i.Status != "Failed" {
+	if i.Status!=checklistResultStatusEnum.Success && i.Status!=checklistResultStatusEnum.Failed {
     	return false, errors.New("status must be either 'Success' or 'Failed'")
 	}
 

@@ -12,12 +12,12 @@ type SignupInput struct {
 
 func (input *SignupInput) Validate() (bool, error) {
 
-	if input.FirstName == "" {
-		return false, errors.New("first name is required")
+	if valid, err := isValidName(input.FirstName, "first name"); !valid {
+		return false, err
 	}
 
-	if input.LastName == "" {
-		return false, errors.New("last name is required")
+	if valid, err := isValidName(input.LastName, "last name"); !valid {
+		return false, err
 	}
 
 	if input.Email == "" && input.Phone == "" {
