@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: logger
+spec:
+    selector:
+        matchLabels:
+            app: logger
+    replicas: 2
+    template:
+        metadata:
+            labels:
+                app: logger
+        spec:
+            containers:
+                - image: 654654400574.dkr.ecr.ap-south-1.amazonaws.com/logger:prod
+                  imagePullPolicy: Always
+                  name: logger
+                  ports:
+                      - containerPort: 3009
