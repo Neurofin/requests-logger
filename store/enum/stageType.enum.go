@@ -2,14 +2,14 @@ package logTypeEnum
 
 import "errors"
 
-type stageType string
+type StageType string
 
 const (
-	Start stageType = "START"
-	End stageType = "END" 
+	Start StageType = "START"
+	End StageType   = "END" 
 )
 
-func (t stageType) Validate() error {
+func (t StageType) Validate() error {
 	switch t {
 		case Start, End:
 			return nil
