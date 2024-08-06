@@ -32,10 +32,10 @@ func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		res := c.Response()
 
 		// Generate a traceID for the entire request-response cycle
-		traceID, ok := c.Get("traceID").(string)
+		traceId, ok := c.Get("traceId").(string)
 		if !ok {
-			traceID = uuid.New().String() // Generate a new UUID for the traceID
-			c.Set("traceID", traceID)
+			traceId = uuid.New().String() // Generate a new UUID for the traceID
+			c.Set("traceID", traceId)
 		}
 
 		// Capture request body
@@ -57,31 +57,31 @@ func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		end := time.Now()
 
 		// Log the request and response details
-		logRequest(req, requestBody.Bytes(), start, traceID)
-		logResponse(res, crw.body.Bytes(), crw.Header(), start, end, traceID)
+		logRequest(req, requestBody.Bytes(), start, traceId)
+		logResponse(res, crw.body.Bytes(), crw.Header(), start, end, traceId)
 
 		return err
 	}
 }
 
 func logRequest(req *http.Request, requestBody []byte, start time.Time, traceID string) {
-	logData := map[string]interface{}{
-		"time":           time.Now().Format(time.RFC3339Nano),
-		"id":             traceID,
-		"remote_ip":      req.RemoteAddr,
-		"host":           req.Host,
-		"method":         req.Method,
-		"uri":            req.RequestURI,
-		"user_agent":     req.UserAgent(),
-		"requestHeaders": req.Header,
-		"requestBody":    string(requestBody),
-		"startTime":      start.Format(time.RFC3339Nano),
-	}
+	// logData := map[string]interface{}{
+	// 	"time":           time.Now().Format(time.RFC3339Nano),
+	// 	"id":             traceID,
+	// 	"remote_ip":      req.RemoteAddr,
+	// 	"host":           req.Host,
+	// 	"method":         req.Method,
+	// 	"uri":            req.RequestURI,
+	// 	"user_agent":     req.UserAgent(),
+	// 	"requestHeaders": req.Header,
+	// 	"requestBody":    string(requestBody),
+	// 	"startTime":      start.Format(time.RFC3339Nano),
+	// }
 
 	logInput := loggerTypes.PostLogInput{
 		Type:      logTypeEnum.API,
 		Stage:     logTypeEnum.Start,
-		Data:      logData,
+		Data:      req,
 		TraceId:   traceID,
 		Timestamp: time.Now(),
 	}
@@ -90,21 +90,21 @@ func logRequest(req *http.Request, requestBody []byte, start time.Time, traceID 
 }
 
 func logResponse(res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceID string) {
-	logData := map[string]interface{}{
-		"time":            time.Now().Format(time.RFC3339Nano),
-		"id":              traceID,
-		"status":          res.Status,
-		"responseHeaders": responseHeaders,
-		"responseBody":    string(responseBody),
-		"startTime":       start.Format(time.RFC3339Nano),
-		"endTime":         end.Format(time.RFC3339Nano),
-		"latency":         end.Sub(start).String(),
-	}
+	// logData := map[string]interface{}{
+	// 	"time":            time.Now().Format(time.RFC3339Nano),
+	// 	"id":              traceID,
+	// 	"status":          res.Status,
+	// 	"responseHeaders": responseHeaders,
+	// 	"responseBody":    string(responseBody),
+	// 	"startTime":       start.Format(time.RFC3339Nano),
+	// 	"endTime":         end.Format(time.RFC3339Nano),
+	// 	"latency":         end.Sub(start).String(),
+	// }
 
 	logInput := loggerTypes.PostLogInput{
 		Type:      logTypeEnum.API,
 		Stage:     logTypeEnum.End,
-		Data:      logData,
+		Data:      res,
 		TraceId:   traceID,
 		Timestamp: time.Now(),
 	}
