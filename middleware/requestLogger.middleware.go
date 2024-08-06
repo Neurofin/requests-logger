@@ -9,10 +9,10 @@ import (
 	"os"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/Neurofin/requests-logger/store/enum"
 	"github.com/Neurofin/requests-logger/store/types"
-	"github.com/google/uuid"
 )
 
 type CustomResponseWriter struct {
@@ -27,44 +27,61 @@ func (w *CustomResponseWriter) Write(b []byte) (int, error) {
 
 func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
+		start := time.Now()
 		req := c.Request()
 		res := c.Response()
 
 		// Generate a traceID for the entire request-response cycle
-		traceId, ok := c.Get("traceId").(string)
-		if !ok || traceId == "" {
-			traceId = uuid.New().String() // Generate a new UUID for the traceID
-			c.Set("traceID", traceId)
-			req.Header.Set("traceId", traceId) // Add traceID to request header
+		traceID, ok := c.Get("traceID").(string)
+		if !ok {
+			traceID = uuid.New().String() // Generate a new UUID for the traceID
+			c.Set("traceID", traceID)
 		}
-		res.Header().Set("traceId", traceId) // Add traceID to response header
 
-		var requestBody []byte
+		// Capture request body
+		var requestBody bytes.Buffer
 		if req.Body != nil {
-			requestBody, _ = io.ReadAll(req.Body)
-			req.Body = io.NopCloser(bytes.NewBuffer(requestBody))
+			body, _ := io.ReadAll(req.Body)
+			requestBody.Write(body)
+			req.Body = io.NopCloser(&requestBody)
 		}
 
-		logRequest(c, traceId)
-
+		// Create a custom response writer to capture response body
 		resBody := new(bytes.Buffer)
 		crw := &CustomResponseWriter{ResponseWriter: res.Writer, body: resBody}
 		res.Writer = crw
 
+		// Proceed with the request
 		err := next(c)
 
-		logResponse(c, traceId)
+		end := time.Now()
+
+		// Log the request and response details
+		logRequest(req, requestBody.Bytes(), start, traceID)
+		logResponse(res, crw.body.Bytes(), crw.Header(), start, end, traceID)
 
 		return err
 	}
 }
 
-func logRequest(c echo.Context, traceID string) {
-	req := c.Request()
+func logRequest(req *http.Request, requestBody []byte, start time.Time, traceID string) {
+	logData := map[string]interface{}{
+		"time":           time.Now().Format(time.RFC3339Nano),
+		"id":             traceID,
+		"remote_ip":      req.RemoteAddr,
+		"host":           req.Host,
+		"method":         req.Method,
+		"uri":            req.RequestURI,
+		"user_agent":     req.UserAgent(),
+		"requestHeaders": req.Header,
+		"requestBody":    string(requestBody),
+		"startTime":      start.Format(time.RFC3339Nano),
+	}
+
 	logInput := loggerTypes.PostLogInput{
 		Type:      logTypeEnum.API,
-		Data:      req,
 		Stage:     logTypeEnum.Start,
+		Data:      logData,
 		TraceId:   traceID,
 		Timestamp: time.Now(),
 	}
@@ -72,12 +89,22 @@ func logRequest(c echo.Context, traceID string) {
 	postLog(logInput)
 }
 
-func logResponse(c echo.Context, traceID string) {
-	res := c.Response()
+func logResponse(res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceID string) {
+	logData := map[string]interface{}{
+		"time":            time.Now().Format(time.RFC3339Nano),
+		"id":              traceID,
+		"status":          res.Status,
+		"responseHeaders": responseHeaders,
+		"responseBody":    string(responseBody),
+		"startTime":       start.Format(time.RFC3339Nano),
+		"endTime":         end.Format(time.RFC3339Nano),
+		"latency":         end.Sub(start).String(),
+	}
+
 	logInput := loggerTypes.PostLogInput{
 		Type:      logTypeEnum.API,
-		Data:      res,
 		Stage:     logTypeEnum.End,
+		Data:      logData,
 		TraceId:   traceID,
 		Timestamp: time.Now(),
 	}
@@ -93,6 +120,11 @@ func postLog(logInput loggerTypes.PostLogInput) {
 	}
 
 	logServiceURL := os.Getenv("LOG_SERVICE_URL")
+	if logServiceURL == "" {
+		log.Printf("LOG_SERVICE_URL is not set")
+		return
+	}
+
 	go func() {
 		resp, err := http.Post(logServiceURL, "application/json", bytes.NewBuffer(logInputJSON))
 		if err != nil {
