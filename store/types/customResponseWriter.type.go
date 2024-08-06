@@ -7,10 +7,10 @@ import (
 
 type CustomResponseWriter struct {
 	http.ResponseWriter
-	body *bytes.Buffer
+	Body *bytes.Buffer
 }
 
 func (w *CustomResponseWriter) Write(b []byte) (int, error) {
-	w.body.Write(b)
+	w.Body.Write(b)
 	return w.ResponseWriter.Write(b)
 }
