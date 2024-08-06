@@ -7,14 +7,16 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"reflect"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/Neurofin/requests-logger/store/enum"
 	"github.com/Neurofin/requests-logger/store/types"
-	"github.com/google/uuid"
 )
 
+// CustomResponseWriter captures the response body
 type CustomResponseWriter struct {
 	http.ResponseWriter
 	body *bytes.Buffer
@@ -25,6 +27,7 @@ func (w *CustomResponseWriter) Write(b []byte) (int, error) {
 	return w.ResponseWriter.Write(b)
 }
 
+// LoggingMiddleware logs the entire request and response
 func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		req := c.Request()
@@ -39,31 +42,75 @@ func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 		res.Header().Set("traceId", traceId) // Add traceID to response header
 
-		var requestBody []byte
+		// Capture request body
+		var requestBody bytes.Buffer
 		if req.Body != nil {
-			requestBody, _ = io.ReadAll(req.Body)
-			req.Body = io.NopCloser(bytes.NewBuffer(requestBody))
+			body, _ := io.ReadAll(req.Body)
+			requestBody.Write(body)
+			req.Body = io.NopCloser(&requestBody)
 		}
 
-		logRequest(c, traceId)
-
+		// Create a custom response writer to capture response body
 		resBody := new(bytes.Buffer)
 		crw := &CustomResponseWriter{ResponseWriter: res.Writer, body: resBody}
 		res.Writer = crw
 
+		// Proceed with the request
 		err := next(c)
 
-		logResponse(c, traceId)
+		// Log the request and response details
+		logRequest(c, traceId, req, requestBody.Bytes())
+		logResponse(c, traceId, res, resBody.Bytes())
 
 		return err
 	}
 }
 
-func logRequest(c echo.Context, traceID string) {
-	req := c.Request()
+// serializeObject serializes an object using reflection
+func serializeObject(obj interface{}) (string, error) {
+	val := reflect.ValueOf(obj)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+	
+	// Create a map to hold fields
+	result := make(map[string]interface{})
+	
+	// Iterate through the fields
+	for i := 0; i < val.NumField(); i++ {
+		field := val.Type().Field(i)
+		value := val.Field(i)
+
+		if value.Kind() == reflect.Ptr && !value.IsNil() {
+			value = value.Elem()
+		}
+
+		// Only include exported fields
+		if field.PkgPath == "" {
+			result[field.Name] = value.Interface()
+		}
+	}
+
+	// Convert map to JSON
+	jsonData, err := json.Marshal(result)
+	if err != nil {
+		return "", err
+	}
+
+	return string(jsonData), nil
+}
+
+// logRequest logs the entire request details
+func logRequest(c echo.Context, traceID string, req *http.Request, requestBody []byte) {
+	reqDetailsJSON, err := serializeObject(req)
+	if err != nil {
+		log.Printf("Error serializing request details: %v", err)
+		return
+	}
+
 	logInput := loggerTypes.PostLogInput{
 		Type:      logTypeEnum.API,
-		Data:      req,
+		Data:      json.RawMessage(reqDetailsJSON),
 		Stage:     logTypeEnum.Start,
 		TraceId:   traceID,
 		Timestamp: time.Now(),
@@ -72,11 +119,17 @@ func logRequest(c echo.Context, traceID string) {
 	postLog(logInput)
 }
 
-func logResponse(c echo.Context, traceID string) {
-	res := c.Response()
+// logResponse logs the entire response details
+func logResponse(c echo.Context, traceID string, res *echo.Response, responseBody []byte) {
+	resDetailsJSON, err := serializeObject(res)
+	if err != nil {
+		log.Printf("Error serializing response details: %v", err)
+		return
+	}
+
 	logInput := loggerTypes.PostLogInput{
 		Type:      logTypeEnum.API,
-		Data:      res,
+		Data:      json.RawMessage(resDetailsJSON),
 		Stage:     logTypeEnum.End,
 		TraceId:   traceID,
 		Timestamp: time.Now(),
@@ -85,6 +138,7 @@ func logResponse(c echo.Context, traceID string) {
 	postLog(logInput)
 }
 
+// postLog sends the log data to the log service
 func postLog(logInput loggerTypes.PostLogInput) {
 	logInputJSON, err := json.Marshal(logInput)
 	if err != nil {
