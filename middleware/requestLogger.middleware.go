@@ -34,7 +34,8 @@ func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		traceId := req.Header.Get("traceId")
 		if traceId == "" {
 			traceId = uuid.New().String() // Generate a new UUID for the traceId
-			req.Header.Set("traceI", traceId)
+			req.Header.Set("traceId", traceId)
+			c.Set("traceId",traceId)
 		}
 
 		// Capture request body
