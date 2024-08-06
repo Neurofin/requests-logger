@@ -9,10 +9,10 @@ import (
 	"os"
 	"time"
 
+	logTypeEnum "github.com/Neurofin/requests-logger/store/enum"
+	loggerTypes "github.com/Neurofin/requests-logger/store/types"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
-	"github.com/Neurofin/requests-logger/store/enum"
-	"github.com/Neurofin/requests-logger/store/types"
 )
 
 type CustomResponseWriter struct {
@@ -31,11 +31,11 @@ func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		req := c.Request()
 		res := c.Response()
 
-		// Generate a traceID for the entire request-response cycle
+		// Generate a traceId for the entire request-response cycle
 		traceId, ok := c.Get("traceId").(string)
 		if !ok {
-			traceId = uuid.New().String() // Generate a new UUID for the traceID
-			c.Set("traceID", traceId)
+			traceId = uuid.New().String() // Generate a new UUID for the traceId
+			c.Set("traceId", traceId)
 		}
 
 		// Capture request body
@@ -64,10 +64,10 @@ func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func logRequest(req *http.Request, requestBody []byte, start time.Time, traceID string) {
+func logRequest(req *http.Request, requestBody []byte, start time.Time, traceId string) {
 	logData := map[string]interface{}{
 		"time":           time.Now().Format(time.RFC3339Nano),
-		"id":             traceID,
+		"id":             traceId,
 		"remote_ip":      req.RemoteAddr,
 		"host":           req.Host,
 		"method":         req.Method,
@@ -82,17 +82,17 @@ func logRequest(req *http.Request, requestBody []byte, start time.Time, traceID 
 		Type:      logTypeEnum.API,
 		Stage:     logTypeEnum.Start,
 		Data:      logData,
-		TraceId:   traceID,
+		TraceId:   traceId,
 		Timestamp: time.Now(),
 	}
 
 	postLog(logInput)
 }
 
-func logResponse(res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceID string) {
+func logResponse(res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string) {
 	logData := map[string]interface{}{
 		"time":            time.Now().Format(time.RFC3339Nano),
-		"id":              traceID,
+		"id":              traceId,
 		"status":          res.Status,
 		"responseHeaders": responseHeaders,
 		"responseBody":    string(responseBody),
@@ -105,7 +105,7 @@ func logResponse(res *echo.Response, responseBody []byte, responseHeaders http.H
 		Type:      logTypeEnum.API,
 		Stage:     logTypeEnum.End,
 		Data:      logData,
-		TraceId:   traceID,
+		TraceId:   traceId,
 		Timestamp: time.Now(),
 	}
 
