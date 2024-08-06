@@ -31,11 +31,10 @@ func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		req := c.Request()
 		res := c.Response()
 
-		// Generate a traceId for the entire request-response cycle
-		traceId, ok := c.Get("traceId").(string)
-		if !ok {
+		traceId := req.Header.Get("traceId")
+		if traceId == "" {
 			traceId = uuid.New().String() // Generate a new UUID for the traceId
-			c.Set("traceId", traceId)
+			req.Header.Set("traceI", traceId)
 		}
 
 		// Capture request body
@@ -67,7 +66,7 @@ func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 func logRequest(req *http.Request, requestBody []byte, start time.Time, traceId string) {
 	logData := map[string]interface{}{
 		"time":           time.Now().Format(time.RFC3339Nano),
-		"id":             traceId,
+		"traceId":        traceId,
 		"remote_ip":      req.RemoteAddr,
 		"host":           req.Host,
 		"method":         req.Method,
@@ -92,7 +91,7 @@ func logRequest(req *http.Request, requestBody []byte, start time.Time, traceId 
 func logResponse(res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string) {
 	logData := map[string]interface{}{
 		"time":            time.Now().Format(time.RFC3339Nano),
-		"id":              traceId,
+		"traceId":         traceId,
 		"status":          res.Status,
 		"responseHeaders": responseHeaders,
 		"responseBody":    string(responseBody),
