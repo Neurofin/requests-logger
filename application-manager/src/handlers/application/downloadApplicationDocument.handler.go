@@ -33,11 +33,13 @@ func validateDownloadApplicationDocumentInput(appId string, docId string) (bool,
 
 func DownloadApplicationDocument(c echo.Context) error {
 	responseData := types.ResponseBody{}
+	traceId := c.Get("traceId").(string)
 
 	appId := c.Param("appId")
 	docId := c.Param("docId")
 
 	if valid, err := validateDownloadApplicationDocumentInput(appId, docId); !valid {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching application"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -45,11 +47,13 @@ func DownloadApplicationDocument(c echo.Context) error {
 
 	result, err := orchestrators.DownloadApplicationDocument(appId, docId)
 	if err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching application"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	responseData.TraceId = traceId
 	responseData.Message = "Document presigned url retrieved successfully"
 	responseData.Data = result
 	return c.JSON(http.StatusOK, responseData)

@@ -26,10 +26,12 @@ func validateGetApplicationDocumentsInput(appId string)(bool, error){
 func GetApplicationDocuments(c echo.Context) error {
 
 	responseData := types.ResponseBody{}
+	traceId := c.Get("traceId").(string)
 
 	id := c.Param("id")
 
 	if valid, err := validateGetApplicationDocumentsInput(id); !valid {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching documents info"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -37,6 +39,7 @@ func GetApplicationDocuments(c echo.Context) error {
 
 	appId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching documents info"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -44,11 +47,13 @@ func GetApplicationDocuments(c echo.Context) error {
 
 	documents, err := logics.GetApplicationDocuments(appId)
 	if err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching documents info"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	responseData.TraceId = traceId
 	responseData.Message = "Documents info retrieved successfully"
 	responseData.Data = documents
 	return c.JSON(http.StatusOK, responseData)

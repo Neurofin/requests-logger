@@ -27,8 +27,10 @@ func GetApplicationChecklistResults(c echo.Context) error {
 	responseData := types.ResponseBody{}
 
 	id := c.Param("id")
+	traceId := c.Get("traceId").(string)
 
 	if valid, err := validateGetApplicationChecklistResultsInput(id); !valid{
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching application checklist results"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -36,6 +38,7 @@ func GetApplicationChecklistResults(c echo.Context) error {
 
 	appId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching application checklist results"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -43,11 +46,13 @@ func GetApplicationChecklistResults(c echo.Context) error {
 
 	checklistResults, err := logics.GetAppChecklistResults(appId)
 	if err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching application checklist results"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	responseData.TraceId = traceId
 	responseData.Message = "Application checklist results fetched successfully"
 	responseData.Data = checklistResults
 	return c.JSON(http.StatusOK, responseData)

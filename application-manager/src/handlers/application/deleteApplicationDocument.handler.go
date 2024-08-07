@@ -36,19 +36,23 @@ func DeleteApplicationDocument(c echo.Context) error {
 
 	appId := c.Param("appId")
 	docId := c.Param("docId")
+	traceId := c.Get("traceId").(string)
 
 	if valid, err := validateDeleteApplicationDocumentInput(appId, docId); !valid {
+		responseData.TraceId = traceId
 		responseData.Message = "Error deleting document"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
 	if err := orchestrators.DeleteApplicationDocument(appId, docId); err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error deleting document"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	responseData.TraceId = traceId
 	responseData.Message = "Document is deleted successfully"
 	responseData.Data = "Success"
 	return c.JSON(http.StatusOK, responseData)

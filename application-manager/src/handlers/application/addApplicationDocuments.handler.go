@@ -15,8 +15,11 @@ func AddApplicationDocuments(c echo.Context) error {
 
 	responseData := types.ResponseBody{}
 
+	traceId := c.Get("traceId").(string)
+
 	input := types.AddApplicationDocumentsInput{}
 	if err := c.Bind(&input); err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error parsing json, please check type of each parameter"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -24,6 +27,7 @@ func AddApplicationDocuments(c echo.Context) error {
 	//Validation added for Input
 	isValid, err := input.Validate()
 	if !isValid {
+		responseData.TraceId = traceId
 		responseData.Message = "Error parsing json, please check type of each parameter"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -41,6 +45,7 @@ func AddApplicationDocuments(c echo.Context) error {
 		}
 		result, err := orchestrators.AddApplicationDocument(input)
 		if err != nil {
+			responseData.TraceId = traceId
 			responseData.Message = "Error adding documents"
 			responseData.Data = err.Error()
 			return c.JSON(http.StatusBadRequest, responseData)
@@ -50,6 +55,7 @@ func AddApplicationDocuments(c echo.Context) error {
 
 	applicationId, err := primitive.ObjectIDFromHex(input.ApplicationId)
 	if err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error adding documents"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -59,6 +65,7 @@ func AddApplicationDocuments(c echo.Context) error {
 	}
 	applicationResult, err := application.GetApplication()
 	if err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error adding documents"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -76,6 +83,7 @@ func AddApplicationDocuments(c echo.Context) error {
 	}
 	go orchestrators.DocumentClassificationEventListener(application.Id, documentIds, true)
 
+	responseData.TraceId = traceId
 	responseData.Message = "Created documents and presigned URLs successfully"
 	responseData.Data = documents
 	return c.JSON(http.StatusOK, responseData)

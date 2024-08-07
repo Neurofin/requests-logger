@@ -24,9 +24,11 @@ type CreateFlowInput struct {
 func CreateFlow(c echo.Context) error {
 
 	responseData := types.ResponseBody{}
+	traceId := c.Get("traceId").(string)
 	jsonInput := CreateFlowInput{}
 	if err := c.Bind(&jsonInput); err != nil {
 		println(err.Error())
+		responseData.TraceId = traceId
 		responseData.Message = "Error parsing json, please check type of each parameter"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -35,6 +37,7 @@ func CreateFlow(c echo.Context) error {
 	org, err := primitive.ObjectIDFromHex(jsonInput.Org)
 	if err != nil {
 		println(err.Error())
+		responseData.TraceId = traceId
 		responseData.Message = "Error parsing json, please check type of each parameter"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -47,6 +50,7 @@ func CreateFlow(c echo.Context) error {
 
 	if _, err = newFlow.InsertFlow(); err != nil {
 		println(err.Error())
+		responseData.TraceId = traceId
 		responseData.Message = "Error inserting flow document"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -55,6 +59,7 @@ func CreateFlow(c echo.Context) error {
 	flowDocResult, err := newFlow.GetFlow()
 	if err != nil {
 		println(err.Error())
+		responseData.TraceId = traceId
 		responseData.Message = "Error finding flow document"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -65,6 +70,7 @@ func CreateFlow(c echo.Context) error {
 	if len(jsonInput.DocumentTypes) > 0 {
 		if _, err := logics.BulkInsertFlowDocTypes(flowDoc.Id, jsonInput.DocumentTypes); err != nil {
 			println(err.Error())
+			responseData.TraceId = traceId
 			responseData.Message = "Error inserting flow doc types"
 			responseData.Data = err.Error()
 			return c.JSON(http.StatusBadRequest, responseData)
@@ -74,11 +80,13 @@ func CreateFlow(c echo.Context) error {
 	if len(jsonInput.ChecklistItems) > 0 {
 		if _, err := logics.BulkInsertChecklistItems(flowDoc.Id, jsonInput.ChecklistItems); err != nil {
 			println(err.Error())
+			responseData.TraceId = traceId
 			responseData.Message = "Error inserting checklist"
 			responseData.Data = err.Error()
 			return c.JSON(http.StatusBadRequest, responseData)
 		}
 	}
+	responseData.TraceId = traceId
 	responseData.Message = "Created Flow Successfully"
 	responseData.Data = flowDoc
 	return c.JSON(http.StatusCreated, responseData)

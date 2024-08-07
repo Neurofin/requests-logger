@@ -10,7 +10,7 @@ import (
 	"os"
 )
 
-func ValidateToken(token string) (authStore.TokenValidationResponseData, error) {
+func ValidateToken(token string, traceId string) (authStore.TokenValidationResponseData, error) {
 	responseData := authStore.TokenValidationResponseData{}
 
 	authServiceUrl := os.Getenv("AUTH_SERVICE_URL") + "/user/validate"
@@ -22,6 +22,7 @@ func ValidateToken(token string) (authStore.TokenValidationResponseData, error) 
 		return responseData, err
 	}
 	req.Header.Add("Authorization", "Bearer "+token)
+	req.Header.Add("traceId", traceId)
 
 	response, err := client.Do(req)
 	if err != nil {

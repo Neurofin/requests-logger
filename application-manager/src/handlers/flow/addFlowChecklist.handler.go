@@ -15,11 +15,13 @@ type input struct {
 
 func AddFlowChecklist(c echo.Context) error {
 	responseData := types.ResponseBody{}
+	traceId := c.Get("traceId").(string)
 
 	flowId := c.Param("flowId")
 	jsonInput := input{}
 	if err := c.Bind(&jsonInput); err != nil {
 		println(err.Error())
+		responseData.TraceId = traceId
 		responseData.Message = "Error parsing json, please check type of each parameter"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -32,6 +34,7 @@ func AddFlowChecklist(c echo.Context) error {
 	getResult, err := flow.GetFlow()
 	if err != nil {
 		println(err.Error())
+		responseData.TraceId = traceId
 		responseData.Message = "Error finding flow"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -41,11 +44,13 @@ func AddFlowChecklist(c echo.Context) error {
 
 	if _, err := logics.BulkInsertChecklistItems(flow.Id, jsonInput.Checklist); err != nil {
 		println(err.Error())
+		responseData.TraceId = traceId
 		responseData.Message = "Error inserting checklist"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	responseData.TraceId = traceId
 	responseData.Message = "Flow checklist updated successfully"
 	responseData.Data = flow
 	return c.JSON(http.StatusOK, responseData)

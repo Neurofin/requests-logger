@@ -27,10 +27,12 @@ func validateGetDocumentExtractionInfoInput(appId string) (bool, error) {
 func GetDocumentExtractionInfo(c echo.Context) error {
 
 	responseData := types.ResponseBody{}
+	traceId := c.Get("traceId").(string)
 
 	id := c.Param("id")
 
 	if valid, err := validateGetDocumentExtractionInfoInput(id); !valid {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching document extraction info"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -38,6 +40,7 @@ func GetDocumentExtractionInfo(c echo.Context) error {
 
 	user, ok := c.Get("user").(authTypes.TokenValidationResponseData)
 	if !ok {
+		responseData.TraceId = traceId
 		responseData.Message = "Unauthorized"
 		responseData.Data = "User not found"
 		return c.JSON(http.StatusUnauthorized, responseData)
@@ -45,11 +48,13 @@ func GetDocumentExtractionInfo(c echo.Context) error {
 
 	result, err := orchestrators.GetDocumentExtractionInfo(id, user.Org)
 	if err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching document extraction info"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
 	}
 
+	responseData.TraceId = traceId
 	responseData.Message = "Document extraction info retrieved successfully"
 	responseData.Data = result
 	return c.JSON(http.StatusOK, responseData)

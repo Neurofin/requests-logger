@@ -13,20 +13,24 @@ func ValidateToken(next echo.HandlerFunc) echo.HandlerFunc {
 		jsonData := types.ValidateTokenInput{}
 		jsonData.Token = c.Request().Header.Get("authorization")
 
+		traceId := c.Get("traceId").(string)
+
 		token, err := jsonData.Validate()
 		if err != nil {
 			println(err.Error())
 			responseBody := types.ResponseBody{
+				TraceId: traceId,
 				Message: "Invalid Token",
 				Data:    err.Error(),
 			}
 			return c.JSON(http.StatusUnauthorized, responseBody)
 		}
 
-		userDetails, err := authService.ValidateToken(token)
+		userDetails, err := authService.ValidateToken(token, traceId)
 		if err != nil {
 			println(err.Error())
 			responseBody := types.ResponseBody{
+				TraceId: traceId,
 				Message: "Invalid Token",
 				Data:    err.Error(),
 			}

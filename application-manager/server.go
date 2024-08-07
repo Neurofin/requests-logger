@@ -5,6 +5,7 @@ import (
 	applicationHandlers "application-manager/src/handlers/application"
 	flowHandlers "application-manager/src/handlers/flow"
 	serverMiddleware "application-manager/src/middleware"
+	logger "github.com/Neurofin/requests-logger/middleware"
 	"application-manager/src/serverConfigs"
 	"os"
 
@@ -27,6 +28,7 @@ func main() {
 
 	server.Use(middleware.CORS())
 	server.Use(middleware.Logger())
+	server.Use(logger.LoggingMiddleware)
 
 	server.GET("/app", handlers.HelloWorldHandler)
 

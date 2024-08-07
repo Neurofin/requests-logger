@@ -13,6 +13,7 @@ import (
 func GetApplications(c echo.Context) error {
     responseBody := types.ResponseBody{}
     user := c.Get("user").(authType.TokenValidationResponseData)
+    traceId := c.Get("traceId").(string)
 
     pageStr := c.QueryParam("page")
     pageSizeStr := c.QueryParam("pageSize")
@@ -29,11 +30,13 @@ func GetApplications(c echo.Context) error {
 
     data, totalPages, err := logics.GetOrgApplications(user.Org, page, pageSize)
     if err != nil {
+        responseBody.TraceId = traceId
         responseBody.Message = "Error retrieving applications"
         responseBody.Data = err.Error()
         return c.JSON(http.StatusInternalServerError, responseBody)
     }
 
+    responseBody.TraceId = traceId
     responseBody.Message = "Applications retrieved successfully"
     responseBody.Data = map[string]interface{}{
         "applications": data,

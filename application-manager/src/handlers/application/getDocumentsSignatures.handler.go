@@ -29,10 +29,12 @@ func validateGetDocumentsSignaturesInput(appId string)(bool, error){
 func GetDocumentsSignatures(c echo.Context) error {
 
 	responseData := types.ResponseBody{}
+	traceId := c.Get("traceId").(string)
 
 	id := c.Param("id")
 
 	if valid, err := validateGetDocumentsSignaturesInput(id); !valid {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching documents info"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)
@@ -40,6 +42,7 @@ func GetDocumentsSignatures(c echo.Context) error {
 
 	appId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
+		responseData.TraceId = traceId
 		responseData.Message = "Error fetching documents info"
 		responseData.Data = err.Error()
 		return c.JSON(http.StatusBadRequest, responseData)

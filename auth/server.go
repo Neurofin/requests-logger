@@ -13,6 +13,7 @@ import (
 	"auth/src/handlers"
 	serverMiddleware "auth/src/middleware"
 	"auth/src/serverConfigs"
+	logger "github.com/Neurofin/requests-logger/middleware"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -27,6 +28,7 @@ func main() {
 
 	server.Use(middleware.Logger())
 	server.Use(middleware.CORS())
+	server.Use(logger.LoggingMiddleware)
 
 	server.GET("/auth", handlers.HelloWorldHandler)
 
