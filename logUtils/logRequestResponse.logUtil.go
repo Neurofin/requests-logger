@@ -32,7 +32,7 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		Timestamp: time.Now(),
 	}
 
-	PostLog(requestLogInput)
+	go PostLog(requestLogInput)
 
 	// Log response details
 	responseLogData := map[string]interface{}{
@@ -44,7 +44,7 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		"startTime":       start.Format(time.RFC3339Nano),
 		"endTime":         end.Format(time.RFC3339Nano),
 		"latency":         end.Sub(start).String(),
-		"stage":		   logTypeEnum.End,
+		"stage":           logTypeEnum.End,
 	}
 
 	responseLogInput := loggerTypes.PostLogInput{
@@ -54,5 +54,5 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		Timestamp: time.Now(),
 	}
 
-	PostLog(responseLogInput)
+	go PostLog(responseLogInput)
 }
