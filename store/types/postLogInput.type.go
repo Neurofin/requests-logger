@@ -9,8 +9,7 @@ import (
 
 type PostLogInput struct {
 	Type logTypeEnum.LogType 	`json:"type"`
-	Stage logTypeEnum.StageType `json:"stage"`
-	Data interface{} 			`json:"data"`
+	Data map[string]interface{} `json:"data"`
 	TraceId string 				`json:"traceId"`
 	Timestamp time.Time 		`json:"timestamp"`
 }
