@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func postErrorLog(service string, method string, err error) {
+func PostErrorLog(service string, method string, err error) {
 
 	traceId := uuid.New().String()
 
