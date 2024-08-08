@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+func LoggingMiddleware(next echo.HandlerFunc, service string) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		start := time.Now()
 		req := c.Request()
@@ -42,7 +42,7 @@ func LoggingMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		end := time.Now()
 
 		// Log the request and response details asynchronously
-		go logUtils.LogRequestResponse(req, requestBody.Bytes(), res, crw.Body.Bytes(), crw.Header(), start, end, traceId)
+		go logUtils.LogRequestResponse(req, requestBody.Bytes(), res, crw.Body.Bytes(), crw.Header(), start, end, traceId, service)
 
 		return err
 	}

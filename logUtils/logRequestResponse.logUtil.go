@@ -9,7 +9,7 @@ import (
 	"github.com/Neurofin/requests-logger/store/enum"
 )
 
-func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string) {
+func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string, service string) {
 	// Log request details
 	requestLogData := map[string]interface{}{
 		"time":           time.Now().Format(time.RFC3339Nano),
@@ -26,6 +26,7 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 	}
 
 	requestLogInput := loggerTypes.PostLogInput{
+		Service:   service,
 		Type:      logTypeEnum.API,
 		Data:      requestLogData,
 		TraceId:   traceId,
@@ -48,6 +49,7 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 	}
 
 	responseLogInput := loggerTypes.PostLogInput{
+		Service:   service,
 		Type:      logTypeEnum.API,
 		Data:      responseLogData,
 		TraceId:   traceId,
