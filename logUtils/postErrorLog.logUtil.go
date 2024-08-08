@@ -20,7 +20,7 @@ func postErrorLog(service string, method string, err error) {
 
 	errorLogInput := loggerTypes.PostLogInput{
 		Service:   service,
-		Stage:     logTypeEnum.Start,
+		Stage:     logTypeEnum.End,
 		Type:      logTypeEnum.Error,
 		Data:      errorLogData,
 		TraceId:   traceId,
