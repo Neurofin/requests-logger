@@ -22,11 +22,11 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		"requestHeaders": req.Header,
 		"requestBody":    string(requestBody),
 		"startTime":      start.Format(time.RFC3339Nano),
-		"stage":          logTypeEnum.Start,
 	}
 
 	requestLogInput := loggerTypes.PostLogInput{
 		Service:   service,
+		Stage:     logTypeEnum.Start,
 		Type:      logTypeEnum.API,
 		Data:      requestLogData,
 		TraceId:   traceId,
@@ -45,11 +45,11 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		"startTime":       start.Format(time.RFC3339Nano),
 		"endTime":         end.Format(time.RFC3339Nano),
 		"latency":         end.Sub(start).String(),
-		"stage":           logTypeEnum.End,
 	}
 
 	responseLogInput := loggerTypes.PostLogInput{
 		Service:   service,
+		Stage: 	   logTypeEnum.End,	
 		Type:      logTypeEnum.API,
 		Data:      responseLogData,
 		TraceId:   traceId,
