@@ -8,9 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func PostErrorLog(service string, method string, err error) {
-
-	traceId := uuid.New().String()
+func PostErrorLogWithTraceId(traceId string, service string, method string, err error) {
 
 	errorLogData := map[string]interface{}{
 		"traceId": traceId,
@@ -29,4 +27,11 @@ func PostErrorLog(service string, method string, err error) {
 
 	go PostLog(errorLogInput)
 
+}
+
+func PostErrorLog(service string, method string, err error) {
+
+	traceId := uuid.New().String()
+
+	PostErrorLogWithTraceId(traceId, service, method, err)
 }
