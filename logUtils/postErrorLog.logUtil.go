@@ -1,7 +1,6 @@
 package logUtils
 
 import (
-	"runtime/debug"
 	"time"
 
 	"github.com/Neurofin/requests-logger/store/enum"
@@ -9,9 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func PostErrorLogWithTraceId(traceId string, service string, err error) {
-
-	stackTrace := string(debug.Stack())
+func PostErrorLogWithTraceId(traceId string, service string, stackTrace string, err error) {
 
 	errorLogData := map[string]interface{}{
 		"traceId": traceId,
@@ -32,9 +29,9 @@ func PostErrorLogWithTraceId(traceId string, service string, err error) {
 
 }
 
-func PostErrorLog(service string, method string, err error) {
+func PostErrorLog(service string, stackTrace string, err error) {
 
 	traceId := uuid.New().String()
 
-	PostErrorLogWithTraceId(traceId, service, err)
+	PostErrorLogWithTraceId(traceId, service, stackTrace, err)
 }
