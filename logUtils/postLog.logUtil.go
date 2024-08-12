@@ -7,7 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"github.com/Neurofin/requests-logger/store/types" 
+
+	loggerTypes "github.com/Neurofin/requests-logger/store/types"
 )
 
 func PostLog(logInput loggerTypes.PostLogInput) {
@@ -24,7 +25,7 @@ func PostLog(logInput loggerTypes.PostLogInput) {
 	}
 
 	go func() {
-		resp, err := http.Post(logServiceURL, "application/json", bytes.NewBuffer(logInputJSON))
+		resp, err := http.Post(logServiceURL+"/log", "application/json", bytes.NewBuffer(logInputJSON))
 		if err != nil {
 			log.Printf("Error posting log data: %v", err)
 			return
