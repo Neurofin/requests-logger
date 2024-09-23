@@ -43,7 +43,7 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 
 			end := time.Now()
 
-			fmt.Println("requestBody: ", requestBody)
+			fmt.Println("requestBody String: ", string(requestBody.Bytes()))
 
 			// Log the request and response details asynchronously
 			go logUtils.LogRequestResponse(req, requestBody.Bytes(), res, crw.Body.Bytes(), crw.Header(), start, end, traceId, service)
