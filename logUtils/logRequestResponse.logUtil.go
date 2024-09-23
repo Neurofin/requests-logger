@@ -1,7 +1,6 @@
 package logUtils
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -12,9 +11,6 @@ import (
 
 func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string, service string) {
 	// Log request details
-
-	fmt.Println("req: ", req)
-
 	requestLogData := loggerTypes.RequestLogType{
 		TraceId:        traceId,
 		RemoteIP:       req.RemoteAddr,
@@ -27,8 +23,6 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		StartTime:      start.Format(time.RFC3339Nano),
 		Timestamp:      time.Now(),
 	}
-
-	fmt.Println("requestLogData: ", requestLogData)
 
 	requestLogInput := loggerTypes.PostLogInput{
 		Service:   service,
