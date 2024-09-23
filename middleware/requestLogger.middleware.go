@@ -32,8 +32,11 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			if req.Body != nil {
 				body, _ := io.ReadAll(req.Body)
 				requestBody.Write(body)
-				req.Body = io.NopCloser(&requestBody)
+				req.Body = io.NopCloser(bytes.NewBuffer(body))
 			}
+
+			fmt.Println("requestBody String: ", requestBody.String())
+			rb := requestBody.String()
 
 			resBody := new(bytes.Buffer)
 			crw := &loggerTypes.CustomResponseWriter{ResponseWriter: res.Writer, Body: resBody}
@@ -43,7 +46,7 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 
 			end := time.Now()
 
-			fmt.Println("requestBody String: ", string(requestBody.Bytes()))
+			fmt.Println("rb: ", rb)
 
 			// Log the request and response details asynchronously
 			go logUtils.LogRequestResponse(req, requestBody.Bytes(), res, crw.Body.Bytes(), crw.Header(), start, end, traceId, service)
