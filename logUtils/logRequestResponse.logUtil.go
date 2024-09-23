@@ -13,7 +13,6 @@ import (
 func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string, service string) {
 	// Log request details
 
-	fmt.Println("requestBody: ", requestBody)
 	fmt.Println("req: ", req)
 
 	requestLogData := loggerTypes.RequestLogType{
@@ -29,7 +28,7 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		Timestamp:      time.Now(),
 	}
 
-	fmt.Print("requestLogData: ", requestLogData)
+	fmt.Println("requestLogData: ", requestLogData)
 
 	requestLogInput := loggerTypes.PostLogInput{
 		Service:   service,

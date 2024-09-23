@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"time"
 
@@ -41,6 +42,8 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			err := next(c)
 
 			end := time.Now()
+
+			fmt.Println("requestBody: ", requestBody)
 
 			// Log the request and response details asynchronously
 			go logUtils.LogRequestResponse(req, requestBody.Bytes(), res, crw.Body.Bytes(), crw.Header(), start, end, traceId, service)
