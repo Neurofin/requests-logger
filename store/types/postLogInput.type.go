@@ -1,4 +1,4 @@
-package loggerTypes
+package types
 
 import (
 	"errors"

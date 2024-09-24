@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io"
 	"time"
@@ -27,30 +26,11 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 				c.Set("traceId", traceId)
 			}
 
-			var userDetails loggerTypes.UserDetails
+			var userDetails types.TokenValidationResponseData
 			
 			user := c.Get("user")
 			if user != nil {
-				// Convert user to JSON bytes
-				userJSON, err := json.Marshal(user)
-				if err == nil {
-					// Unmarshal user JSON into a map to dynamically access fields
-					var userMap map[string]interface{}
-					err = json.Unmarshal(userJSON, &userMap)
-					if err == nil {
-						// Extract firstName and email if available
-						if firstName, ok := userMap["firstName"].(string); ok {
-							userDetails.FirstName = firstName
-						}
-						if email, ok := userMap["email"].(string); ok {
-							userDetails.Email = email
-						}
-					} else {
-						fmt.Println("Error unmarshalling user JSON:", err)
-					}
-				} else {
-					fmt.Println("Error marshalling user:", err)
-				}
+				userDetails = c.Get("user").(types.TokenValidationResponseData)
 			}
 
 			test := c.Get("user").(map[string]interface{})
@@ -66,7 +46,7 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			}
 
 			resBody := new(bytes.Buffer)
-			crw := &loggerTypes.CustomResponseWriter{ResponseWriter: res.Writer, Body: resBody}
+			crw := &types.CustomResponseWriter{ResponseWriter: res.Writer, Body: resBody}
 			res.Writer = crw
 
 			err := next(c)

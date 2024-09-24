@@ -1,4 +1,4 @@
-package loggerTypes
+package types
 
 type ResponseBody struct {
 	Message string `json:"message"`

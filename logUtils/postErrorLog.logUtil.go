@@ -16,7 +16,7 @@ func PostErrorLogWithTraceId(traceId string, service string, stackTrace string, 
 		"method":  stackTrace,
 	}
 
-	errorLogInput := loggerTypes.PostLogInput{
+	errorLogInput := types.PostLogInput{
 		Service:   service,
 		Stage:     logTypeEnum.End,
 		Type:      logTypeEnum.Error,

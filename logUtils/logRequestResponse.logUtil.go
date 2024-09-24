@@ -9,9 +9,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string, service string, user loggerTypes.UserDetails) {
+func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string, service string, user types.TokenValidationResponseData) {
 	// Log request details
-	requestLogData := loggerTypes.RequestLogType{
+	requestLogData := types.RequestLogType{
 		TraceId:        traceId,
 		RemoteIP:       req.RemoteAddr,
 		Host:           req.Host,
@@ -24,7 +24,7 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		Timestamp:      time.Now(),
 	}
 
-	requestLogInput := loggerTypes.PostLogInput{
+	requestLogInput := types.PostLogInput{
 		Service:   service,
 		Stage:     logTypeEnum.Start,
 		Type:      logTypeEnum.API,
@@ -38,7 +38,7 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 	go PostLog(requestLogInput)
 
 	// Log response details
-	responseLogData := loggerTypes.ResponseLogType{
+	responseLogData := types.ResponseLogType{
 		TraceId:         traceId,
 		Status:          res.Status,
 		ResponseHeaders: responseHeaders,
@@ -49,7 +49,7 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		Timestamp:       time.Now(),
 	}
 
-	responseLogInput := loggerTypes.PostLogInput{
+	responseLogInput := types.PostLogInput{
 		Service:   service,
 		Stage: 	   logTypeEnum.End,	
 		Type:      logTypeEnum.API,

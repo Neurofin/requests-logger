@@ -1,6 +1,6 @@
-package loggerTypes
+package types
 
-type UserDetails struct {
+type TokenValidationResponseData struct {
 	FirstName  string   `json:"firstName"`
 	Email      string   `json:"email"`
 }
