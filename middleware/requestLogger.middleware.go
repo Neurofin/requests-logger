@@ -2,6 +2,8 @@ package middleware
 
 import (
 	"bytes"
+	"fmt"
+
 	"io"
 	"time"
 
@@ -29,7 +31,8 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			
 			user := c.Get("user")
 			if user != nil {
-				userDetails = c.Get("user").(types.TokenValidationResponseData)
+				//userDetails = c.Get("user").(types.TokenValidationResponseData)
+				fmt.Println("user ",user.UserName)
 			}
 
 			// Capture request headers
