@@ -27,6 +27,7 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			}
 
 			var userDetails loggerTypes.UserDetails
+			
 			if user, ok := c.Get("user").(map[string]interface{}); ok {
 				if firstName, exists := user["firstName"].(string); exists {
 					userDetails.FirstName = firstName
@@ -36,6 +37,9 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 				}
 				fmt.Println("userDetails ", userDetails)
 			}
+
+			test := c.Get("user").(map[string]interface{})
+			fmt.Println("test ", test)
 
 			// Capture request headers
 			// Capture request body
