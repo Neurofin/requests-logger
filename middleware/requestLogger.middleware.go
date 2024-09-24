@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"bytes"
-	"fmt"
 
 	"io"
 	"time"
@@ -27,15 +26,9 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 				c.Set("traceId", traceId)
 			}
 
-			var userDetails types.TokenValidationResponseData
-			
-			user := c.Get("user")
-			fmt.Println("user ", user)
-			userDetails, ok := user.(types.TokenValidationResponseData)
-			if !ok {
-				fmt.Println("Error: user is not of type UserDetails")
-				fmt.Println("err ", ok) // Return an empty SimpleUserDetails
-			}
+			var userDetails types.UserDetails
+			userDetails.FirstName = c.Get("firstName").(string)
+			userDetails.Email = c.Get("email").(string)
 
 			// Capture request headers
 			// Capture request body
