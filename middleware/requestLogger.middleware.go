@@ -32,7 +32,8 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			user := c.Get("user")
 			if user != nil {
 				//userDetails = c.Get("user").(types.TokenValidationResponseData)
-				fmt.Println("user ",user.UserName)
+				fmt.Println("user ",user.FirstName)
+				fmt.Println("user ",user.Email)
 			}
 
 			// Capture request headers
