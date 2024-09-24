@@ -13,8 +13,8 @@ type PostLogInput struct {
 	Type 	  logTypeEnum.LogType 	`json:"type"`
 	Data 	  interface{} 			`json:"data"`
 	TraceId   string 				`json:"traceId"`
-	UserName  string       			`json:"userName"`
-	UserEmail string       			`json:"userEmail"`
+	FirstName string 				`json:"firstName"`
+	Email 	  string 				`json:"email"`
 	Timestamp time.Time 			`json:"timestamp"`
 }
 

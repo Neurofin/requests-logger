@@ -2,8 +2,10 @@ package middleware
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"time"
+
 	"github.com/Neurofin/requests-logger/logUtils"
 	"github.com/Neurofin/requests-logger/store/types"
 	"github.com/google/uuid"
@@ -32,6 +34,7 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 				if email, exists := user["email"].(string); exists {
 					userDetails.Email = email
 				}
+				fmt.Println("userDetails ", userDetails)
 			}
 
 			// Capture request headers

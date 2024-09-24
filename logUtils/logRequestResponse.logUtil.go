@@ -30,8 +30,8 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		Type:      logTypeEnum.API,
 		Data:      requestLogData,
 		TraceId:   traceId,
-		UserName:  user.FirstName,
-		UserEmail: user.Email,
+		FirstName: user.FirstName,
+		Email: 	   user.Email,
 		Timestamp: time.Now(),
 	}
 
@@ -55,8 +55,8 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		Type:      logTypeEnum.API,
 		Data:      responseLogData,
 		TraceId:   traceId,
-		UserName:  user.FirstName,
-		UserEmail: user.Email,
+		FirstName: user.FirstName,
+		Email: 	   user.Email,
 		Timestamp: time.Now(),
 	}
 
