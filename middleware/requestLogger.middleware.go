@@ -33,9 +33,6 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 				userDetails = c.Get("user").(types.TokenValidationResponseData)
 			}
 
-			test := c.Get("user").(map[string]interface{})
-			fmt.Println("test ", test)
-
 			// Capture request headers
 			// Capture request body
 			var requestBody bytes.Buffer
