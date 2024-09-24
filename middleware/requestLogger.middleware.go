@@ -31,11 +31,15 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			
 			user := c.Get("user")
 			if user != nil {
-				userJSON, err := json.Marshal(user)
-				if err == nil {
-					_ = json.Unmarshal(userJSON, &userDetails)
-				}else {
-					fmt.Println("Error marshalling user:", err)
+				userJSON, _ := json.Marshal(user)
+				var userMap map[string]interface{}
+				_ = json.Unmarshal(userJSON, &userMap)
+
+				if firstName, ok := userMap["firstName"].(string); ok {
+					userDetails.FirstName = firstName
+				}
+				if email, ok := userMap["email"].(string); ok {
+					userDetails.Email = email
 				}
 			}
 
