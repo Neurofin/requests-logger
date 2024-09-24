@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"time"
@@ -28,14 +29,14 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 
 			var userDetails loggerTypes.UserDetails
 			
-			if user, ok := c.Get("user").(map[string]interface{}); ok {
-				if firstName, exists := user["firstName"].(string); exists {
-					userDetails.FirstName = firstName
+			user := c.Get("user")
+			if user != nil {
+				userJSON, err := json.Marshal(user)
+				if err == nil {
+					_ = json.Unmarshal(userJSON, &userDetails)
+				}else {
+					fmt.Println("Error marshalling user:", err)
 				}
-				if email, exists := user["email"].(string); exists {
-					userDetails.Email = email
-				}
-				fmt.Println("userDetails ", userDetails)
 			}
 
 			test := c.Get("user").(map[string]interface{})
