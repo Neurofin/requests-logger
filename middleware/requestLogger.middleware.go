@@ -31,10 +31,20 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			
 			user := c.Get("user")
 			if user != nil {
-				//userDetails = c.Get("user").(types.TokenValidationResponseData)
-				fmt.Println("user ",user)
-				fmt.Println("user ",user.FirstName)
-				fmt.Println("user ",user.Email)
+				if userMap, ok := user.(map[string]interface{}); ok {
+					// Safely extract firstName and email
+					if firstName, exists := userMap["firstName"].(string); exists {
+						userDetails.FirstName = firstName
+					}
+					if email, exists := userMap["email"].(string); exists {
+						userDetails.Email = email
+					}
+				} else {
+					// Handle other potential types if needed
+					fmt.Println("Error: user is not of expected type map[string]interface{}")
+				}
+			} else {
+				fmt.Println("Error: No user found in context")
 			}
 
 			// Capture request headers
