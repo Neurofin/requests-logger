@@ -30,6 +30,7 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			var userDetails types.TokenValidationResponseData
 			
 			user := c.Get("user")
+			fmt.Println("user ", user)
 			if user != nil {
 				if userMap, ok := user.(map[string]interface{}); ok {
 					// Safely extract firstName and email
@@ -70,4 +71,8 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			return err
 		}
 	}
+}
+
+func json(user interface{}) {
+	panic("unimplemented")
 }
