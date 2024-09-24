@@ -8,12 +8,14 @@ import (
 )
 
 type PostLogInput struct {
-	Service string 				`json:"service"`
-	Stage logTypeEnum.StageType `json:"stage"`
-	Type logTypeEnum.LogType 	`json:"type"`
-	Data interface{} 			`json:"data"`
-	TraceId string 				`json:"traceId"`
-	Timestamp time.Time 		`json:"timestamp"`
+	Service   string 				`json:"service"`
+	Stage 	  logTypeEnum.StageType `json:"stage"`
+	Type 	  logTypeEnum.LogType 	`json:"type"`
+	Data 	  interface{} 			`json:"data"`
+	TraceId   string 				`json:"traceId"`
+	UserName  string       			`json:"userName"`
+	UserEmail string       			`json:"userEmail"`
+	Timestamp time.Time 			`json:"timestamp"`
 }
 
 type RequestLogType struct {

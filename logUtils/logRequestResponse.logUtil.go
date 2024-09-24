@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string, service string) {
+func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Response, responseBody []byte, responseHeaders http.Header, start, end time.Time, traceId string, service string, user loggerTypes.UserDetails) {
 	// Log request details
 	requestLogData := loggerTypes.RequestLogType{
 		TraceId:        traceId,
@@ -30,6 +30,8 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		Type:      logTypeEnum.API,
 		Data:      requestLogData,
 		TraceId:   traceId,
+		UserName:  user.FirstName,
+		UserEmail: user.Email,
 		Timestamp: time.Now(),
 	}
 
@@ -53,6 +55,8 @@ func LogRequestResponse(req *http.Request, requestBody []byte, res *echo.Respons
 		Type:      logTypeEnum.API,
 		Data:      responseLogData,
 		TraceId:   traceId,
+		UserName:  user.FirstName,
+		UserEmail: user.Email,
 		Timestamp: time.Now(),
 	}
 

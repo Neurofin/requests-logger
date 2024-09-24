@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"io"
 	"time"
-	"fmt"
 	"github.com/Neurofin/requests-logger/logUtils"
 	loggerTypes "github.com/Neurofin/requests-logger/store/types"
 	"github.com/google/uuid"
@@ -18,9 +17,7 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			req := c.Request()
 			res := c.Response()
 
-			fmt.Println("user", c.Get("user"))
-			fmt.Println("c", c)
-			fmt.Println("user", req.Header.Get("user"))
+			user := c.Get("user").(loggerTypes.UserDetails)
 
 			traceId := req.Header.Get("traceId")
 			if traceId == "" {
@@ -47,7 +44,7 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			end := time.Now()
 
 			// Log the request and response details asynchronously
-			go logUtils.LogRequestResponse(req, requestBody.Bytes(), res, crw.Body.Bytes(), crw.Header(), start, end, traceId, service)
+			go logUtils.LogRequestResponse(req, requestBody.Bytes(), res, crw.Body.Bytes(), crw.Header(), start, end, traceId, service, user)
 
 			return err
 		}
