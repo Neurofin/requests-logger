@@ -31,21 +31,10 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			
 			user := c.Get("user")
 			fmt.Println("user ", user)
-			if user != nil {
-				if userMap, ok := user.(map[string]interface{}); ok {
-					// Safely extract firstName and email
-					if firstName, exists := userMap["firstName"].(string); exists {
-						userDetails.FirstName = firstName
-					}
-					if email, exists := userMap["email"].(string); exists {
-						userDetails.Email = email
-					}
-				} else {
-					// Handle other potential types if needed
-					fmt.Println("Error: user is not of expected type map[string]interface{}")
-				}
-			} else {
-				fmt.Println("Error: No user found in context")
+			userDetails, ok := user.(types.TokenValidationResponseData)
+			if !ok {
+				fmt.Println("Error: user is not of type UserDetails")
+				fmt.Println("err ", ok) // Return an empty SimpleUserDetails
 			}
 
 			// Capture request headers
