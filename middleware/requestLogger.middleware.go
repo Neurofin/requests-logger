@@ -18,7 +18,10 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			req := c.Request()
 			res := c.Response()
 
-			fmt.Println(c.Get("user"))
+			fmt.Println("user", c.Get("user"))
+			fmt.Println("c", c)
+			fmt.Println("c user", c.Get("user").(string))
+			fmt.Println("user", req.Header.Get("user"))
 
 			traceId := req.Header.Get("traceId")
 			if traceId == "" {
