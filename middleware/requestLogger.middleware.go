@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 	"time"
-
+	"fmt"
 	"github.com/Neurofin/requests-logger/logUtils"
 	loggerTypes "github.com/Neurofin/requests-logger/store/types"
 	"github.com/google/uuid"
@@ -17,6 +17,8 @@ func LoggingMiddleware(service string) echo.MiddlewareFunc {
 			start := time.Now()
 			req := c.Request()
 			res := c.Response()
+
+			fmt.Println(c.Get("user"))
 
 			traceId := req.Header.Get("traceId")
 			if traceId == "" {
